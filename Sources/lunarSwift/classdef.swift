@@ -4,18 +4,18 @@
 import Foundation
 
 public class People:ObservableObject {
-    var twohourNum: Int {
+    public var twohourNum: Int {
         (Calendar.current.component(.hour, from: date) + 1) / 2
     }//时辰索引
     
-    var isLunarLeapMonth: Bool=false
+    public var isLunarLeapMonth: Bool=false
     
-    var godType: String
-    var year8Char: String
-    var date: Date
-    var gender: String
+    public var godType: String
+    public var year8Char: String
+    public var date: Date
+    public var gender: String
 
-    init(date: Date, godType: String = "8char", year8Char: String = "year", gender:String = "男") {
+    public init(date: Date, godType: String = "8char", year8Char: String = "year", gender:String = "男") {
         self.godType = godType
         self.year8Char = year8Char
         self.date = date
@@ -23,68 +23,68 @@ public class People:ObservableObject {
     }
     
     //calculate lunar YMD's int
-    var lunarYMD: (Int,Int,Int,Int) {
+    public var lunarYMD: (Int,Int,Int,Int) {
         getLunarDateNum()
     }
-    var lunarYear:Int {return lunarYMD.0}
-    var lunarMonth:Int {return lunarYMD.1}
-    var lunarDay:Int {return lunarYMD.2}
-    var spanDays: Int {return lunarYMD.3}
+    public var lunarYear:Int {return lunarYMD.0}
+    public var lunarMonth:Int {return lunarYMD.1}
+    public var lunarDay:Int {return lunarYMD.2}
+    public var spanDays: Int {return lunarYMD.3}
     
     //find lunar YMD's chinese character
-    var lunarYMDCn: (String,String,String) {
+    public var lunarYMDCn: (String,String,String) {
         getLunarCn()
     }
-    var lunarYearCn:String {return lunarYMDCn.0}
-    var lunarMonthCn:String {return lunarYMDCn.1}
-    var lunarDayCn:String {return lunarYMDCn.2}
-    var lunarbirthday: String {
+    public var lunarYearCn:String {return lunarYMDCn.0}
+    public var lunarMonthCn:String {return lunarYMDCn.1}
+    public var lunarDayCn:String {return lunarYMDCn.2}
+    public var lunarbirthday: String {
         return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.suffix(1) + "时"
     }
     
     //find jieqi
-    var solarinfo: (String,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
-    var todaySolarTerms: String {solarinfo.0}
-    var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
-    var nextSolarNum:Int {solarinfo.2}
-    var nextSolarTerm:String {solarTermsNameList[nextSolarNum]}
-    var nextSolarTermDate:(Int,Int) {thisYearSolarTermsDateList[nextSolarNum]}
-    var nextSolarTermYear:Int {solarinfo.3}
+    public var solarinfo: (String,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
+    public var todaySolarTerms: String {solarinfo.0}
+    public var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
+    public var nextSolarNum:Int {solarinfo.2}
+    public var nextSolarTerm:String {solarTermsNameList[nextSolarNum]}
+    public var nextSolarTermDate:(Int,Int) {thisYearSolarTermsDateList[nextSolarNum]}
+    public var nextSolarTermYear:Int {solarinfo.3}
     
-    var monthDaysList:[Int] {
+    public var monthDaysList:[Int] {
         let a = getMonthLeapMonthLeapDays(lunarYear_: lunarYear, lunarMonth_: lunarMonth)
         return [a.0,a.1,a.2]
     }
     
-    var lunarMonthLong:Bool {setlunarMonthLong()}
-    var _x: Int {getBeginningOfSpringX()} //must before the update of year8Char
+    public var lunarMonthLong:Bool {setlunarMonthLong()}
+    public var _x: Int {getBeginningOfSpringX()} //must before the update of year8Char
 
     //calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
-    var md8Char: (String,String) { // also update year8Char
+    public var md8Char: (String,String) { // also update year8Char
         getThe8Char()
     }
-    var month8Char:String {return md8Char.0}
-    var day8Char:String {return md8Char.1}
-    var ymd8Char:(String,String,String) {
+    public var month8Char:String {return md8Char.0}
+    public var day8Char:String {return md8Char.1}
+    public var ymd8Char:(String,String,String) {
         let _ = md8Char
         return (year8Char,month8Char,day8Char)
     }
     
     // calculate lunr YMD's BAZI dizhi's index
-    var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
+    public var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
         getEarthNum()
     }
-    var yearEarthNum:Int {return ymdEarthNum.0}
-    var monthEarthNum:Int {return ymdEarthNum.1}
-    var dayEarthNum:Int {return ymdEarthNum.2}
+    public var yearEarthNum:Int {return ymdEarthNum.0}
+    public var monthEarthNum:Int {return ymdEarthNum.1}
+    public var dayEarthNum:Int {return ymdEarthNum.2}
     // calculate lunr YMD's BAZI tiangan's index
-    var ymdHeavenNum: (Int,Int,Int) {
+    public var ymdHeavenNum: (Int,Int,Int) {
         getHeavenNum()
     }
-    var yearHeavenNum:Int {return ymdHeavenNum.0}
-    var monthHeavenNum:Int {return ymdHeavenNum.1}
-    var dayHeavenNum:Int {return ymdHeavenNum.2}
+    public var yearHeavenNum:Int {return ymdHeavenNum.0}
+    public var monthHeavenNum:Int {return ymdHeavenNum.1}
+    public var dayHeavenNum:Int {return ymdHeavenNum.2}
     
     //四季信息
 //    var season3: (Int,Int,String){
@@ -94,8 +94,8 @@ public class People:ObservableObject {
 //    var seasonNum:Int {return season3.1}
 //    var lunarSeason:String {return season3.2}
     //时柱
-    var twohour8CharList: [String] {getTwohour8CharList()}
-    var twohour8Char: String {getTwohour8Char()}
+    public var twohour8CharList: [String] {getTwohour8CharList()}
+    public var twohour8Char: String {getTwohour8Char()}
 
 //    var today12:(String,String){getToday12DayOfficer()}
 //    var today12DayOfficer: String {today12.0}
@@ -122,7 +122,7 @@ public class People:ObservableObject {
 //    var meridians: String {meridiansName[twohourNum % 12]}
 
     //----------methods
-    func getBeginningOfSpringX() -> Int {
+    public func getBeginningOfSpringX() -> Int {
         
         let isBeforeBeginningOfSpring = nextSolarNum < 3
         let isBeforeLunarYear = spanDays < 0
@@ -146,19 +146,19 @@ public class People:ObservableObject {
         return x
     }
 
-    func getLunarYearCN() -> String { //wrong
+    public func getLunarYearCN() -> String { //wrong
         var _upper_year: String=""
         for char in String(lunarYear) {
             _upper_year += upperNum[Int(String(char))!]
         }
         return _upper_year
     }
-    func setlunarMonthLong() -> Bool{ //set lunarMonthLong
+    public func setlunarMonthLong() -> Bool{ //set lunarMonthLong
         let thisLunarMonthDays = isLunarLeapMonth ? monthDaysList[2] : monthDaysList[0]
         let v = thisLunarMonthDays >= 30
         return v
     }
-    func getLunarMonthCN() -> String {
+    public func getLunarMonthCN() -> String {
         var lunarMonth = lunarMonthNameList[(lunarMonth - 1) % 12]
         if isLunarLeapMonth {
             lunarMonth = "闰" + lunarMonth
@@ -168,11 +168,11 @@ public class People:ObservableObject {
         return lunarMonth + size
     }
 
-    func getLunarCn() -> (String, String, String) {
+    public func getLunarCn() -> (String, String, String) {
         return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[(lunarDay - 1) % 30])
     }
 
-    func getPhaseOfMoon() -> String {
+    public func getPhaseOfMoon() -> String {
         //月相
         switch lunarDay {
         case 1:
@@ -188,7 +188,7 @@ public class People:ObservableObject {
         }
     }
     //返回今日节气
-    func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {//bad call
+    public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {//bad call
         var year:Int = Calendar.current.component(.year, from: date)
         var solarTermsDateList:[(Int,Int)] = getSolarTermsDateList(year: year)
         let thisYearSolarTermsDateList:[(Int,Int)] = solarTermsDateList
@@ -217,11 +217,11 @@ public class People:ObservableObject {
 
         return (todaySolarTerm,thisYearSolarTermsDateList,nextSolarNum,nextSolarTermYear)
     }
-    func getNextNum(findDate: (Int, Int), solarTermsDateList: [(Int, Int)]) -> Int {
+    public func getNextNum(findDate: (Int, Int), solarTermsDateList: [(Int, Int)]) -> Int {
         let nextSolarNum = solarTermsDateList.filter { $0 <= findDate }.count % 24
         return nextSolarNum
     }
-    func getSolarTermsDateList(year: Int) -> [(Int, Int)] {
+    public func getSolarTermsDateList(year: Int) -> [(Int, Int)] {
         let solarTermsList = getTheYearAllSolarTermsList(year: year) //function from solar24
         var solarTermsDateList: [(Int, Int)] = []
 
@@ -234,11 +234,11 @@ public class People:ObservableObject {
         return solarTermsDateList
     }
 
-    func getChineseYearZodiac() -> String {
+    public func getChineseYearZodiac() -> String {
         return chineseZodiacNameList[(lunarYear - 4) % 12 - _x]
     }
 
-    func getChineseZodiacClash() -> (String,String,String,[String],String) {
+    public func getChineseZodiacClash() -> (String,String,String,[String],String) {
         let zodiacNum = dayEarthNum
         let zodiacClashNum = (zodiacNum + 6) % 12
         let zodiacMark6:String = chineseZodiacNameList[pythonModulo((25 - zodiacNum) , 12)]
@@ -252,7 +252,7 @@ public class People:ObservableObject {
         let clashresult:String = zodiacWin + "日冲" + zodiacLose
         return (zodiacMark6,zodiacWin,zodiacLose,zodiacMark3List,clashresult)
     }
-    func getEarthNum() -> (Int, Int, Int) {
+    public func getEarthNum() -> (Int, Int, Int) {
         //地支索引
         let yearEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.0.suffix(1))) ?? -1
         let monthEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.1.suffix(1))) ?? -1
@@ -260,7 +260,7 @@ public class People:ObservableObject {
         
         return (yearEarthNum, monthEarthNum, dayEarthNum)
     }
-    func getHeavenNum() -> (Int, Int, Int) {
+    public func getHeavenNum() -> (Int, Int, Int) {
         let yearHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.0.prefix(1))) ?? -1
         let monthHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.1.prefix(1))) ?? -1
         let dayHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.2.prefix(1))) ?? -1
@@ -269,7 +269,7 @@ public class People:ObservableObject {
     }
     
 
-    func getLunarDateNum() -> (Int, Int, Int,Int) {
+    public func getLunarDateNum() -> (Int, Int, Int,Int) {
         //返回的月份，高4bit为闰月月份，低4bit为其它正常月份
         // 给定公历日期，计算农历日期
         var lunarYear_:Int = Calendar.current.component(.year, from: date)
@@ -326,7 +326,7 @@ public class People:ObservableObject {
             return (lunarYear_, lunarMonth_, lunarDay_,spanDays)
         }
     }
-    func getMonthLeapMonthLeapDays(lunarYear_:Int,lunarMonth_:Int) -> (Int,Int,Int) {
+    public func getMonthLeapMonthLeapDays(lunarYear_:Int,lunarMonth_:Int) -> (Int,Int,Int) {
         // 计算阴历月天数
         var (leapMonth,leapDay,monthDay) = (0,0,0)
 
@@ -358,27 +358,27 @@ public class People:ObservableObject {
     }
 
 
-    func getStarZodiac() -> String {
+    public func getStarZodiac() -> String {
         let monthDay = (Calendar.current.component(.month, from: date), Calendar.current.component(.day, from: date))
         let zodiacIndex = starZodiacDate.filter { $0 <= monthDay }.count % 12
         return starZodiacName[zodiacIndex]
     }
 
-    func getEastZodiac() -> String {
+    public func getEastZodiac() -> String {
         let index = pythonModulo((solarTermsNameList.firstIndex(of: self.nextSolarTerm)! - 1) , 24) / 2
         let todayEastZodiac = eastZodiacList[index]
         return todayEastZodiac
     }
 
-    func getThe8Char() -> (String, String) {
+    public func getThe8Char() -> (String, String) {
         year8Char = getYear8Char() // update the property year8Char here
         return (getMonth8Char(), getDay8Char())
     }
-    func getYear8Char() -> String {
+    public func getYear8Char() -> String {
         // 立春年干争议算法
         return the60HeavenlyEarth[((lunarYear - 4) % 60) - _x]
     }
-    func getMonth8Char() -> String {
+    public func getMonth8Char() -> String {
         var nextNum = nextSolarNum
         // 2019年正月为丙寅月
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
@@ -390,7 +390,7 @@ public class People:ObservableObject {
         let month8Char = the60HeavenlyEarth[_index]
         return month8Char
     }
-    var dayHeavenlyEarthNum:Int {
+    public var dayHeavenlyEarthNum:Int {
         //日柱索引需要注意计算和标准日差的时候的精确度
         let baseDate = DateComponents(calendar: Calendar.current, year: 2019, month: 1, day: 29).date!
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
@@ -405,12 +405,12 @@ public class People:ObservableObject {
         }
         return pythonModulo((apart + baseNum) , 60)
     }
-    func getDay8Char() -> String {
+    public func getDay8Char() -> String {
         //日柱
         return the60HeavenlyEarth[dayHeavenlyEarthNum]
     }
     
-    func getSeason() -> (Int,Int,String){
+    public func getSeason() -> (Int,Int,String){
         let seasonType = monthEarthNum % 3
         let seasonNum = pythonModulo((monthEarthNum - 2) , 12) / 3
         
@@ -422,7 +422,7 @@ public class People:ObservableObject {
         return (seasonType,seasonNum,lunarSeason)
     }
     
-    func getTwohour8CharList() -> [String] {
+    public func getTwohour8CharList() -> [String] {
         // Calculate the start index
         let begin = (the60HeavenlyEarth.firstIndex(of: day8Char)! * 12) % 60
         
@@ -431,11 +431,11 @@ public class People:ObservableObject {
         let twohour8CharList = Array(extendedList[begin..<(begin + 13)])
         return twohour8CharList
     }
-    func getTwohour8Char() -> String {
+    public func getTwohour8Char() -> String {
         return twohour8CharList[twohourNum % 12]
     }
     
-    func getToday12DayOfficer() -> (String, String) {
+    public func getToday12DayOfficer() -> (String, String) {
         let men: Int
         if godType == "cnlunar" {
             // Using lunar month and Eight Characters day pillar to calculate gods
@@ -457,22 +457,22 @@ public class People:ObservableObject {
         return (today12DayOfficer, today12DayGod)//, dayName)
     }
     
-    func getWeekDayCn() -> String {
+    public func getWeekDayCn() -> String {
         return weekDay[Calendar.current.component(.weekday, from: date) - 1]
     }
     
-    func getAngelDemon() -> String {
+    public func getAngelDemon() -> String {
         // Logic for computing angel demon
         //too long so miss
         return "unknown"
     }
 
-    func getThisYearSolarTermsDateList() -> [Date] {
+    public func getThisYearSolarTermsDateList() -> [Date] {
         // Logic to compute solar terms date list
         return []
     }
 
-    func getThe28Stars() -> String {
+    public func getThe28Stars() -> String {
         let calendar = Calendar.current
         let referenceDate = calendar.date(from: DateComponents(year: 2019, month: 1, day: 17))!
         
@@ -488,13 +488,13 @@ public class People:ObservableObject {
 
 public extension People{
     //--------------MingLi
-    var fourPillars: [String] {
+    public var fourPillars: [String] {
         [ymd8Char.0,ymd8Char.1,ymd8Char.2,twohour8Char]
     }
-    var fiveElements: [[String]] {
+    public var fiveElements: [[String]] {
         matchwuxing(fourPillars:fourPillars)
     }
-    var fiveElementsCount: [String: Int] {
+    public var fiveElementsCount: [String: Int] {
                 var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
                 
                 for elements in fiveElements {
@@ -504,10 +504,10 @@ public extension People{
                 }
                 return elementsCount
             }
-    var fourPillarsfiveElementsResult: String{
+    public var fourPillarsfiveElementsResult: String{
         calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements)
     }
-    var fourPillarsfiveElementsAnalysis: [String]{
+    public var fourPillarsfiveElementsAnalysis: [String]{
             get{
                 return analyzeFiveElementsBalance(fiveElements:fiveElements)
             }
