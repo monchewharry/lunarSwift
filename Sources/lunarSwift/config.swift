@@ -33,32 +33,33 @@ public let the60HeavenlyEarth: [String] = {
 }()//60 甲子
 
 //在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
-public let theHalf60HeavenlyEarth5ElementsList = [
+public let halfStemBranchNayinList = [
     "海中金", "炉中火", "大林木", "路旁土", "剑锋金", "山头火", "涧下水", "城头土", "白蜡金", "杨柳木", "井泉水",
     "屋上土", "霹雳火", "松柏木", "长流水", "砂中金", "山下火", "平地木", "壁上土", "金箔金", "覆灯火", "天河水",
     "大驿土", "钗钏金", "桑柘木", "大溪水", "砂中土", "天上火", "石榴木", "大海水"
-]
+]//theHalf60HeavenlyEarth5ElementsList
 
-
-public let the28StarsList = [
+public let the28StarsList:[String] = [
     "角木蛟", "亢金龙", "氐土貉", "房日兔", "心月狐", "尾火虎", "箕水豹", //东方青龙七宿
     "斗木獬", "牛金牛", "女土蝠", "虚日鼠", "危月燕", "室火猪", "壁水貐", //南方朱雀七宿
     "奎木狼", "娄金狗", "胃土雉", "昴日鸡", "毕月乌", "觜火猴", "参水猿", //西方白虎七宿
     "井木犴", "鬼金羊", "柳土獐", "星日马", "张月鹿", "翼火蛇", "轸水蚓" //北方玄武七宿
 ]//28宿：星宿被分成四象，每象包含七宿
 
-public let chineseZodiacNameList = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]//生肖
-public let chinese12DayOfficers = "建除满平定执破危成收开闭" //12值日神
-public let chinese12DayGods = ["青龙", "明堂", "天刑", "朱雀", "金贵", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"] //12宫，12长生
+public let chineseZodiacNameList:[Character] = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]//生肖
+public let chinese12DayOfficers:[Character] = Array("建除满平定执破危成收开闭" )//12值日神
+public let chinese12DayGods:[String] = ["青龙", "明堂", "天刑", "朱雀", "金贵", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"] //12宫，12长生
 
-public let directionList = ["正北", "东北", "正东", "东南", "正南", "西南", "正西", "西北"]
-public let chinese8Trigrams = "坎艮震巽离坤兑乾"//方位和八卦的对应
+//方位和八卦的对应
+public let directionList:[String] = ["正北", "东北", "正东", "东南", "正南", "西南", "正西", "西北"]
+public let chinese8Trigrams:[Character] = Array("坎艮震巽离坤兑乾")
 
-public let luckyGodDirection = "艮乾坤离巽艮乾坤离巽" //吉神方位
-public let wealthGodDirection = "艮艮坤坤坎坎震震离离"
-public let mascotGodDirection = "坎坤乾巽艮坎坤乾巽艮"
-public let sunNobleDirection = "坤坤兑乾艮坎离艮震巽"
-public let moonNobleDirection = "艮坎乾兑坤坤艮离巽震"
+public let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
+public let luckyGodDirection:[Character] = Array("艮乾坤离巽艮乾坤离巽") //吉神,福神，财神，阳贵，阴贵方位
+public let wealthGodDirection:[Character] = Array("艮艮坤坤坎坎震震离离")
+public let mascotGodDirection:[Character] = Array("坎坤乾巽艮坎坤乾巽艮")
+public let sunNobleDirection:[Character] = Array("坤坤兑乾艮坎离艮震巽")
+public let moonNobleDirection:[Character] = Array("艮坎乾兑坤坤艮离巽震")
 
 public let fetalGodList = [
     "碓磨门外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床厕外正南", "占门床外正南",

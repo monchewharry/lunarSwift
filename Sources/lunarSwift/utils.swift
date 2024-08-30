@@ -107,12 +107,12 @@ public func matchwuxing(fourPillars:[String])->[[String]]{
     }
     return fiveElementsList
 }
-public func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]]) -> String{
-    //四柱五行报告
+public func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]],nayin:[String]) -> String{
+    //四柱五行报告+纳音
     let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
-    var report:String=""
+    var report:String="四柱: 干支 五行 纳音\n\n"
     for (index,pillarname) in pillarnames.enumerated() {
-        report += "\(pillarname): \(fourPillars[index]) (\(fiveElements[index][0]), \(fiveElements[index][1]))\n"
+        report += "\(pillarname): \(fourPillars[index]) \(fiveElements[index][0])\(fiveElements[index][1]) \(nayin[index])\n"
     }
     return report
 }

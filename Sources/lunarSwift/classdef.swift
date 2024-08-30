@@ -89,6 +89,17 @@ open class People:ObservableObject {
     //时柱
     public var twohour8CharList: [String] {getTwohour8CharList()}
     public var twohour8Char: String {getTwohour8Char()}
+    //纳音
+    public var nayin: [String] {
+        let nayin4list: [String] = [
+            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: year8Char) ?? 0)/2],
+            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: month8Char) ?? 0)/2],
+            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: day8Char) ?? 0)/2],
+            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: twohour8Char) ?? 0)/2]
+        ]
+        
+        return nayin4list
+        }
 
     //----------methods
     public func getBeginningOfSpringX() -> Int {
@@ -203,24 +214,6 @@ open class People:ObservableObject {
         return solarTermsDateList
     }
 
-    public func getChineseYearZodiac() -> String {
-        return chineseZodiacNameList[(lunarYear - 4) % 12 - _x]
-    }
-
-    public func getChineseZodiacClash() -> (String,String,String,[String],String) {
-        let zodiacNum = dayEarthNum
-        let zodiacClashNum = (zodiacNum + 6) % 12
-        let zodiacMark6:String = chineseZodiacNameList[pythonModulo((25 - zodiacNum) , 12)]
-        let zodiacMark3List:[String] = [
-            chineseZodiacNameList[(zodiacNum + 4) % 12],
-            chineseZodiacNameList[(zodiacNum + 8) % 12]
-        ]
-        let zodiacWin:String = chineseZodiacNameList[zodiacNum]
-        let zodiacLose:String = chineseZodiacNameList[zodiacClashNum]
-        
-        let clashresult:String = zodiacWin + "日冲" + zodiacLose
-        return (zodiacMark6,zodiacWin,zodiacLose,zodiacMark3List,clashresult)
-    }
     public func getEarthNum() -> (Int, Int, Int) {
         //地支索引
         let yearEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.0.suffix(1))) ?? -1
@@ -416,18 +409,23 @@ open class People:ObservableObject {
     public func getWeekDayCn() -> String {
         return weekDay[Calendar.current.component(.weekday, from: date) - 1]
     }
-    
-    public func getAngelDemon() -> String {
-        // Logic for computing angel demon
-        //too long so miss
-        return "unknown"
+    public var luckygodsdirectionlist:[String:String]{
+        getLuckyGodsDirection()
     }
-
-    public func getThisYearSolarTermsDateList() -> [Date] {
-        // Logic to compute solar terms date list
-        return []
+    public func getLuckyGodsDirection() -> [String:String] {
+        //吉神方位
+        let todayNum = dayHeavenNum
+        //let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
+        let direction = [
+            directionList[chinese8Trigrams.firstIndex(of: luckyGodDirection[todayNum])!],
+            directionList[chinese8Trigrams.firstIndex(of: wealthGodDirection[todayNum])!],
+            directionList[chinese8Trigrams.firstIndex(of: mascotGodDirection[todayNum])!],
+            directionList[chinese8Trigrams.firstIndex(of: sunNobleDirection[todayNum])!],
+            directionList[chinese8Trigrams.firstIndex(of: moonNobleDirection[todayNum])!]
+        ]
+        let result = Dictionary(uniqueKeysWithValues:zip(listofluckgods,direction))
+        return result
     }
-
     public func getThe28Stars() -> String {
         let calendar = Calendar.current
         let referenceDate = calendar.date(from: DateComponents(year: 2019, month: 1, day: 17))!
@@ -461,8 +459,9 @@ public extension People{
                 return elementsCount
             }
     var fourPillarsfiveElementsResult: String{
-        calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements)
+        calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements, nayin: nayin)
     }
+    
     var fourPillarsfiveElementsAnalysis: [String]{
             get{
                 return analyzeFiveElementsBalance(fiveElements:fiveElements)
