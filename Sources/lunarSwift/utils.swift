@@ -37,9 +37,6 @@ public func notEmpty(_ s: String?) -> String? {
     return trimmedString.isEmpty ? nil : trimmedString
 }
 
-public func sortCollation(x: String, sortList: [String] = thingsSort) -> Int {
-    return sortList.firstIndex(of: x) ?? (sortList.count + 1)
-}
 
 
 /*

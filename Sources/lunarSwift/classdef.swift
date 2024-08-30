@@ -86,40 +86,9 @@ open class People:ObservableObject {
     public var monthHeavenNum:Int {return ymdHeavenNum.1}
     public var dayHeavenNum:Int {return ymdHeavenNum.2}
     
-    //四季信息
-//    var season3: (Int,Int,String){
-//        getSeason()
-//    }
-//    var seasonType:Int {return season3.0}
-//    var seasonNum:Int {return season3.1}
-//    var lunarSeason:String {return season3.2}
     //时柱
     public var twohour8CharList: [String] {getTwohour8CharList()}
     public var twohour8Char: String {getTwohour8Char()}
-
-//    var today12:(String,String){getToday12DayOfficer()}
-//    var today12DayOfficer: String {today12.0}
-//    var today12DayGod:String {today12.1}
-    
-//    var zodiacresults:(String,String,String,[String],String) {getChineseZodiacClash()}
-//    var zodiacMark6: String { zodiacresults.0}
-//    var zodiacWin: String { zodiacresults.1}
-//    var zodiacLose: String { zodiacresults.2}
-//    var zodiacMark3List:[String] {zodiacresults.3}
-//    var chineseZodiacClash: String {zodiacresults.4}
-//    var chineseYearZodiac: String {getChineseYearZodiac()}
-    
-    
-//    optional properties
-//    var phaseOfMoon:String {getPhaseOfMoon()}
-//    var weekDayCn: String {getWeekDayCn()}
-//    var starZodiac: String {getStarZodiac()}
-//    var todayEastZodiac: String {getEastZodiac()}
-//    var thisYearSolarTermsDic: [String: Date] {Dictionary(uniqueKeysWithValues: zip(solarTermsNameList, getThisYearSolarTermsDateList()))}
-//    var today28Star: String {getThe28Stars()}
-//    var content: String = ""
-//    var angelDemon: String {getAngelDemon()}
-//    var meridians: String {meridiansName[twohourNum % 12]}
 
     //----------methods
     public func getBeginningOfSpringX() -> Int {
@@ -357,19 +326,6 @@ open class People:ObservableObject {
         return (monthDay, leapMonth, leapDay)
     }
 
-
-    public func getStarZodiac() -> String {
-        let monthDay = (Calendar.current.component(.month, from: date), Calendar.current.component(.day, from: date))
-        let zodiacIndex = starZodiacDate.filter { $0 <= monthDay }.count % 12
-        return starZodiacName[zodiacIndex]
-    }
-
-    public func getEastZodiac() -> String {
-        let index = pythonModulo((solarTermsNameList.firstIndex(of: self.nextSolarTerm)! - 1) , 24) / 2
-        let todayEastZodiac = eastZodiacList[index]
-        return todayEastZodiac
-    }
-
     public func getThe8Char() -> (String, String) {
         year8Char = getYear8Char() // update the property year8Char here
         return (getMonth8Char(), getDay8Char())
@@ -487,14 +443,14 @@ open class People:ObservableObject {
 //class extension
 
 public extension People{
-    //--------------MingLi
-    public var fourPillars: [String] {
+    //--------------BaZi property
+    var fourPillars: [String] {
         [ymd8Char.0,ymd8Char.1,ymd8Char.2,twohour8Char]
     }
-    public var fiveElements: [[String]] {
+    var fiveElements: [[String]] {
         matchwuxing(fourPillars:fourPillars)
     }
-    public var fiveElementsCount: [String: Int] {
+    var fiveElementsCount: [String: Int] {
                 var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
                 
                 for elements in fiveElements {
@@ -504,10 +460,10 @@ public extension People{
                 }
                 return elementsCount
             }
-    public var fourPillarsfiveElementsResult: String{
+    var fourPillarsfiveElementsResult: String{
         calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements)
     }
-    public var fourPillarsfiveElementsAnalysis: [String]{
+    var fourPillarsfiveElementsAnalysis: [String]{
             get{
                 return analyzeFiveElementsBalance(fiveElements:fiveElements)
             }
