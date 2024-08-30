@@ -3,7 +3,7 @@
 //
 import Foundation
 
-public class People:ObservableObject {
+open class People:ObservableObject {
     public var twohourNum: Int {
         (Calendar.current.component(.hour, from: date) + 1) / 2
     }//时辰索引
