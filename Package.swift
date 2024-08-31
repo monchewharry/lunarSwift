@@ -35,13 +35,13 @@ let package = Package(
                 .process("Resources")
                 ]
             ),
-//        .testTarget(
-//            name: "baguaSwiftTests",
-//            dependencies: ["baguaSwift"],
-//            resources:[
-//                .process("../../Resources")
-//                ]
-//
-//            ),
+        .testTarget(
+            name: "baguaSwiftTests",
+            dependencies: ["baguaSwift"],
+            resources:[
+                .process("Resources")
+                ]
+
+            ),
     ]
 )
