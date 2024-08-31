@@ -15,7 +15,7 @@ open class People:ObservableObject {
     public var date: Date
     public var gender: String
 
-    public init(date: Date, godType: String = "8char", year8Char: String = "year", gender:String = "男") {
+    public init(date: Date, godType: String = "8char", year8Char: String = "year", gender:String = "") {
         self.godType = godType
         self.year8Char = year8Char
         self.date = date

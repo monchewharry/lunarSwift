@@ -16,4 +16,7 @@ print(p1.ymd8Char)//BaZi
 print(p1.nayin)//nayin 
 ```
 
+## Notice
+
+The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经由立春日修改.
 
