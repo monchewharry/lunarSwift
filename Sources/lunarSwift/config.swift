@@ -9,11 +9,13 @@ public let monthDayBit = 12
 public let leapMonthNumBit = 13
 
 let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
-public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
-    let startIndex = stc.index(stc.startIndex, offsetBy: index)
-    let endIndex = stc.index(startIndex, offsetBy: 2)
-    return String(stc[startIndex..<endIndex])
-}
+public let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
+//public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
+//    let startIndex = stc.index(stc.startIndex, offsetBy: index)
+//    let endIndex = stc.index(startIndex, offsetBy: 2)
+//    return String(stc[startIndex..<endIndex])
+//}
+
 
 //天干地支五行
 public let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
