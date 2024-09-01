@@ -18,7 +18,7 @@ let package = Package(
             name: "lunarSwift",
             dependencies: [],
             path: "Sources/lunarSwift",
-            sources: ["classdef.swift", "config.swift", "utils.swift"]
+            sources: ["classLunar.swift","classPeople.swift", "config.swift", "utils.swift"]
             ),
         .testTarget(
             name: "lunarSwiftTests",
