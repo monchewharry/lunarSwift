@@ -8,13 +8,13 @@ open class People: Lunar{
     //inherit from Lunar
 
     //--------------BaZi property
-    var fourPillars: [String] {
+    public var fourPillars: [String] {
         [ymd8Char.0,ymd8Char.1,ymd8Char.2,twohour8Char]
     }
-    var fiveElements: [[String]] {
+    public var fiveElements: [[String]] {
         matchwuxing(fourPillars:fourPillars)
     }
-    var fiveElementsCount: [String: Int] {
+    public var fiveElementsCount: [String: Int] {
                 var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
                 
                 for elements in fiveElements {
@@ -24,11 +24,11 @@ open class People: Lunar{
                 }
                 return elementsCount
             }
-    var fourPillarsfiveElementsResult: String{
+    public var fourPillarsfiveElementsResult: String{
         calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements, nayin: nayin)
     }
     
-    var fourPillarsfiveElementsAnalysis: [String]{
+    public var fourPillarsfiveElementsAnalysis: [String]{
             get{
                 return analyzeFiveElementsBalance(fiveElements:fiveElements)
             }

@@ -47,4 +47,3 @@ The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经�
 ## Acknowledgements
 
 Many inspiration from the two Python projects. [rockyCheung/godwill](https://github.com/rockyCheung/godwill) , [OPN48/cnlunar](https://github.com/OPN48/cnlunar)
-
