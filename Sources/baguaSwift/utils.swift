@@ -11,7 +11,7 @@ public func getRandomBinary() -> String{
     }
 
 public func getHexagramInfo(for binary: String) -> (name: String, description: String)? {
-    //获取相应卦象的文档
+    //获取相应卦象的名字，文档
     guard binary.count == 6 else {
         print("Invalid binary string length")
         return nil
