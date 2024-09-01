@@ -113,7 +113,6 @@ open class Lunar:ObservableObject {
         }
         
         if isBeforeLunarYear {
-            //现在节气在立春之前 且 已过完农历年(农历小于3月作为测试判断)，年柱需要减1
             if !isBeforeBeginningOfSpring {
                 x = -1
             }
@@ -133,7 +132,7 @@ open class Lunar:ObservableObject {
         }
         return _upper_year
     }
-    public func setlunarMonthLong() -> Bool{ //set lunarMonthLong
+    public func setlunarMonthLong() -> Bool{
         let thisLunarMonthDays = isLunarLeapMonth ? monthDaysList[2] : monthDaysList[0]
         let v = thisLunarMonthDays >= 30
         return v
@@ -167,9 +166,10 @@ open class Lunar:ObservableObject {
             return ""
         }
     }
-    
+    /**
+     返回今日节气，今年节气列表，下一个节气索引，下一个节气年:  帮助确定年柱，月柱
+     */
     public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
-        //返回今日节气，今年节气列表，下一个节气索引，下一个节气年:  帮助确定年柱，月柱
         var year:Int = Calendar.current.component(.year, from: date)
         var solarTermsDateList:[(Int,Int)] = getSolarTermsDateList(year: year)
         let thisYearSolarTermsDateList:[(Int,Int)] = solarTermsDateList
@@ -232,9 +232,11 @@ open class Lunar:ObservableObject {
         return (yearHeavenNum, monthHeavenNum, dayHeavenNum)
     }
     
-
+    /**
+     返回 (lunarYear_, lunarMonth_, lunarDay_,spanDays)，
+     返回的月份，高4bit为闰月月份，低4bit为其它正常月份
+     */
     public func getLunarDateNum() -> (Int, Int, Int,Int) {
-        //返回的月份，高4bit为闰月月份，低4bit为其它正常月份
         // 给定公历日期，计算农历日期
         var lunarYear_:Int = Calendar.current.component(.year, from: date)
         var lunarMonth_:Int = 1
@@ -329,15 +331,21 @@ open class Lunar:ObservableObject {
         // 立春年干争议算法
         return the60HeavenlyEarth[((lunarYear - 4) % 60) - _x]
     }
+    
+    /**
+     已知2019年正月为 己亥年-丙寅月, 且月柱60一循环（和年柱类似），可以从基准年月推算
+     和五虎遁法效果相同
+     */
     public func getMonth8Char() -> String {
-        var nextNum = nextSolarNum //下一个节气在节气列表中的索引
-        // 2019年正月为 己亥年-丙寅月
+        var nextNum:Int = nextSolarNum //下一个节气在节气列表中的索引
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
             nextNum = 24
         }
-        let apartNum = (nextNum + 1) / 2
-        // (year-2019)*12+apartNum每年固定差12个月回到第N年月柱，2019小寒为甲子月，加上当前过了几个节气除以2+(nextNum-1)//2，减去1
-        let _index = pythonModulo(((Calendar.current.component(.year, from: date) - 2019) * 12 + apartNum) , 60) // could be <0
+        let apartNum:Int = (nextNum + 1) / 2
+        
+        //2019小寒为甲子月，加上当前过了几个节气除以2+(nextNum-1)//2，减去1
+        // (year-2019)*12+apartNum每年固定差12个月回到第N年月柱，
+        let _index:Int = pythonModulo(((Calendar.current.component(.year, from: date) - 2019) * 12 + apartNum) , 60) // could be <0
         let month8Char = the60HeavenlyEarth[_index]
         return month8Char
     }
@@ -414,8 +422,10 @@ open class Lunar:ObservableObject {
     public var luckygodsdirectionlist:[String:String]{
         getLuckyGodsDirection()
     }
+    /**
+     返回吉神方位
+     */
     public func getLuckyGodsDirection() -> [String:String] {
-        //吉神方位
         let todayNum = dayHeavenNum
         //let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
         let direction = [
@@ -428,6 +438,9 @@ open class Lunar:ObservableObject {
         let result = Dictionary(uniqueKeysWithValues:zip(listofluckgods,direction))
         return result
     }
+    /**
+     返回28宿
+     */
     public func getThe28Stars() -> String {
         let calendar = Calendar.current
         let referenceDate = calendar.date(from: DateComponents(year: 2019, month: 1, day: 17))!
