@@ -5,11 +5,8 @@ import Foundation
 
 //class People for divination use
 public class People: Lunar{
+    //inherit from Lunar
 
-
-    }
-
-public extension People{
     //--------------BaZi property
     var fourPillars: [String] {
         [ymd8Char.0,ymd8Char.1,ymd8Char.2,twohour8Char]
