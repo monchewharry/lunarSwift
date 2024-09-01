@@ -1,5 +1,14 @@
 # lunarSwift is a pkg for Swift
 
+This Swift package will calculate lunar calendar from solar calendar. Based on the four pillars derived from the lunar calendar, the package also provide some functionality to support traditional Dividation.
+
+**Current Features**
+
+- lunar calendar(农历换算)
+- BaZib(生辰八字)
+- NaYin(纳音)
+- ZhouYi(周易占卜)
+
 ## Basics
 
 ```Swift
@@ -34,4 +43,8 @@ for label in labels {
 ## Notice
 
 The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经由立春日修改.
+
+## Acknowledgements
+
+Many inspiration from the two Python projects. 
 
