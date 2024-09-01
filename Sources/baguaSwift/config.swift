@@ -15,7 +15,7 @@ public let hexagramNames: [String] = [
 
 // 定义六十四卦0:阴爻, 1:阳爻
 // 64卦的二进制表示，按与hexagramNames相同的顺序排列,先上爻后下爻
-public let guaCi: [String: (name: String, symbol: String, description: String)] = [
+public let guaBinary: [String: (name: String, longname: String, description: String)] = [
     "111111": ("乾", "乾为天", "刚健中正"),
     "111011": ("履", "天泽履", "脚踏实地"),
     "111101": ("同人", "天火同人", "上下和同"),
@@ -83,5 +83,5 @@ public let guaCi: [String: (name: String, symbol: String, description: String)] 
 ]
 
 public let matchedBinary = hexagramNames.compactMap { name in
-    guaCi.first { $0.value.name == name }?.key
+    guaBinary.first { $0.value.name == name }?.key
 }//order binary by hexagramNames
