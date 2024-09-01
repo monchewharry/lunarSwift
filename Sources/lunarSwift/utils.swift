@@ -46,8 +46,8 @@ public func notEmpty(_ s: String?) -> String? {
 
 
 /**
- 24节气模块\节气数据16进制加解密
- 解压缩16进制用
+ * 24节气模块\节气数据16进制加解密
+ * 解压缩16进制用
  */
 public func unZipSolarTermsList(data: Any, rangeEndNum: Int = 24, charCountLen: Int = 2) -> [Int] {
     var list2: [Int] = []

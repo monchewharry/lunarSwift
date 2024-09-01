@@ -40,10 +40,10 @@ for label in labels {
 
 ```
 
-## Notice
+## Notice & Disclosure
 
-The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经由立春日修改. 
->确定一年的干支要以立春为分界线，比如立春前出生且正月初一在立春后，就以上一年农历年计算年柱。月柱也以节气作为分界点，但可以通过“五虎遁”推算。
+The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经由立春日修改，且月干分割点也以24节气为准。
+>确定一年的干支要以立春为分界线，比如立春前出生且正月初一在立春后，就以上一年农历年计算年柱。月柱也以节气作为分界点，但可以通过“五虎遁”推算。年柱和月柱基于24节气日的精确度到日，具体天象的时刻并没有包含。所以当一个人出生在某年的立春日，其年干等于下一天的年干。又或者一个人出生在惊蛰日，其月干等于下一天的月干。
 
 ## Acknowledgements & Reference
 

@@ -167,7 +167,7 @@ open class Lunar:ObservableObject {
         }
     }
     /**
-     返回今日节气，今年节气列表，下一个节气索引，下一个节气年:  帮助确定年柱，月柱
+     返回 (今日节气，今年节气列表[(month,day)]，下一个节气索引，下一个节气年):  帮助确定年柱，月柱
      */
     public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
         var year:Int = Calendar.current.component(.year, from: date)
@@ -233,8 +233,9 @@ open class Lunar:ObservableObject {
     }
     
     /**
-     返回 (lunarYear_, lunarMonth_, lunarDay_,spanDays)，
-     返回的月份，高4bit为闰月月份，低4bit为其它正常月份
+     * 返回 (lunarYear_, lunarMonth_, lunarDay_,spanDays)，
+     * 返回的月份，高4bit为闰月月份，低4bit为其它正常月份
+     *  注意这里的立春时间只精确到日，立春日全天都算立春
      */
     public func getLunarDateNum() -> (Int, Int, Int,Int) {
         // 给定公历日期，计算农历日期
@@ -333,20 +334,22 @@ open class Lunar:ObservableObject {
     }
     
     /**
-     已知2019年正月为 己亥年-丙寅月, 且月柱60一循环（和年柱类似），可以从基准年月推算
-     和五虎遁法效果相同
+     * 已知2019/01/05 小寒 为甲子月, 且月柱60一循环（和年柱类似），可以从基准年月推算.
+     * 比如2019/01/05 小寒 为甲子月，加上当前过了几个节气(共24个,每个公历月有两个节气)除以2
+     * 原理和五虎遁法效果相同
+     * 注意这里的月份精确度只在日，节气分割日当天都为该节气日并开始下一个月干，不精确到时
      */
     public func getMonth8Char() -> String {
         var nextNum:Int = nextSolarNum //下一个节气在节气列表中的索引
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
+            //若今天就是某节气，且当前月份为12月
             nextNum = 24
         }
-        let apartNum:Int = (nextNum + 1) / 2
         
-        //2019小寒为甲子月，加上当前过了几个节气除以2+(nextNum-1)//2，减去1
-        // (year-2019)*12+apartNum每年固定差12个月回到第N年月柱，
-        let _index:Int = pythonModulo(((Calendar.current.component(.year, from: date) - 2019) * 12 + apartNum) , 60) // could be <0
-        let month8Char = the60HeavenlyEarth[_index]
+        let apartNum:Int = (nextNum + 1) / 2 //距离下一个节气相差多少个由24节气分割的月份
+        let yeardiffmonth: Int = (Calendar.current.component(.year, from: date) - 2019) * 12
+        let _index:Int = pythonModulo((yeardiffmonth + apartNum) , 60)
+        let month8Char = the60HeavenlyEarth[_index]//2019/01/05 小寒为甲子月
         return month8Char
     }
     public var dayHeavenlyEarthNum:Int {
