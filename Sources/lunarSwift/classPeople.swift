@@ -4,7 +4,7 @@
 import Foundation
 
 //class People for divination use
-public class People: Lunar{
+open class People: Lunar{
     //inherit from Lunar
 
     //--------------BaZi property
