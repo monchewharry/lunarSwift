@@ -167,8 +167,9 @@ open class Lunar:ObservableObject {
             return ""
         }
     }
-    //返回今日节气
-    public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {//bad call
+    
+    public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
+        //返回今日节气，今年节气列表，下一个节气索引，下一个节气年:  帮助确定年柱，月柱
         var year:Int = Calendar.current.component(.year, from: date)
         var solarTermsDateList:[(Int,Int)] = getSolarTermsDateList(year: year)
         let thisYearSolarTermsDateList:[(Int,Int)] = solarTermsDateList
@@ -197,6 +198,7 @@ open class Lunar:ObservableObject {
 
         return (todaySolarTerm,thisYearSolarTermsDateList,nextSolarNum,nextSolarTermYear)
     }
+    
     public func getNextNum(findDate: (Int, Int), solarTermsDateList: [(Int, Int)]) -> Int {
         let nextSolarNum = solarTermsDateList.filter { $0 <= findDate }.count % 24
         return nextSolarNum
@@ -328,13 +330,13 @@ open class Lunar:ObservableObject {
         return the60HeavenlyEarth[((lunarYear - 4) % 60) - _x]
     }
     public func getMonth8Char() -> String {
-        var nextNum = nextSolarNum
-        // 2019年正月为丙寅月
+        var nextNum = nextSolarNum //下一个节气在节气列表中的索引
+        // 2019年正月为 己亥年-丙寅月
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
             nextNum = 24
         }
         let apartNum = (nextNum + 1) / 2
-        // (year-2019)*12+apartNum每年固定差12个月回到第N年月柱，2019小寒甲子，加上当前过了几个节气除以2+(nextNum-1)//2，减去1
+        // (year-2019)*12+apartNum每年固定差12个月回到第N年月柱，2019小寒为甲子月，加上当前过了几个节气除以2+(nextNum-1)//2，减去1
         let _index = pythonModulo(((Calendar.current.component(.year, from: date) - 2019) * 12 + apartNum) , 60) // could be <0
         let month8Char = the60HeavenlyEarth[_index]
         return month8Char

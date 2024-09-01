@@ -8,7 +8,7 @@ public let startYear = 1901
 public let monthDayBit = 12
 public let leapMonthNumBit = 13
 
-public let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
+let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
 public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
     let startIndex = stc.index(stc.startIndex, offsetBy: index)
     let endIndex = stc.index(startIndex, offsetBy: 2)
