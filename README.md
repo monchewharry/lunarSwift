@@ -7,6 +7,7 @@ This Swift package will calculate lunar calendar from solar calendar. Based on t
 - lunar calendar(农历换算)
 - BaZib(生辰八字)
 - NaYin(纳音)
+- ZiWei (紫微斗数排盘)
 - ZhouYi(周易占卜)
 
 ## Basics
@@ -25,6 +26,11 @@ print(p1.lunarYMDCn)//lunar date in chinese character
 print(p1.lunarbirthday)//lunar date to display
 print(p1.ymd8Char)//BaZi
 print(p1.nayin)//nayin 
+
+//ZiWei
+print(p1.lifePalace)
+print(p1.twelvePalaces)
+print(p1.wuxingGame!.name)
 
 //ZhouYi 64 Gua
 let getAbinary = getRandomBinary()
