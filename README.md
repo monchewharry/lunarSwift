@@ -47,6 +47,10 @@ The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经�
 
 ## Acknowledgements & Reference
 
-Many inspiration from the two Python projects. [rockyCheung/godwill](https://github.com/rockyCheung/godwill) , [OPN48/cnlunar](https://github.com/OPN48/cnlunar)
+Many inspiration from the multiple Python projects.
+- [OPN48/cnlunar](https://github.com/OPN48/cnlunar): 农历换算，四柱八字
+- [natal-chart](https://github.com/haibolian/natal-chart): 紫微斗数排盘
+- [rockyCheung/godwill](https://github.com/rockyCheung/godwill)，周易占卜
 
 1. 中华绝学-中国历代方术大关, 雒启坤, 1998年, 青海人民出版社
+2. [紫微研习社](https://www.iztro.com/)
