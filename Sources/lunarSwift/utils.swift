@@ -5,7 +5,7 @@ import Foundation
 /**
  Revise Swift’s modulo operation to Python behavior
  */
-public func pythonModulo(_ a: Int, _ n: Int) -> Int {
+func pythonModulo(_ a: Int, _ n: Int) -> Int {
     let result = a % n
     return result >= 0 ? result : result + n
 }
@@ -20,7 +20,7 @@ func abListMerge(a: [Int], b: [Int] = encVectorList, type: Int = 1) -> [Int] {
 /**
  删除可能的元素
  */
-public func rfRemove<T:Hashable>(l: inout [T], removeList: [T]) {
+func rfRemove<T:Hashable>(l: inout [T], removeList: [T]) {
     let removeSet = Set(removeList)
     l.removeAll { removeSet.contains($0) }
 }
@@ -28,14 +28,14 @@ public func rfRemove<T:Hashable>(l: inout [T], removeList: [T]) {
 /**
  增加没有的元素
  */
-public func rfAdd<T:Hashable>(l: [T], addList: [T]) -> [T] {
+func rfAdd<T:Hashable>(l: [T], addList: [T]) -> [T] {
     return Array(Set(l).union(Set(addList)))
 }
 
 /**
  判断字符串是否非空并且不全是空白字符
  */
-public func notEmpty(_ s: String?) -> String? {
+func notEmpty(_ s: String?) -> String? {
     guard let s = s else {
         return nil
     }
@@ -49,7 +49,7 @@ public func notEmpty(_ s: String?) -> String? {
  * 24节气模块\节气数据16进制加解密
  * 解压缩16进制用
  */
-public func unZipSolarTermsList(data: Any, rangeEndNum: Int = 24, charCountLen: Int = 2) -> [Int] {
+func unZipSolarTermsList(data: Any, rangeEndNum: Int = 24, charCountLen: Int = 2) -> [Int] {
     var list2: [Int] = []
     var intData: Int
     
@@ -79,7 +79,7 @@ public func unZipSolarTermsList(data: Any, rangeEndNum: Int = 24, charCountLen: 
 /**
  采集压缩用
  */
-public func zipSolarTermsList(inputList: [Int], charCountLen: Int = 2) -> (hex: String, length: Int) {
+func zipSolarTermsList(inputList: [Int], charCountLen: Int = 2) -> (hex: String, length: Int) {
     let tempList = abListMerge(a: inputList, type: -1)
     var data: UInt64 = 0
     var num = 0
@@ -93,7 +93,7 @@ public func zipSolarTermsList(inputList: [Int], charCountLen: Int = 2) -> (hex: 
 /**
  获取某一年的所有节气列表
  */
-public func getTheYearAllSolarTermsList(year: Int) -> [Int] {
+func getTheYearAllSolarTermsList(year: Int) -> [Int] {
     return unZipSolarTermsList(data: solarTermsDataList[year - startYear]) // UInt64
 }
 //getTheYearAllSolarTermsList(1993) == [5, 20, 4, 18, 5, 20, 5, 20, 5, 21, 6, 21, 7, 23, 7, 23, 7, 23, 8, 23, 7, 22, 7, 22]
@@ -121,7 +121,7 @@ func matchwuxing(fourPillars:[String])->[[String]]{
 /**
  四柱五行报告+纳音
  */
-public func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]],nayin:[String]) -> String{
+func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]],nayin:[String]) -> String{
     let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
     var report:String="四柱: 干支 五行 纳音\n\n"
     for (index,pillarname) in pillarnames.enumerated() {
@@ -132,7 +132,7 @@ public func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]
 /**
  五行均衡性分析
  */
-public func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
+func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
     // 统计五行的数量
     var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
     
