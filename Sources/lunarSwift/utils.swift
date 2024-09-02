@@ -100,7 +100,7 @@ public func getTheYearAllSolarTermsList(year: Int) -> [Int] {
 
 
 
-//------------------------五行
+//------------------------------------------------五行
 /**
  match Wuxing to four pillars
  */
@@ -176,4 +176,116 @@ public func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
     }
     
     return [analysisResult1,analysisResult2]
+}
+
+//---------------------------------------------------十神
+/**
+ 以日干为基础，与年柱、月柱、时柱中的天干进行比较
+ */
+public func calculateTenGods(for pillar: String, dayPillars:String) -> String {
+    let heavenlyStem = String(pillar.prefix(1))
+    return tianGanRelationships[String(dayPillars.prefix(1))]?[heavenlyStem] ?? "未知"
+}
+
+//---------------------------------------------------十二宫
+
+//public func findLifePalaceBranch_decommissioned(monthPillars:String,hourPillars:String)->String{
+//    //命宫地支,not accurate
+//    let monthBranch = String(monthPillars.suffix(1))
+//    let hourBranch = String(hourPillars.suffix(1))
+//    
+//    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0
+//    let b:Int = diZhi2.firstIndex(of: hourBranch) ?? 0
+//    let condition:Int = a+b
+//    var branchindex:Int
+//    if condition < 12 {
+//        branchindex = (12 - condition)-1
+//    } else{
+//        branchindex = (24 - condition)-1
+//    }
+//    
+//    let lifePalaceBranch2 = diZhi2[branchindex]
+//    return lifePalaceBranch2
+//}
+
+/**
+ * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
+ *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
+ */
+public func findLifePalaceBranch(monthPillars:String,hourPillars:String)->String{
+    //命宫地支
+    let monthBranch = String(monthPillars.suffix(1))
+    let hourBranch = String(hourPillars.suffix(1))
+    
+    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0 //lunar month index
+    let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
+    
+    let lifePalaceBranch2 = diZhi2[pythonModulo((a - b),12)]
+    return lifePalaceBranch2
+}
+/**
+ * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
+ *  refer: https://github.com/haibolian/natal-chart
+ */
+public func findBodyPalaceBranch(monthPillars:String,hourPillars:String)->String{
+    //命宫地支
+    let monthBranch = String(monthPillars.suffix(1))
+    let hourBranch = String(hourPillars.suffix(1))
+    
+    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0 //lunar month index
+    let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
+    
+    let bodyPalaceBranch2 = diZhi2[pythonModulo((a + b),12)]
+    return bodyPalaceBranch2
+}
+
+/**
+ 命宫天干 by 五虎遁月歌
+ */
+public func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
+    let yearStem = yearPillars.prefix(1)
+    guard let sequence = yearStemToSequence[String(yearStem)],
+          let index = diZhi2.firstIndex(of: lifePalaceBranch) else {
+        return "未知"
+    }
+    let lifePalaceStem = sequence[index]
+    return lifePalaceStem
+}
+
+/**
+ 十二宫天干从命宫推出
+ */
+public func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
+    let branchesOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
+    let stemsOrder:[String] = yearStemToSequence[yearStem] ?? [""] //stem mapped,ordered by branch
+
+    var palaces12 = [
+        "命宫": lifePalaceStemBranch,
+        "兄弟宫": ("", ""),
+        "夫妻宫": ("", ""),
+        "子女宫": ("", ""),
+        "财帛宫": ("", ""),
+        "疾厄宫": ("", ""),
+        "迁移宫": ("", ""),
+        "交友宫": ("", ""),
+        "官禄宫": ("", ""),
+        "田宅宫": ("", ""),
+        "福德宫": ("", ""),
+        "父母宫": ("", "")
+    ]
+
+    // Find the index of the life palace branch in the order
+    if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
+        var currentBranchIndex:Int = lifeBranchIndex
+        
+        for key in palaces {
+            let branch = branchesOrder[currentBranchIndex]
+            let stem = stemsOrder[currentBranchIndex]
+            palaces12[key] = (stem, branch)
+            // (anticlockwise)
+            currentBranchIndex = (currentBranchIndex + 11) % 12
+        }
+    }
+
+    return palaces12
 }

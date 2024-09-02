@@ -216,3 +216,128 @@ public let lunarNewYearList: [Int] = [
         0x49, 0x3d, 0x51, 0x46, 0x3a, 0x4e, 0x43, 0x38, 0x4a, 0x3e,  // 2081 ~ 2090
         0x52, 0x47, 0x3b, 0x4f, 0x45, 0x39, 0x4c, 0x41, 0x35, 0x49,  // 2091 ~ 2100
 ]
+
+
+//----------十神
+/**
+ * 计算十神规则：以日干为命主（我），结合天干的五行生克与阴阳属性，计算与其他三柱天干的关系
+ * - 生我者为印绶(正印、偏印)；
+ * - 我生者为食伤(食神、伤官)；
+ * - 克我者为官煞(正官、七杀)；
+ * - 我克者为妻财(正财、偏财)；
+ * - 同类者为比劫(比肩、劫财)。
+ * - 再按照天干的阴阳性选择
+ */
+public func generateTenGods(for dayStem: String) -> [String: String] {
+    let yinYang: [String: String] = [
+            "甲": "阳", "乙": "阴",
+            "丙": "阳", "丁": "阴",
+            "戊": "阳", "己": "阴",
+            "庚": "阳", "辛": "阴",
+            "壬": "阳", "癸": "阴"
+        ]
+    let dayelement = heavenlyStemsToFiveElements[dayStem]! //日主为命主：日干
+    var relationships = [String: String]()
+
+    for (stem, stemElement) in heavenlyStemsToFiveElements {//结合五行生克关系以及阴阳属性
+        if dayelement == stemElement {
+            relationships[stem] = dayStem == stem ? "比肩" : "劫财"
+        } else if dayelement == "木" && stemElement == "火" ||
+                    dayelement == "火" && stemElement == "土" ||
+                    dayelement == "土" && stemElement == "金" ||
+                    dayelement == "金" && stemElement == "水" ||
+                    dayelement == "水" && stemElement == "木" {
+            relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "食神" : "伤官"
+        } else if dayelement == "木" && stemElement == "土" || //dayElement destroy stemElement
+                    dayelement == "火" && stemElement == "金" ||
+                    dayelement == "土" && stemElement == "水" ||
+                    dayelement == "金" && stemElement == "木" ||
+                    dayelement == "水" && stemElement == "火" {
+            relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "偏财" : "正财"
+        } else if dayelement == "木" && stemElement == "金" || //stemElement destroy dayElement
+                    dayelement == "火" && stemElement == "水" ||
+                    dayelement == "土" && stemElement == "木" ||
+                    dayelement == "金" && stemElement == "火" ||
+                    dayelement == "水" && stemElement == "土" {
+            relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "七杀" : "正官"
+        } else if dayelement == "木" && stemElement == "水" || //stemElement generate dayElement
+                    dayelement == "火" && stemElement == "木" ||
+                    dayelement == "土" && stemElement == "火" ||
+                    dayelement == "金" && stemElement == "土" ||
+                    dayelement == "水" && stemElement == "金" {
+            relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "偏印" : "正印"
+        }
+    }
+
+    return relationships
+}
+
+/**
+ 天干十神关系表，详见generateTenGods()
+ */
+public let tianGanRelationships: [String: [String: String]] = [
+    "甲": generateTenGods(for: "甲"),
+    "乙": generateTenGods(for: "乙"),
+    "丙": generateTenGods(for: "丙"),
+    "丁": generateTenGods(for: "丁"),
+    "戊": generateTenGods(for: "戊"),
+    "己": generateTenGods(for: "己"),
+    "庚": generateTenGods(for: "庚"),
+    "辛": generateTenGods(for: "辛"),
+    "壬": generateTenGods(for: "壬"),
+    "癸": generateTenGods(for: "癸")
+]//Dictionary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
+
+//-----------十二宫
+/**
+ 命宫地支参考顺序：命盘顺序
+ */
+public let diZhi2:[String] = [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
+/**
+ 十二宫排序array
+ */
+public let palaces = [
+    "命宫",    // Destiny Palace
+    "兄弟宫",  // Siblings Palace
+    "夫妻宫",  // Spouse Palace
+    "子女宫",  // Children Palace
+    "财帛宫",  // Wealth Palace
+    "疾厄宫",  // Misfortune Palace
+    "迁移宫",  // Travel Palace
+    "交友宫",
+    "仕途宫",  // Career Palace
+    "田宅宫",  // Property Palace
+    "福德宫",  // Blessings Palace
+    "父母宫",  // Parents Palace
+]
+
+/**
+ * 生成五虎遁月歌 年干与十二宫天干对应数据表:
+ * https://www.douban.com/note/833981956/?_i=5298526gC9k0WR
+ */
+public func rotateArrayToLeft(_ array: [String] = ["戊", "己", "庚", "辛", "壬", "癸", "甲", "乙", "丙", "丁"], by steps: Int) -> [String] {
+    let count = array.count
+    let effectiveSteps = steps % count  // Ensure the steps don't exceed the array length
+    let rotatedleftarray=Array(array[effectiveSteps...] + array[0..<effectiveSteps])//rotate by steps
+    return rotatedleftarray.suffix(2) + rotatedleftarray
+}
+var array = ["戊", "己", "庚", "辛", "壬", "癸", "甲", "乙", "丙", "丁"]
+let rotatedLeft0 = rotateArrayToLeft(array, by: 0*2)
+let rotatedLeft1 = rotateArrayToLeft(array, by: 1*2)
+let rotatedLeft2 = rotateArrayToLeft(array, by: 2*2)
+let rotatedLeft3 = rotateArrayToLeft(array, by: 3*2)
+let rotatedLeft4 = rotateArrayToLeft(array, by: 4*2)
+
+let yearStemToSequence: [String: [String]] = [
+    "甲": rotatedLeft0,
+    "乙": rotatedLeft1,
+    "丙": rotatedLeft2,
+    "丁": rotatedLeft3,
+    "戊": rotatedLeft4,
+    
+    "己": rotatedLeft0,
+    "庚": rotatedLeft1,
+    "辛": rotatedLeft2,
+    "壬": rotatedLeft3,
+    "癸": rotatedLeft4,
+]
