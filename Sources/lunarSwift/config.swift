@@ -343,18 +343,15 @@ let yearStemToSequence: [String: [String]] = [
 ]
 
 //---------------------------------五行局
-struct WuxingGame {
-    let name: String
-    let num: Int
+public struct WuxingGame {
+    public let name: String
+    public let num: Int
 }
 
-let wuxingGame:[WuxingGame] = [
+let wuxingGameArray:[WuxingGame] = [
     WuxingGame(name: "金四局", num: 4),
     WuxingGame(name: "水二局", num: 2),
     WuxingGame(name: "火六局", num: 6),
     WuxingGame(name: "土五局", num: 5),
     WuxingGame(name: "木三局", num: 3)
 ]
-//for game in wuxingGame {
-//    print("\(game.name): \(game.num)")
-//}

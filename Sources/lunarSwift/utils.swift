@@ -289,3 +289,28 @@ func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, br
 
     return palaces12
 }
+
+//------------------------五行局
+/**
+ 根据命宫天干地支，计算五行局
+ */
+func calculateWuxingGame(for lifepalaceTD: [String]) -> WuxingGame? {
+        // 获取天干索引
+        guard let tIndex = the10HeavenlyStems.firstIndex(of: lifepalaceTD[0]) else { return nil }
+        // 获取地支索引
+        guard let dIndex = the12EarthlyBranches.firstIndex(of: lifepalaceTD[1]) else { return nil }
+        
+        // 天干决定五行局的起点
+        let t2Index = tIndex / 2
+        
+        // 根据天干计算五行局范围
+        var dCalcDep = Array(wuxingGameArray[t2Index..<min(t2Index + 3, wuxingGameArray.count)])
+        let dif = 3 - dCalcDep.count
+        if dif > 0 {
+            dCalcDep += wuxingGameArray.prefix(dif)
+        }
+        // 根据地支确定具体的五行局
+        let d2Index = dIndex / 2
+        
+        return dCalcDep[d2Index > 2 ? d2Index - 3 : d2Index]
+}

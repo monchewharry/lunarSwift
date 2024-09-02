@@ -84,4 +84,7 @@ public extension People{
     /**
      五行局
      */
+    var wuxingGame: WuxingGame? {
+        calculateWuxingGame(for: lifePalace)
+    }
 }

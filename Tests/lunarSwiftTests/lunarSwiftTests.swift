@@ -8,13 +8,15 @@ class testpeople {
     var lifePalace: [String]
     var tenGods: [String]
     var twelvePalaces: [String]
-    init(date: Date, lunarbirthdate: String, fourPillars: [String], lifePalace: [String], tenGods: [String],twelvePalaces:[String]) {
+    var wuxinggame: String
+    init(date: Date, lunarbirthdate: String, fourPillars: [String], lifePalace: [String], tenGods: [String],twelvePalaces:[String],wuxinggame:String) {
         self.date = date
         self.lunarbirthdate = lunarbirthdate
         self.fourPillars = fourPillars
         self.lifePalace = lifePalace
         self.tenGods = tenGods
         self.twelvePalaces = twelvePalaces
+        self.wuxinggame = wuxinggame
     }
 }
 
@@ -23,7 +25,8 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
                          fourPillars: ["癸酉", "癸亥", "丁未", "壬寅"],
                          lifePalace: ["丙","辰"],
                          tenGods: ["七杀","七杀","比肩","正官"],
-                         twelvePalaces: ["辛酉","庚申","己未","戊午","丁巳","丙辰","乙卯","甲寅","乙丑","甲子","癸亥","壬戌"]
+                         twelvePalaces: ["辛酉","庚申","己未","戊午","丁巳","丙辰","乙卯","甲寅","乙丑","甲子","癸亥","壬戌"],
+                         wuxinggame: "木三局"
 )
 
 final class lunarSwiftTests: XCTestCase {
@@ -47,5 +50,9 @@ final class lunarSwiftTests: XCTestCase {
             person12palaces.append( String(person.twelvePalaces[key]!.stem+person.twelvePalaces[key]!.branch) )
         }
         XCTAssertEqual(person12palaces, p1bench.twelvePalaces, "Ten Gods should be correctly calculated based on the lunarbirthdate.")
+    }
+    // 测试五行局
+    func testWuXingGameCalculation(){
+        XCTAssertEqual(person.wuxingGame?.name , p1bench.wuxinggame, "Wuxing Game should be correctly calculated based on the lunarbirthdate.")
     }
 }
