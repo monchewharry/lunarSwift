@@ -13,7 +13,7 @@ public func pythonModulo(_ a: Int, _ n: Int) -> Int {
 /**
  两个List合并对应元素相加或者相减，a[i]+b[i]*(type=1) a[i]-b[i]*(type=-1)
  */
-public func abListMerge(a: [Int], b: [Int] = encVectorList, type: Int = 1) -> [Int] {
+func abListMerge(a: [Int], b: [Int] = encVectorList, type: Int = 1) -> [Int] {
     zip(a,b).map {$0 + $1 * type}
 }
 
@@ -104,7 +104,7 @@ public func getTheYearAllSolarTermsList(year: Int) -> [Int] {
 /**
  match Wuxing to four pillars
  */
-public func matchwuxing(fourPillars:[String])->[[String]]{
+func matchwuxing(fourPillars:[String])->[[String]]{
     var fiveElementsList: [[String]] = []
     for item in fourPillars {
         // 提取天干和地支
@@ -182,7 +182,7 @@ public func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
 /**
  以日干为基础，与年柱、月柱、时柱中的天干进行比较
  */
-public func calculateTenGods(for pillar: String, dayPillars:String) -> String {
+func calculateTenGods(for pillar: String, dayPillars:String) -> String {
     let heavenlyStem = String(pillar.prefix(1))
     return tianGanRelationships[String(dayPillars.prefix(1))]?[heavenlyStem] ?? "未知"
 }
@@ -212,7 +212,7 @@ public func calculateTenGods(for pillar: String, dayPillars:String) -> String {
  * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
  *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
  */
-public func findLifePalaceBranch(monthPillars:String,hourPillars:String)->String{
+func findLifePalaceBranch(monthPillars:String,hourPillars:String)->String{
     //命宫地支
     let monthBranch = String(monthPillars.suffix(1))
     let hourBranch = String(hourPillars.suffix(1))
@@ -227,7 +227,7 @@ public func findLifePalaceBranch(monthPillars:String,hourPillars:String)->String
  * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
  *  refer: https://github.com/haibolian/natal-chart
  */
-public func findBodyPalaceBranch(monthPillars:String,hourPillars:String)->String{
+func findBodyPalaceBranch(monthPillars:String,hourPillars:String)->String{
     //命宫地支
     let monthBranch = String(monthPillars.suffix(1))
     let hourBranch = String(hourPillars.suffix(1))
@@ -242,7 +242,7 @@ public func findBodyPalaceBranch(monthPillars:String,hourPillars:String)->String
 /**
  命宫天干 by 五虎遁月歌
  */
-public func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
+func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
     let yearStem = yearPillars.prefix(1)
     guard let sequence = yearStemToSequence[String(yearStem)],
           let index = diZhi2.firstIndex(of: lifePalaceBranch) else {
@@ -255,7 +255,7 @@ public func generatingStem(lifePalaceBranch: String, yearPillars:String) -> Stri
 /**
  十二宫天干从命宫推出
  */
-public func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
+func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
     let branchesOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
     let stemsOrder:[String] = yearStemToSequence[yearStem] ?? [""] //stem mapped,ordered by branch
 

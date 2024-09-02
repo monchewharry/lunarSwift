@@ -1,9 +1,10 @@
 //
 //  Created by Dingxian Cao on 8/27/24.
+//  All public properties are accessible for pkg users
 //
 import Foundation
 
-open class Lunar:ObservableObject {
+open class Lunar:ObservableObject { //open class for user to modify
     public var twohourNum: Int {
         (Calendar.current.component(.hour, from: date) + 1) / 2
     }//时辰索引
@@ -100,9 +101,12 @@ open class Lunar:ObservableObject {
         
         return nayin4list
         }
+    public var luckygodsdirectionlist:[String:String]{
+        getLuckyGodsDirection()
+    }
 
     //----------methods
-    public func getBeginningOfSpringX() -> Int {
+    func getBeginningOfSpringX() -> Int {
         
         let isBeforeBeginningOfSpring = nextSolarNum < 3
         let isBeforeLunarYear = spanDays < 0
@@ -125,19 +129,19 @@ open class Lunar:ObservableObject {
         return x
     }
 
-    public func getLunarYearCN() -> String { //wrong
+    func getLunarYearCN() -> String { //wrong
         var _upper_year: String=""
         for char in String(lunarYear) {
             _upper_year += upperNum[Int(String(char))!]
         }
         return _upper_year
     }
-    public func setlunarMonthLong() -> Bool{
+    func setlunarMonthLong() -> Bool{
         let thisLunarMonthDays = isLunarLeapMonth ? monthDaysList[2] : monthDaysList[0]
         let v = thisLunarMonthDays >= 30
         return v
     }
-    public func getLunarMonthCN() -> String {
+    func getLunarMonthCN() -> String {
         var lunarMonth = lunarMonthNameList[(lunarMonth - 1) % 12]
         if isLunarLeapMonth {
             lunarMonth = "闰" + lunarMonth
@@ -147,11 +151,11 @@ open class Lunar:ObservableObject {
         return lunarMonth + size
     }
 
-    public func getLunarCn() -> (String, String, String) {
+    func getLunarCn() -> (String, String, String) {
         return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[(lunarDay - 1) % 30])
     }
 
-    public func getPhaseOfMoon() -> String {
+    func getPhaseOfMoon() -> String {
         //月相
         switch lunarDay {
         case 1:
@@ -169,7 +173,7 @@ open class Lunar:ObservableObject {
     /**
      返回 (今日节气，今年节气列表[(month,day)]，下一个节气索引，下一个节气年):  帮助确定年柱，月柱
      */
-    public func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
+    func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
         var year:Int = Calendar.current.component(.year, from: date)
         var solarTermsDateList:[(Int,Int)] = getSolarTermsDateList(year: year)
         let thisYearSolarTermsDateList:[(Int,Int)] = solarTermsDateList
@@ -199,11 +203,11 @@ open class Lunar:ObservableObject {
         return (todaySolarTerm,thisYearSolarTermsDateList,nextSolarNum,nextSolarTermYear)
     }
     
-    public func getNextNum(findDate: (Int, Int), solarTermsDateList: [(Int, Int)]) -> Int {
+    func getNextNum(findDate: (Int, Int), solarTermsDateList: [(Int, Int)]) -> Int {
         let nextSolarNum = solarTermsDateList.filter { $0 <= findDate }.count % 24
         return nextSolarNum
     }
-    public func getSolarTermsDateList(year: Int) -> [(Int, Int)] {
+    func getSolarTermsDateList(year: Int) -> [(Int, Int)] {
         let solarTermsList = getTheYearAllSolarTermsList(year: year) //function from solar24
         var solarTermsDateList: [(Int, Int)] = []
 
@@ -216,7 +220,7 @@ open class Lunar:ObservableObject {
         return solarTermsDateList
     }
 
-    public func getEarthNum() -> (Int, Int, Int) {
+    func getEarthNum() -> (Int, Int, Int) {
         //地支索引
         let yearEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.0.suffix(1))) ?? -1
         let monthEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.1.suffix(1))) ?? -1
@@ -224,7 +228,7 @@ open class Lunar:ObservableObject {
         
         return (yearEarthNum, monthEarthNum, dayEarthNum)
     }
-    public func getHeavenNum() -> (Int, Int, Int) {
+    func getHeavenNum() -> (Int, Int, Int) {
         let yearHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.0.prefix(1))) ?? -1
         let monthHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.1.prefix(1))) ?? -1
         let dayHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.2.prefix(1))) ?? -1
@@ -237,7 +241,7 @@ open class Lunar:ObservableObject {
      * 返回的月份，高4bit为闰月月份，低4bit为其它正常月份
      *  注意这里的立春时间只精确到日，立春日全天都算立春
      */
-    public func getLunarDateNum() -> (Int, Int, Int,Int) {
+    func getLunarDateNum() -> (Int, Int, Int,Int) {
         // 给定公历日期，计算农历日期
         var lunarYear_:Int = Calendar.current.component(.year, from: date)
         var lunarMonth_:Int = 1
@@ -293,7 +297,7 @@ open class Lunar:ObservableObject {
             return (lunarYear_, lunarMonth_, lunarDay_,spanDays)
         }
     }
-    public func getMonthLeapMonthLeapDays(lunarYear_:Int,lunarMonth_:Int) -> (Int,Int,Int) {
+    func getMonthLeapMonthLeapDays(lunarYear_:Int,lunarMonth_:Int) -> (Int,Int,Int) {
         // 计算阴历月天数
         var (leapMonth,leapDay,monthDay) = (0,0,0)
 
@@ -324,11 +328,11 @@ open class Lunar:ObservableObject {
         return (monthDay, leapMonth, leapDay)
     }
 
-    public func getThe8Char() -> (String, String) {
+    func getThe8Char() -> (String, String) {
         year8Char = getYear8Char() // update the property year8Char here
         return (getMonth8Char(), getDay8Char())
     }
-    public func getYear8Char() -> String {
+    func getYear8Char() -> String {
         // 立春年干争议算法
         return the60HeavenlyEarth[((lunarYear - 4) % 60) - _x]
     }
@@ -339,7 +343,7 @@ open class Lunar:ObservableObject {
      * 原理和五虎遁法效果相同
      * 注意这里的月份精确度只在日，节气分割日当天都为该节气日并开始下一个月干，不精确到时
      */
-    public func getMonth8Char() -> String {
+    func getMonth8Char() -> String {
         var nextNum:Int = nextSolarNum //下一个节气在节气列表中的索引
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
             //若今天就是某节气，且当前月份为12月
@@ -367,12 +371,12 @@ open class Lunar:ObservableObject {
         }
         return pythonModulo((apart + baseNum) , 60)
     }
-    public func getDay8Char() -> String {
+    func getDay8Char() -> String {
         //日柱
         return the60HeavenlyEarth[dayHeavenlyEarthNum]
     }
     
-    public func getSeason() -> (Int,Int,String){
+    func getSeason() -> (Int,Int,String){
         let seasonType = monthEarthNum % 3
         let seasonNum = pythonModulo((monthEarthNum - 2) , 12) / 3
         
@@ -384,7 +388,7 @@ open class Lunar:ObservableObject {
         return (seasonType,seasonNum,lunarSeason)
     }
     
-    public func getTwohour8CharList() -> [String] {
+    func getTwohour8CharList() -> [String] {
         // Calculate the start index
         let begin = (the60HeavenlyEarth.firstIndex(of: day8Char)! * 12) % 60
         
@@ -393,11 +397,11 @@ open class Lunar:ObservableObject {
         let twohour8CharList = Array(extendedList[begin..<(begin + 13)])
         return twohour8CharList
     }
-    public func getTwohour8Char() -> String {
+    func getTwohour8Char() -> String {
         return twohour8CharList[twohourNum % 12]
     }
     
-    public func getToday12DayOfficer() -> (String, String) {
+    func getToday12DayOfficer() -> (String, String) {
         let men: Int
         if godType == "cnlunar" {
             // Using lunar month and Eight Characters day pillar to calculate gods
@@ -419,16 +423,13 @@ open class Lunar:ObservableObject {
         return (today12DayOfficer, today12DayGod)//, dayName)
     }
     
-    public func getWeekDayCn() -> String {
+    func getWeekDayCn() -> String {
         return weekDay[Calendar.current.component(.weekday, from: date) - 1]
-    }
-    public var luckygodsdirectionlist:[String:String]{
-        getLuckyGodsDirection()
     }
     /**
      返回吉神方位
      */
-    public func getLuckyGodsDirection() -> [String:String] {
+    func getLuckyGodsDirection() -> [String:String] {
         let todayNum = dayHeavenNum
         //let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
         let direction = [
@@ -444,7 +445,7 @@ open class Lunar:ObservableObject {
     /**
      返回28宿
      */
-    public func getThe28Stars() -> String {
+    func getThe28Stars() -> String {
         let calendar = Calendar.current
         let referenceDate = calendar.date(from: DateComponents(year: 2019, month: 1, day: 17))!
         

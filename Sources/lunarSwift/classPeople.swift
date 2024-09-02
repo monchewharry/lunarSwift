@@ -57,6 +57,7 @@ public extension People{
     /**
      * 命宫 天干地支
      * https://www.douban.com/note/833981956/?_i=4646542gC9k0WR,4655583gC9k0WR
+     * https://www.iztro.com/learn/astrolabe.html
      */
     var lifePalace: [String] {
         let lifePalaceBranch:String = findLifePalaceBranch(monthPillars: ymd8Char.1, hourPillars: twohour8Char)
@@ -65,6 +66,9 @@ public extension People{
         return [lifePalaceStem ?? "未知",lifePalaceBranch]
     }
     
+    /**
+     身宫天干地支
+     */
     var bodyPalace: [String] {
         let BodyPalaceBranch:String = findBodyPalaceBranch(monthPillars: ymd8Char.1, hourPillars: twohour8Char)
         let BodyPalaceStem = generatingStem(lifePalaceBranch:BodyPalaceBranch, yearPillars: ymd8Char.0)
@@ -77,4 +81,7 @@ public extension People{
     var twelvePalaces: [String: (stem: String, branch: String)]{
         return calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (lifePalace[0],lifePalace[1]), yearStem: String(ymd8Char.0.prefix(1)))
     }
+    /**
+     五行局
+     */
 }
