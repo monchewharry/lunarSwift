@@ -6,7 +6,6 @@ This Swift package will calculate lunar calendar from solar calendar. Based on t
 
 - lunar calendar(农历换算)
 - BaZib(生辰八字)
-- NaYin(纳音)
 - ZiWei (紫微斗数排盘)
 - ZhouYi(周易占卜)
 
