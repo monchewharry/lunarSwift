@@ -88,21 +88,19 @@ public extension People{
         calculateWuxingGame(for: lifePalace)
     }
     /**
-     主星 紫薇星,天府星地支
+     主星 紫薇星 所有星耀
      */
-    var StarArrays:[ZiweiCalculator.Star?] {
+    var ziweiAllStarArrays:[ZiweiCalculator.Star?] {
         let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
         return ziweiCalculator.setZiweiStars(yearStem: String(year8Char.prefix(1)))
 
     }
-    var ZiweiTianfuStarBranch: (String,String){
+    /**
+     主星 天府星 所有星耀
+     */
+    var tianfuAllStarArrays:[ZiweiCalculator.Star?] {
         let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return (ziweiCalculator.getZiweiIndex().dizhi, ziweiCalculator.getTianfuIndex().dizhi)
-    }
-    
-    var starsBranchDict: [String: String] {
-        let result = ["紫薇":ZiweiTianfuStarBranch.0,
-                      "天府":ZiweiTianfuStarBranch.1]
-        return result
+        return ziweiCalculator.setTianfuStars(yearStem: String(year8Char.prefix(1)))
+
     }
 }

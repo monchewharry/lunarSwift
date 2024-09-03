@@ -304,11 +304,11 @@ public struct ZiweiCalculator {
     var wuxingGameNum:Int //五行局数
     private let fillOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"]//虎口 for 整除
     /**
-     四化
+     一个星耀的信息，名字，拼音，四化，宫位地支
      */
     public struct Star: Hashable {
         public let name: String
-        public let CnChar: String
+        public let pinyin: String
         public let sihua: String?
         public var palaceBranch: String? = nil
     }
@@ -353,15 +353,15 @@ public struct ZiweiCalculator {
      */
     func getMainStarsWithZiwei(for yearStem: String) -> [Star?] {
         return [
-            Star(name: "紫薇", CnChar: "ziwei", sihua: sihuaMap[yearStem]?["ziwei"]),
-            Star(name: "天机", CnChar: "tianji", sihua: sihuaMap[yearStem]?["tianji"]),
+            Star(name: "紫薇", pinyin: "ziwei", sihua: sihuaMap[yearStem]?["ziwei"]),
+            Star(name: "天机", pinyin: "tianji", sihua: sihuaMap[yearStem]?["tianji"]),
             nil,
-            Star(name: "太阳", CnChar: "taiyang", sihua: sihuaMap[yearStem]?["taiyang"]),
-            Star(name: "武曲", CnChar: "wuqu", sihua: sihuaMap[yearStem]?["wuqu"]),
-            Star(name: "天同", CnChar: "tiantong", sihua: sihuaMap[yearStem]?["tiantong"]),
+            Star(name: "太阳", pinyin: "taiyang", sihua: sihuaMap[yearStem]?["taiyang"]),
+            Star(name: "武曲", pinyin: "wuqu", sihua: sihuaMap[yearStem]?["wuqu"]),
+            Star(name: "天同", pinyin: "tiantong", sihua: sihuaMap[yearStem]?["tiantong"]),
             nil,
             nil,
-            Star(name: "廉贞", CnChar: "lianzhen", sihua: sihuaMap[yearStem]?["lianzhen"])
+            Star(name: "廉贞", pinyin: "lianzhen", sihua: sihuaMap[yearStem]?["lianzhen"])
         ]
     }
 
@@ -373,16 +373,11 @@ public struct ZiweiCalculator {
             var stars = getMainStarsWithZiwei(for: yearStem)
 
             for (index, star) in stars.enumerated().reversed() { //逆序
-                guard let star = star else { continue }
+                guard let _ :Star = star else { continue } //skip nil
                 let palaceIndex = pythonModulo((ziweiIndex - index),12)
                 let palacebranch = fillOrder[palaceIndex] //宫支
                 stars[index]?.palaceBranch = palacebranch
-                
-//                let palace = getPalace(at: palaceIndex)
-//                palace.addMainStar(star)
-//                setStarsToPalace(starCode: star.code, palace: palace)
             }
-
             return stars
         }
     
@@ -399,17 +394,32 @@ public struct ZiweiCalculator {
      */
     func getMainStarsWithTianfu(for yearStem: String) -> [Star?] {
         return [
-            Star(name: "天府", CnChar: "tianfu", sihua: sihuaMap[yearStem]?["tianfu"]),
-            Star(name: "太阴", CnChar: "taiyin", sihua: sihuaMap[yearStem]?["taiyin"]),
-            Star(name: "贪狼", CnChar: "tanlang", sihua: sihuaMap[yearStem]?["tanlang"]),
-            Star(name: "巨门", CnChar: "jumen", sihua: sihuaMap[yearStem]?["jumen"]),
-            Star(name: "天相", CnChar: "tianxaing", sihua: sihuaMap[yearStem]?["tianxaing"]),
-            Star(name: "天梁", CnChar: "tianliang", sihua: sihuaMap[yearStem]?["tianliang"]),
-            Star(name: "七杀", CnChar: "qisha", sihua: sihuaMap[yearStem]?["qisha"]),
+            Star(name: "天府", pinyin: "tianfu", sihua: sihuaMap[yearStem]?["tianfu"]),
+            Star(name: "太阴", pinyin: "taiyin", sihua: sihuaMap[yearStem]?["taiyin"]),
+            Star(name: "贪狼", pinyin: "tanlang", sihua: sihuaMap[yearStem]?["tanlang"]),
+            Star(name: "巨门", pinyin: "jumen", sihua: sihuaMap[yearStem]?["jumen"]),
+            Star(name: "天相", pinyin: "tianxaing", sihua: sihuaMap[yearStem]?["tianxaing"]),
+            Star(name: "天梁", pinyin: "tianliang", sihua: sihuaMap[yearStem]?["tianliang"]),
+            Star(name: "七杀", pinyin: "qisha", sihua: sihuaMap[yearStem]?["qisha"]),
             nil, nil, nil,
-            Star(name: "破军", CnChar: "pojun", sihua: sihuaMap[yearStem]?["pojun"])
+            Star(name: "破军", pinyin: "pojun", sihua: sihuaMap[yearStem]?["pojun"])
         ]
     }
+    /**
+     给出主星天府的所有辅星的地支，包括主星
+     */
+    func setTianfuStars(yearStem: String) -> [Star?] {
+            let tianfuIndex = getTianfuIndex().index
+            var stars = getMainStarsWithTianfu(for: yearStem)
+
+            for (index, star) in stars.enumerated().reversed() { //逆序
+                guard let _ :Star = star else { continue } //skip nil
+                let palaceIndex = pythonModulo((tianfuIndex + index),12)
+                let palacebranch = fillOrder[palaceIndex] //宫支
+                stars[index]?.palaceBranch = palacebranch
+            }
+            return stars
+        }
 }
 
 
