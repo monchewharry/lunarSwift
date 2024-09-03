@@ -374,7 +374,6 @@ let wuxingGameArray:[WuxingGame] = [
 ]
 
 //---------------------------------星耀安放表
-let palaceBranch2GameNum:[String:[(String,Int)]] = [
-//[ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
-    "寅" : [("木",0),("金",0),("土",0),("火",0)]
-]
+/**
+ https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L143
+ */

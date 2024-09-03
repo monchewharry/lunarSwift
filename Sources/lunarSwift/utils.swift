@@ -189,25 +189,6 @@ func calculateTenGods(for pillar: String, dayPillars:String) -> String {
 
 //---------------------------------------------------十二宫
 
-//public func findLifePalaceBranch_decommissioned(monthPillars:String,hourPillars:String)->String{
-//    //命宫地支,not accurate
-//    let monthBranch = String(monthPillars.suffix(1))
-//    let hourBranch = String(hourPillars.suffix(1))
-//    
-//    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0
-//    let b:Int = diZhi2.firstIndex(of: hourBranch) ?? 0
-//    let condition:Int = a+b
-//    var branchindex:Int
-//    if condition < 12 {
-//        branchindex = (12 - condition)-1
-//    } else{
-//        branchindex = (24 - condition)-1
-//    }
-//    
-//    let lifePalaceBranch2 = diZhi2[branchindex]
-//    return lifePalaceBranch2
-//}
-
 /**
  * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
  *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
@@ -290,9 +271,10 @@ func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, br
     return palaces12
 }
 
-//------------------------五行局
+//---------------------------------------------------五行局
 /**
- 根据命宫天干地支，计算五行局
+ * 根据命宫天干地支，计算五行局
+ * js code https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L123
  */
 func calculateWuxingGame(for lifepalaceTD: [String]) -> WuxingGame? {
         // 获取天干索引
@@ -314,7 +296,7 @@ func calculateWuxingGame(for lifepalaceTD: [String]) -> WuxingGame? {
         
         return dCalcDep[d2Index > 2 ? d2Index - 3 : d2Index]
 }
-//------------------------星耀安放
+//---------------------------------------------------星耀安放
 
 /**
  紫薇星的地支
@@ -325,7 +307,8 @@ struct ZiweiCalculator {
     private let fillOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"]//虎口 for 整除
     
     /**
-     http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
+     * http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
+     * js code https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L143
      */
     func getZiweiIndex() -> (index: Int, dizhi: String) {
         let num = wuxingGameNum //3
@@ -368,9 +351,4 @@ struct ZiweiCalculator {
         return (tianfuindex, fillOrder[tianfuindex])
     }
 }
-
-//let ziweiCalculator = ZiweiCalculator(lunarDayNum: <#T##Int#>, wuxingGameNum: <#T##Int#>)
-//let result = ziweiCalculator.getZiweiIndex()
-//let result = ziweiCalculator.getTianfuIndex()
-
 

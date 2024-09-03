@@ -94,6 +94,7 @@ public extension People{
         let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
         return (ziweiCalculator.getZiweiIndex().dizhi, ziweiCalculator.getTianfuIndex().dizhi)
     }
+    
     var starsBranchDict: [String: String] {
         let result = ["紫薇":ZiweiTianfuStarBranch.0,
                       "天府":ZiweiTianfuStarBranch.1]

@@ -20,23 +20,24 @@ class PeopleApp:People{
 }
 // calendar and BaZi
 var p1 = PeopleApp(date: Date(), year8Char: "beginningOfSpring")
-print(p1.date)//solar date
-print(p1.lunarYMDCn)//lunar date in chinese character
-print(p1.lunarbirthday)//lunar date to display
-print(p1.ymd8Char)//BaZi
-print(p1.nayin)//nayin 
+print(p1.date) //solar date
+print(p1.lunarYMDCn) //lunar date in chinese character
+print(p1.lunarbirthday) //农历日期
+print(p1.ymd8Char) //八字
+print(p1.nayin) //纳音
 
 //ZiWei
-print(p1.lifePalace)
-print(p1.twelvePalaces)
-print("\(p1.wuxingGame?.name ?? "unknown")")
+print(p1.lifePalace) //命宫
+print(p1.twelvePalaces) //十二宫
+print("\(p1.wuxingGame?.name ?? "unknown")") //五行局
+print(p1.starsBranchDict) //星耀
 
 import baguaSwift
 //ZhouYi 64 Gua
-let getAbinary = getRandomBinary()
-let guaInfo = getHexagramInfo(for: getAbinary)
+let getAbinary = getRandomBinary() // 随机卦象二进制string
+let guaInfo = getHexagramInfo(for: getAbinary) //卦辞全解
 
-let (labels, paragraphs) = getHexagramInfoParts(guaInfo)!.description)
+let (labels, paragraphs) = getHexagramInfoParts(guaInfo)!.description) //卦辞全解段落
 
 for label in labels {
     if let content = paragraphs[label] {
