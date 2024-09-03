@@ -373,7 +373,71 @@ let wuxingGameArray:[WuxingGame] = [
     WuxingGame(name: "木三局", num: 3)
 ]
 
-//---------------------------------星耀安放表
+//---------------------------------星耀安放
+// https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
 /**
- https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L143
+ * 四种重要的星曜变化(四化)：禄、权、科、忌
+ * 四化的确定依赖于个人的出生信息（尤其是年柱中的天干），并根据固定的对照表来分配
  */
+let sihuaMap: [String: [String: String]] = [
+    "甲": [
+        "lianzhen": "禄",
+        "pojun": "权",
+        "wuqu": "科",
+        "taiyang": "忌"
+    ],
+    "乙": [
+        "tianji": "禄",
+        "tianliang": "权",
+        "ziwei": "科",
+        "taiyin": "忌"
+    ],
+    "丙": [
+        "tiantong": "禄",
+        "tianji": "权",
+        "wenchang": "科",
+        "lianzhen": "忌"
+    ],
+    "丁": [
+        "taiyin": "禄",
+        "tiantong": "权",
+        "tianji": "科",
+        "jumen": "忌"
+    ],
+    "戊": [
+        "tanlang": "禄",
+        "taiyin": "权",
+        "youbi": "科",
+        "tianji": "忌"
+    ],
+    "己": [
+        "wuqu": "禄",
+        "tanlang": "权",
+        "tianliang": "科",
+        "wenqu": "忌"
+    ],
+    "庚": [
+        "taiyang": "禄",
+        "wuqu": "权",
+        "taiyin": "科",
+        "tiantong": "忌"
+    ],
+    "辛": [
+        "jumen": "禄",
+        "taiyang": "权",
+        "wenqu": "科",
+        "wenchang": "忌"
+    ],
+    "壬": [
+        "tianliang": "禄",
+        "ziwei": "权",
+        "zuofu": "科",
+        "wuqu": "忌"
+    ],
+    "癸": [
+        "pojun": "禄",
+        "jumen": "权",
+        "taiyin": "科",
+        "tanlang": "忌"
+    ]
+]
