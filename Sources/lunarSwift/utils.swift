@@ -278,7 +278,7 @@ func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, br
     if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
         var currentBranchIndex:Int = lifeBranchIndex
         
-        for key in palaces {
+        for key in palacesArray {
             let branch = branchesOrder[currentBranchIndex]
             let stem = stemsOrder[currentBranchIndex]
             palaces12[key] = (stem, branch)

@@ -14,7 +14,6 @@ This Swift package will calculate lunar calendar from solar calendar. Based on t
 
 ```Swift
 import lunarSwift
-import baguaSwift
 
 class PeopleApp:People{
 
@@ -32,6 +31,7 @@ print(p1.lifePalace)
 print(p1.twelvePalaces)
 print(p1.wuxingGame!.name)
 
+import baguaSwift
 //ZhouYi 64 Gua
 let getAbinary = getRandomBinary()
 let guaInfo = getHexagramInfo(for: getAbinary)
@@ -54,9 +54,9 @@ The year pillar is adjusted based on the beginningOfSpring. 年柱计算已经�
 ## Acknowledgements & Reference
 
 Many inspiration from the multiple Python projects.
-- [OPN48/cnlunar](https://github.com/OPN48/cnlunar): 农历换算，四柱八字
-- [natal-chart](https://github.com/haibolian/natal-chart): 紫微斗数排盘
-- [rockyCheung/godwill](https://github.com/rockyCheung/godwill)，周易占卜
+- [OPN48/cnlunar](https://github.com/OPN48/cnlunar) : 农历换算，四柱八字
+- [natal-chart](https://github.com/haibolian/natal-chart) : 紫微斗数排盘
+- [rockyCheung/godwill](https://github.com/rockyCheung/godwill) : 周易占卜
 
 1. 中华绝学-中国历代方术大关, 雒启坤, 1998年, 青海人民出版社
 2. [紫微研习社](https://www.iztro.com/)

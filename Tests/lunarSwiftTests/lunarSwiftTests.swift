@@ -46,7 +46,7 @@ final class lunarSwiftTests: XCTestCase {
     // 测试十二宫推演
     func test12PalaceCalculation(){
         var person12palaces: [String] = []
-        for key in palaces{
+        for key in palacesArray{
             person12palaces.append( String(person.twelvePalaces[key]!.stem+person.twelvePalaces[key]!.branch) )
         }
         XCTAssertEqual(person12palaces, p1bench.twelvePalaces, "Ten Gods should be correctly calculated based on the lunarbirthdate.")

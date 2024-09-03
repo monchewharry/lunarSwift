@@ -8,8 +8,11 @@ let startYear = 1901
 let monthDayBit = 12
 let leapMonthNumBit = 13
 
-let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
+/**
+ 24节气排序 小寒...冬至
+ */
 let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
+//let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
 //public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
 //    let startIndex = stc.index(stc.startIndex, offsetBy: index)
 //    let endIndex = stc.index(startIndex, offsetBy: 2)
@@ -19,8 +22,14 @@ let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊�
 
 //天干地支五行
 let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
-public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]//tian gan
+/**
+ 10天干
+ */
+public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
+/**
+ 12地支
+ */
 public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
 let the12EarthlyBranches5ElementsList = ["水", "土", "木", "木", "土", "火", "火", "土", "金", "金", "土", "水"]//di zhi wuxing
 let earthlyBranchesToFiveElements: [String: String] = Dictionary(uniqueKeysWithValues: zip(the12EarthlyBranches, the12EarthlyBranches5ElementsList))
@@ -74,7 +83,9 @@ let chinese12DayGods:[String] = ["青龙", "明堂", "天刑", "朱雀", "金贵
 //方位和八卦的对应
 let directionList:[String] = ["正北", "东北", "正东", "东南", "正南", "西南", "正西", "西北"]
 let chinese8Trigrams:[Character] = Array("坎艮震巽离坤兑乾")
-
+/**
+ 吉神排序列表
+ */
 public let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
 let luckyGodDirection:[Character] = Array("艮乾坤离巽艮乾坤离巽") //吉神,福神，财神，阳贵，阴贵方位
 let wealthGodDirection:[Character] = Array("艮艮坤坤坎坎震震离离")
@@ -290,13 +301,13 @@ public let tianGanRelationships: [String: [String: String]] = [
 
 //-----------十二宫
 /**
- 命宫地支参考顺序：命盘顺序
+ 命宫地支参考顺序：命盘顺序 寅...丑
  */
 public let diZhi2:[String] = [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
 /**
  十二宫排序array
  */
-public let palaces = [
+public let palacesArray = [
     "命宫",    // Destiny Palace
     "兄弟宫",  // Siblings Palace
     "夫妻宫",  // Spouse Palace
@@ -328,7 +339,11 @@ let rotatedLeft2 = rotateArrayToLeft(array, by: 2*2)
 let rotatedLeft3 = rotateArrayToLeft(array, by: 3*2)
 let rotatedLeft4 = rotateArrayToLeft(array, by: 4*2)
 
+/**
+ The match between year's stem to 12 palaces' stem ordered by 12 palaces' branch' order (diZhi2)
+ */
 let yearStemToSequence: [String: [String]] = [
+    //columns are [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     "甲": rotatedLeft0,
     "乙": rotatedLeft1,
     "丙": rotatedLeft2,
