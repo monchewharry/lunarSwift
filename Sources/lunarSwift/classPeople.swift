@@ -82,9 +82,21 @@ public extension People{
         return calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (lifePalace[0],lifePalace[1]), yearStem: String(ymd8Char.0.prefix(1)))
     }
     /**
-     五行局
+     五行局由命宫的天干地支的纳音而定
      */
     var wuxingGame: WuxingGame? {
         calculateWuxingGame(for: lifePalace)
+    }
+    /**
+     紫薇星,天府星地支
+     */
+    var ZiweiTianfuStarBranch: (String,String){
+        let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        return (ziweiCalculator.getZiweiIndex().dizhi, ziweiCalculator.getTianfuIndex().dizhi)
+    }
+    var starsBranchDict: [String: String] {
+        let result = ["紫薇":ZiweiTianfuStarBranch.0,
+                      "天府":ZiweiTianfuStarBranch.1]
+        return result
     }
 }

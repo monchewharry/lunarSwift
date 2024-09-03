@@ -314,3 +314,63 @@ func calculateWuxingGame(for lifepalaceTD: [String]) -> WuxingGame? {
         
         return dCalcDep[d2Index > 2 ? d2Index - 3 : d2Index]
 }
+//------------------------星耀安放
+
+/**
+ 紫薇星的地支
+ */
+struct ZiweiCalculator {
+    var lunarDayNum: Int //农历日数
+    var wuxingGameNum:Int //五行局数
+    private let fillOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"]//虎口 for 整除
+    
+    /**
+     http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
+     */
+    func getZiweiIndex() -> (index: Int, dizhi: String) {
+        let num = wuxingGameNum //3
+        var jumpNum = Double(lunarDayNum) / Double(num) // 22/3
+        
+        func isInt(_ num: Double) -> Bool {
+            return num == floor(num)
+        }
+        
+        func isEvenNum(_ num: Int) -> Bool {
+            return num % 2 == 0
+        }
+        
+        if !isInt(jumpNum) { //检查是否余数为零
+            var r = 1
+            var s = jumpNum
+            
+            while !isInt(s) {
+                if r * num < lunarDayNum {
+                    r += 1               //8
+                } else {
+                    s = Double(r * num) //24
+                }
+            }
+            let lend = Int(s) - lunarDayNum //2
+            jumpNum = isEvenNum(lend) ? Double(r + lend) : Double(r - lend) //8+2
+        }
+        
+        let index = Int(jumpNum) - 1 //9
+        let dizhiIndex = index < 0 ? index + 12 : index // pythonmodule(index, 12)
+        let dizhi = fillOrder[dizhiIndex] //亥
+        return (index, dizhi)
+    }
+    
+    /**
+     天府星地支
+     */
+    func getTianfuIndex() -> (index: Int, dizhi:String){
+        let tianfuindex = 12 - getZiweiIndex().index
+        return (tianfuindex, fillOrder[tianfuindex])
+    }
+}
+
+//let ziweiCalculator = ZiweiCalculator(lunarDayNum: <#T##Int#>, wuxingGameNum: <#T##Int#>)
+//let result = ziweiCalculator.getZiweiIndex()
+//let result = ziweiCalculator.getTianfuIndex()
+
+

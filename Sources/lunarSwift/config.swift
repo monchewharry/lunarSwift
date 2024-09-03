@@ -362,11 +362,19 @@ public struct WuxingGame {
     public let name: String
     public let num: Int
 }
-
+/**
+ http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
+ */
 let wuxingGameArray:[WuxingGame] = [
     WuxingGame(name: "金四局", num: 4),
     WuxingGame(name: "水二局", num: 2),
     WuxingGame(name: "火六局", num: 6),
     WuxingGame(name: "土五局", num: 5),
     WuxingGame(name: "木三局", num: 3)
+]
+
+//---------------------------------星耀安放表
+let palaceBranch2GameNum:[String:[(String,Int)]] = [
+//[ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
+    "寅" : [("木",0),("金",0),("土",0),("火",0)]
 ]

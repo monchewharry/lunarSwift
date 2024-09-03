@@ -29,7 +29,7 @@ print(p1.nayin)//nayin
 //ZiWei
 print(p1.lifePalace)
 print(p1.twelvePalaces)
-print(p1.wuxingGame!.name)
+print("\(p1.wuxingGame?.name ?? "unknown")")
 
 import baguaSwift
 //ZhouYi 64 Gua
@@ -59,4 +59,5 @@ Many inspiration from the multiple Python projects.
 - [rockyCheung/godwill](https://github.com/rockyCheung/godwill) : 周易占卜
 
 1. 中华绝学-中国历代方术大关, 雒启坤, 1998年, 青海人民出版社
-2. [紫微研习社](https://www.iztro.com/)
+2. http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
+3. [紫微研习社](https://www.iztro.com/)
