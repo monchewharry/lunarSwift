@@ -107,4 +107,16 @@ public extension People{
         return calculator.setTianfuStars(yearStem: String(year8Char.prefix(1)))
 
     }
+    /**
+     所有sub star
+     */
+    var allSubSmallStars: (Substar:[Star], Smallstar: [Star]) {
+        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        let result = calculator.setOtherRegularSmallStars(tYearPinyin: getTianganPinyin(String(year8Char.prefix(1)))!,
+                                                          dYearPinyin: getDizhiPinyin(String(year8Char.suffix(1)))!,
+                                                    shichen: twohour8Char, lunarMonth: lunarMonth)!
+        return (result.subStarsArray,result.smallStarsArray)
+    }
+    
+
 }

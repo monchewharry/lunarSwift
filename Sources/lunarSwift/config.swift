@@ -425,3 +425,151 @@ let sihuaMap: [String: [String: String]] = [
         "tanlang": "忌"
     ]
 ]
+
+// ----------------------- 次星规则
+
+// Define the Tiangan (Heavenly Stems) structure
+struct Tiangan {
+    let name: String
+    let pinyin: String
+}
+
+// Tiangan array
+let tiangan: [Tiangan] = [
+    Tiangan(name: "甲", pinyin: "jia"),
+    Tiangan(name: "乙", pinyin: "yi"),
+    Tiangan(name: "丙", pinyin: "bing"),
+    Tiangan(name: "丁", pinyin: "ding"),
+    Tiangan(name: "戊", pinyin: "wu"),
+    Tiangan(name: "己", pinyin: "ji"),
+    Tiangan(name: "庚", pinyin: "geng"),
+    Tiangan(name: "辛", pinyin: "xin"),
+    Tiangan(name: "壬", pinyin: "ren"),
+    Tiangan(name: "癸", pinyin: "gui")
+]
+
+// Function to get the code of a given Tiangan name
+func getTianganPinyin(_ name: String) -> String? {
+    return tiangan.first(where: { $0.name == name })?.pinyin
+}
+func getTianganCnchar(_ pinyin: String) -> String? {
+    return tiangan.first(where: { $0.pinyin == pinyin })?.name
+}
+
+// Dizhi (Earthly Branches) array
+let dizhi: [String] = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
+
+// DizhiChart structure
+struct DizhiChart {
+    let dizhi: String
+    let pinyin: String
+}
+
+// DizhiChart array
+let dizhiChart: [DizhiChart] = [
+    DizhiChart(dizhi: "寅", pinyin: "yin"),
+    DizhiChart(dizhi: "卯", pinyin: "mao"),
+    DizhiChart(dizhi: "辰", pinyin: "chen"),
+    DizhiChart(dizhi: "巳", pinyin: "si"),
+    DizhiChart(dizhi: "午", pinyin: "wu"),
+    DizhiChart(dizhi: "未", pinyin: "wei"),
+    DizhiChart(dizhi: "申", pinyin: "shen"),
+    DizhiChart(dizhi: "酉", pinyin: "you"),
+    DizhiChart(dizhi: "戌", pinyin: "xu"),
+    DizhiChart(dizhi: "亥", pinyin: "hai"),
+    DizhiChart(dizhi: "子", pinyin: "zi"),
+    DizhiChart(dizhi: "丑", pinyin: "chou")
+]
+
+// Function to get the code of a given Dizhi name
+func getDizhiPinyin(_ name: String) -> String? {
+    return dizhiChart.first(where: { $0.dizhi == name })?.pinyin
+}
+func getDizhiCnChar(_ pinyin: String) -> String? {
+    return dizhiChart.first(where: { $0.pinyin == pinyin })?.dizhi
+}
+/**
+ 禄存
+ */
+let lucunRule: [String: String] = [
+    "jia": "yin",
+    "yi": "mao",
+    "bing": "si",
+    "wu": "si",
+    "ding": "wu",
+    "ji": "wu",
+    "geng": "shen",
+    "xin": "you",
+    "ren": "hai",
+    "gui": "zi"
+]
+/**
+ 天马
+ */
+let tianma: [String: String] = [
+    "shen": "yin",
+    "zi": "yin",
+    "chen": "yin",
+    "yin": "shen",
+    "wu": "shen",
+    "xu": "shen",
+    "hai": "si",
+    "mao": "si",
+    "wei": "si",
+    "si": "hai",
+    "you": "hai",
+    "chou": "hai"
+]
+/**
+ 火星
+ */
+let huoxing: [String: String] = [
+    "yin": "chou",
+    "wu": "chou",
+    "xu": "chou",
+    "shen": "yin",
+    "zi": "yin",
+    "chen": "yin",
+    "si": "mao",
+    "you": "mao",
+    "chou": "mao",
+    "hai": "you",
+    "mao": "you",
+    "wei": "you"
+]
+/**
+ 铃星
+ */
+let lingxing: [String: String] = [
+    "yin": "mao",
+    "wu": "mao",
+    "xu": "mao",
+    "shen": "xu",
+    "zi": "xu",
+    "chen": "xu",
+    "si": "xu",
+    "you": "xu",
+    "chou": "xu",
+    "hai": "xu",
+    "mao": "xu",
+    "wei": "xu"
+]
+/**
+ 咸池
+ */
+let xianchi: [String: String] = [
+    "yin": "mao",
+    "wu": "mao",
+    "xu": "mao",
+    "shen": "you",
+    "zi": "you",
+    "chen": "you",
+    "si": "wu",
+    "you": "wu",
+    "chou": "wu",
+    "hai": "zi",
+    "mao": "zi",
+    "wei": "zi"
+]
+
+
