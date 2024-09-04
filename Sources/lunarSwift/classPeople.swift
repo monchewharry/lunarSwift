@@ -114,7 +114,7 @@ public extension People{
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
         let result = calculator.setOtherRegularSmallStars(tYearPinyin: getTianganPinyin(String(year8Char.prefix(1)))!,
                                                           dYearPinyin: getDizhiPinyin(String(year8Char.suffix(1)))!,
-                                                    shichen: twohour8Char, lunarMonth: lunarMonth)!
+                                                          shichen: String(twohour8Char.suffix(1)), lunarMonth: lunarMonth)!
         return (result.subStarsArray,result.smallStarsArray)
     }
     
