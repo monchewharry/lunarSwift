@@ -353,7 +353,7 @@ public struct ZiweiCalculator {
      */
     func getMainStarsWithZiwei(for yearStem: String) -> [Star?] {
         return [
-            Star(name: "紫薇", pinyin: "ziwei", sihua: sihuaMap[yearStem]?["ziwei"]),
+            Star(name: "紫微", pinyin: "ziwei", sihua: sihuaMap[yearStem]?["ziwei"]),
             Star(name: "天机", pinyin: "tianji", sihua: sihuaMap[yearStem]?["tianji"]),
             nil,
             Star(name: "太阳", pinyin: "taiyang", sihua: sihuaMap[yearStem]?["taiyang"]),
@@ -420,6 +420,15 @@ public struct ZiweiCalculator {
             }
             return stars
         }
+    /**
+     getSmallStarsConfig
+     - 禄存
+     - 天马
+     - 火星
+     - 天魁 ： 天钺
+     - 咸池
+     - 铃星
+     */
 }
 
 

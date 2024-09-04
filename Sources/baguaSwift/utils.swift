@@ -57,7 +57,7 @@ public func getHexagramInfoParts(_ document:String) -> ([String],[String:String]
         print("未能识别第一个标签")
         exit(1)
     }
-    var labels = [firstLabel] + fixedLabels
+    let labels = [firstLabel] + fixedLabels
 
     // 定义一个字典来存储段落内容
     var paragraphs: [String: String] = [:]
