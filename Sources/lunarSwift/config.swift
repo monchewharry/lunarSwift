@@ -357,22 +357,6 @@ let yearStemToSequence: [String: [String]] = [
     "癸": rotatedLeft4,
 ]
 
-//---------------------------------五行局
-public struct WuxingGame {
-    public let name: String
-    public let num: Int
-}
-/**
- http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
- */
-let wuxingGameArray:[WuxingGame] = [
-    WuxingGame(name: "金四局", num: 4),
-    WuxingGame(name: "水二局", num: 2),
-    WuxingGame(name: "火六局", num: 6),
-    WuxingGame(name: "土五局", num: 5),
-    WuxingGame(name: "木三局", num: 3)
-]
-
 //---------------------------------星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
 /**

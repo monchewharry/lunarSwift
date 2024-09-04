@@ -189,130 +189,155 @@ func calculateTenGods(for pillar: String, dayPillars:String) -> String {
 
 //---------------------------------------------------十二宫
 
-/**
- * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
- *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
- */
-func findLifePalaceBranch(monthPillars:String,hourPillars:String)->String{
-    //命宫地支
-    let monthBranch = String(monthPillars.suffix(1))
-    let hourBranch = String(hourPillars.suffix(1))
-    
-    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0 //lunar month index
-    let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
-    
-    let lifePalaceBranch2 = diZhi2[pythonModulo((a - b),12)]
-    return lifePalaceBranch2
-}
-/**
- * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
- *  refer: https://github.com/haibolian/natal-chart
- */
-func findBodyPalaceBranch(monthPillars:String,hourPillars:String)->String{
-    //命宫地支
-    let monthBranch = String(monthPillars.suffix(1))
-    let hourBranch = String(hourPillars.suffix(1))
-    
-    let a:Int = diZhi2.firstIndex(of: monthBranch) ?? 0 //lunar month index
-    let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
-    
-    let bodyPalaceBranch2 = diZhi2[pythonModulo((a + b),12)]
-    return bodyPalaceBranch2
-}
-
-/**
- 命宫天干 by 五虎遁月歌
- */
-func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
-    let yearStem = yearPillars.prefix(1)
-    guard let sequence = yearStemToSequence[String(yearStem)],
-          let index = diZhi2.firstIndex(of: lifePalaceBranch) else {
-        return "未知"
-    }
-    let lifePalaceStem = sequence[index]
-    return lifePalaceStem
-}
-
-/**
- 十二宫天干从命宫推出
- 返回 dict 宫名: (天干，地支)
- */
-func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
-    let branchesOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
-    let stemsOrder:[String] = yearStemToSequence[yearStem] ?? [""] //stem mapped,ordered by branch
-
-    var palaces12 = [
-        "命宫": lifePalaceStemBranch,
-        "兄弟宫": ("", ""),
-        "夫妻宫": ("", ""),
-        "子女宫": ("", ""),
-        "财帛宫": ("", ""),
-        "疾厄宫": ("", ""),
-        "迁移宫": ("", ""),
-        "交友宫": ("", ""),
-        "官禄宫": ("", ""),
-        "田宅宫": ("", ""),
-        "福德宫": ("", ""),
-        "父母宫": ("", "")
-    ]
-
-    // Find the index of the life palace branch in the order
-    if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
-        var currentBranchIndex:Int = lifeBranchIndex
+public struct twelvePalaceCalculator {
+    let monthBranch, hourBranch:String
+    let fillorder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //12palace order
+    /**
+     * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
+     *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
+     */
+    func findLifePalaceBranch()->String{
+        let a:Int = fillorder.firstIndex(of: monthBranch) ?? 0 //lunar month index
+        let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
         
-        for key in palacesArray {
-            let branch = branchesOrder[currentBranchIndex]
-            let stem = stemsOrder[currentBranchIndex]
-            palaces12[key] = (stem, branch)
-            // (anticlockwise)
-            currentBranchIndex = (currentBranchIndex + 11) % 12
+        let lifePalaceBranch2 = fillorder[pythonModulo((a - b),12)]
+        return lifePalaceBranch2
+    }
+    
+    /**
+     * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
+     *  refer: https://github.com/haibolian/natal-chart
+     */
+    func findBodyPalaceBranch()->String{
+        let a:Int = fillorder.firstIndex(of: monthBranch) ?? 0 //lunar month index
+        let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
+        
+        let bodyPalaceBranch2 = fillorder[pythonModulo((a + b),12)]
+        return bodyPalaceBranch2
+    }
+    
+    /**
+     命宫天干 by 五虎遁月歌
+     */
+    func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
+        let yearStem = yearPillars.prefix(1)
+        guard let sequence = yearStemToSequence[String(yearStem)],
+              let index = diZhi2.firstIndex(of: lifePalaceBranch) else {
+            return "未知"
         }
+        let lifePalaceStem = sequence[index]
+        return lifePalaceStem
+    }
+    
+    /**
+     十二宫天干从命宫推出
+     返回 dict 宫名: (天干，地支)
+     */
+    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
+        let branchesOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
+        let stemsOrder:[String] = yearStemToSequence[yearStem] ?? [""] //stem mapped,ordered by branch
+
+        var palaces12 = [
+            "命宫": lifePalaceStemBranch,
+            "兄弟宫": ("", ""),
+            "夫妻宫": ("", ""),
+            "子女宫": ("", ""),
+            "财帛宫": ("", ""),
+            "疾厄宫": ("", ""),
+            "迁移宫": ("", ""),
+            "交友宫": ("", ""),
+            "官禄宫": ("", ""),
+            "田宅宫": ("", ""),
+            "福德宫": ("", ""),
+            "父母宫": ("", "")
+        ]
+
+        // Find the index of the life palace branch in the order
+        if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
+            var currentBranchIndex:Int = lifeBranchIndex
+            
+            for key in palacesArray {
+                let branch = branchesOrder[currentBranchIndex]
+                let stem = stemsOrder[currentBranchIndex]
+                palaces12[key] = (stem, branch)
+                // (anticlockwise)
+                currentBranchIndex = (currentBranchIndex + 11) % 12
+            }
+        }
+
+        return palaces12
     }
 
-    return palaces12
+
+    
 }
+
 
 //---------------------------------------------------五行局
-/**
- * 根据命宫天干地支，计算五行局
- * js code https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L123
- */
-func calculateWuxingGame(for lifepalaceTD: [String]) -> WuxingGame? {
-        // 获取天干索引
-        guard let tIndex = the10HeavenlyStems.firstIndex(of: lifepalaceTD[0]) else { return nil }
-        // 获取地支索引
-        guard let dIndex = the12EarthlyBranches.firstIndex(of: lifepalaceTD[1]) else { return nil }
-        
-        // 天干决定五行局的起点
-        let t2Index = tIndex / 2
-        
-        // 根据天干计算五行局范围
-        var dCalcDep = Array(wuxingGameArray[t2Index..<min(t2Index + 3, wuxingGameArray.count)])
-        let dif = 3 - dCalcDep.count
-        if dif > 0 {
-            dCalcDep += wuxingGameArray.prefix(dif)
-        }
-        // 根据地支确定具体的五行局
-        let d2Index = dIndex / 2
-        
-        return dCalcDep[d2Index > 2 ? d2Index - 3 : d2Index]
+
+public struct WuxingGame {
+    public let name: String
+    public let num: Int
 }
+
+public struct ZiWeiWuxingGameCalculator {
+    let lifePalaceStemBranchArray: [String]
+    
+    let wuxingGameArray:[WuxingGame] = [
+        WuxingGame(name: "金四局", num: 4),
+        WuxingGame(name: "水二局", num: 2),
+        WuxingGame(name: "火六局", num: 6),
+        WuxingGame(name: "土五局", num: 5),
+        WuxingGame(name: "木三局", num: 3)
+    ]
+    /**
+     * 根据命宫天干地支，计算五行局
+     * js code https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L123
+     */
+    func calculateWuxingGame() -> WuxingGame? {
+            // 获取天干索引
+            guard let tIndex = the10HeavenlyStems.firstIndex(of: lifePalaceStemBranchArray[0]) else { return nil }
+            // 获取地支索引
+            guard let dIndex = the12EarthlyBranches.firstIndex(of: lifePalaceStemBranchArray[1]) else { return nil }
+            
+            // 天干决定五行局的起点
+            let t2Index = tIndex / 2
+            
+            // 根据天干计算五行局范围
+            var dCalcDep = Array(wuxingGameArray[t2Index..<min(t2Index + 3, wuxingGameArray.count)])
+            let dif = 3 - dCalcDep.count
+            if dif > 0 {
+                dCalcDep += wuxingGameArray.prefix(dif)
+            }
+            // 根据地支确定具体的五行局
+            let d2Index = dIndex / 2
+            
+            return dCalcDep[d2Index > 2 ? d2Index - 3 : d2Index]
+    }
+}
+
+
+
+
 //---------------------------------------------------星耀安放
 
-public struct ZiweiCalculator {
+/**
+ 一个星耀的信息，名字，拼音，四化，宫位地支
+ */
+public struct Star: Hashable {
+    public let name: String
+    public let pinyin: String
+    public let sihua: String?
+    public var palaceBranch: String? = nil
+}
+
+/**
+ Calculator includes every thing about star  in 紫微斗数命盘
+ */
+public struct ZiweiStarCalculator {
     var lunarDayNum: Int //农历日数
     var wuxingGameNum:Int //五行局数
     private let fillOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"]//虎口 for 整除
-    /**
-     一个星耀的信息，名字，拼音，四化，宫位地支
-     */
-    public struct Star: Hashable {
-        public let name: String
-        public let pinyin: String
-        public let sihua: String?
-        public var palaceBranch: String? = nil
-    }
-    
     /**
      * 主星 紫薇星 的地支
      */

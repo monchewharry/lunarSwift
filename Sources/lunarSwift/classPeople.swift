@@ -60,8 +60,9 @@ public extension People{
      * https://www.iztro.com/learn/astrolabe.html
      */
     var lifePalace: [String] {
-        let lifePalaceBranch:String = findLifePalaceBranch(monthPillars: ymd8Char.1, hourPillars: twohour8Char)
-        let lifePalaceStem = generatingStem(lifePalaceBranch:lifePalaceBranch, yearPillars: ymd8Char.0)
+        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
+        let lifePalaceBranch:String = calculator.findLifePalaceBranch()
+        let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch, yearPillars: ymd8Char.0)
 
         return [lifePalaceStem ?? "未知",lifePalaceBranch]
     }
@@ -70,8 +71,9 @@ public extension People{
      身宫天干地支
      */
     var bodyPalace: [String] {
-        let BodyPalaceBranch:String = findBodyPalaceBranch(monthPillars: ymd8Char.1, hourPillars: twohour8Char)
-        let BodyPalaceStem = generatingStem(lifePalaceBranch:BodyPalaceBranch, yearPillars: ymd8Char.0)
+        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
+        let BodyPalaceBranch:String = calculator.findBodyPalaceBranch()
+        let BodyPalaceStem = calculator.generatingStem(lifePalaceBranch:BodyPalaceBranch, yearPillars: ymd8Char.0)
 
         return [BodyPalaceStem ?? "未知",BodyPalaceBranch]
     }
@@ -79,28 +81,30 @@ public extension People{
      全部十二宫字典
      */
     var twelvePalaces: [String: (stem: String, branch: String)]{
-        return calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (lifePalace[0],lifePalace[1]), yearStem: String(ymd8Char.0.prefix(1)))
+        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
+        return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (lifePalace[0],lifePalace[1]), yearStem: String(ymd8Char.0.prefix(1)))
     }
     /**
      五行局由命宫的天干地支的纳音而定
      */
     var wuxingGame: WuxingGame? {
-        calculateWuxingGame(for: lifePalace)
+        let calculator = ZiWeiWuxingGameCalculator(lifePalaceStemBranchArray: lifePalace)
+        return calculator.calculateWuxingGame()
     }
     /**
      主星 紫薇星 所有星耀
      */
-    var ziweiAllStarArrays:[ZiweiCalculator.Star?] {
-        let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return ziweiCalculator.setZiweiStars(yearStem: String(year8Char.prefix(1)))
+    var ziweiAllStarArrays:[Star?] {
+        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        return calculator.setZiweiStars(yearStem: String(year8Char.prefix(1)))
 
     }
     /**
      主星 天府星 所有星耀
      */
-    var tianfuAllStarArrays:[ZiweiCalculator.Star?] {
-        let ziweiCalculator = ZiweiCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return ziweiCalculator.setTianfuStars(yearStem: String(year8Char.prefix(1)))
+    var tianfuAllStarArrays:[Star?] {
+        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        return calculator.setTianfuStars(yearStem: String(year8Char.prefix(1)))
 
     }
 }
