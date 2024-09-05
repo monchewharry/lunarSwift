@@ -96,7 +96,7 @@ public extension People{
      */
     var ziweiAllStarArrays:[Star?] {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return calculator.setZiweiStars(yearStem: String(year8Char.prefix(1)))
+        return calculator.setZiweiStars(yearStem: the10StemEnum(rawValue:String(year8Char.prefix(1)))!)
 
     }
     /**
@@ -104,7 +104,7 @@ public extension People{
      */
     var tianfuAllStarArrays:[Star?] {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return calculator.setTianfuStars(yearStem: String(year8Char.prefix(1)))
+        return calculator.setTianfuStars(yearStem: the10StemEnum(rawValue:String(year8Char.prefix(1)))!)
 
     }
     /**
@@ -112,9 +112,9 @@ public extension People{
      */
     var allSubSmallStars: (Substar:[Star], Smallstar: [Star]) {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        let result = calculator.setOtherRegularSmallStars(tYearPinyin: getTianganPinyin(String(year8Char.prefix(1)))!,
-                                                          dYearPinyin: getDizhiPinyin(String(year8Char.suffix(1)))!,
-                                                          shichen: String(twohour8Char.suffix(1)), lunarMonth: lunarMonth)!
+        let result = calculator.setOtherRegularSmallStars(tYearPinyin: the10StemEnum(rawValue: String(year8Char.prefix(1)))!,
+                                                          dYearPinyin: the12BranchEnum(rawValue: String(year8Char.suffix(1)))!,
+                                                          shichen: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!, lunarMonth: lunarMonth)!
         return (result.subStarsArray,result.smallStarsArray)
     }
     

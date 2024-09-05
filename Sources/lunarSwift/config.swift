@@ -364,62 +364,62 @@ let yearStemToSequence: [String: [String]] = [
  * 四种重要的星曜变化(四化)：禄、权、科、忌
  * 四化的确定依赖于个人的出生信息（尤其是年柱中的天干），并根据固定的对照表来分配
  */
-let sihuaMap: [String: [String: String]] = [
-    "甲": [
+let sihuaMap: [the10StemEnum: [String: String]] = [
+    .jia: [
         "lianzhen": "禄",
         "pojun": "权",
         "wuqu": "科",
         "taiyang": "忌"
     ],
-    "乙": [
+    .yi: [
         "tianji": "禄",
         "tianliang": "权",
         "ziwei": "科",
         "taiyin": "忌"
     ],
-    "丙": [
+    .bing: [
         "tiantong": "禄",
         "tianji": "权",
         "wenchang": "科",
         "lianzhen": "忌"
     ],
-    "丁": [
+    .ding: [
         "taiyin": "禄",
         "tiantong": "权",
         "tianji": "科",
         "jumen": "忌"
     ],
-    "戊": [
+    .wu: [
         "tanlang": "禄",
         "taiyin": "权",
         "youbi": "科",
         "tianji": "忌"
     ],
-    "己": [
+    .ji: [
         "wuqu": "禄",
         "tanlang": "权",
         "tianliang": "科",
         "wenqu": "忌"
     ],
-    "庚": [
+    .geng: [
         "taiyang": "禄",
         "wuqu": "权",
         "taiyin": "科",
         "tiantong": "忌"
     ],
-    "辛": [
+    .xin: [
         "jumen": "禄",
         "taiyang": "权",
         "wenqu": "科",
         "wenchang": "忌"
     ],
-    "壬": [
+    .ren: [
         "tianliang": "禄",
         "ziwei": "权",
         "zuofu": "科",
         "wuqu": "忌"
     ],
-    "癸": [
+    .gui: [
         "pojun": "禄",
         "jumen": "权",
         "taiyin": "科",
@@ -449,7 +449,7 @@ let tiangan: [Tiangan] = [
     Tiangan(name: "癸", pinyin: "gui")
 ]
 
-enum the10StemEnum: String,CaseIterable {
+public enum the10StemEnum: String,CaseIterable {
     case jia  = "甲"
     case yi   = "乙"
     case bing = "丙"
@@ -505,7 +505,7 @@ let dizhiChart: [DizhiChart] = [
     DizhiChart(dizhi: "丑", pinyin: "chou")
 ]
 
-enum the12BranchPalaceOrderEnum: String,CaseIterable {
+public enum the12BranchPalaceOrderEnum: String,CaseIterable {
   case yin = "寅"
   case mao = "卯"
   case chen = "辰"
@@ -519,7 +519,8 @@ enum the12BranchPalaceOrderEnum: String,CaseIterable {
   case zi = "子"
   case chou = "丑"
 }
-enum the12BranchEnum: String, CaseIterable {
+
+public enum the12BranchEnum: String, CaseIterable {
   case zi = "子"
   case chou = "丑"
   case yin = "寅"
@@ -554,85 +555,83 @@ func getDizhiCnChar(_ pinyin: String) -> String? {
 /**
  禄存
  */
-let lucunRule: [String: String] = [
-    "jia": "yin",
-    "yi": "mao",
-    "bing": "si",
-    "wu": "si",
-    "ding": "wu",
-    "ji": "wu",
-    "geng": "shen",
-    "xin": "you",
-    "ren": "hai",
-    "gui": "zi"
+let lucunRule: [the10StemEnum: the12BranchEnum] = [
+   .jia: .yin,
+   .yi: .mao,
+   .bing: .si,
+   .wu: .si,
+   .ding: .wu,
+   .ji: .wu,
+   .geng: .shen,
+   .xin: .you,
+   .ren: .hai,
+   .gui: .zi
 ]
 /**
  天马
  */
-let tianma: [String: String] = [
-    "shen": "yin",
-    "zi": "yin",
-    "chen": "yin",
-    "yin": "shen",
-    "wu": "shen",
-    "xu": "shen",
-    "hai": "si",
-    "mao": "si",
-    "wei": "si",
-    "si": "hai",
-    "you": "hai",
-    "chou": "hai"
+let tianma: [the12BranchEnum: the12BranchEnum] = [
+    .shen: .yin,
+    .zi: .yin,
+    .chen: .yin,
+    .yin: .shen,
+    .wu: .shen,
+    .xu: .shen,
+    .hai: .si,
+    .mao: .si,
+    .wei: .si,
+    .si: .hai,
+    .you: .hai,
+    .chou: .hai
 ]
 /**
  火星: yearBranch: branch
  */
-let huoxing: [String: String] = [
-    "yin": "chou",
-    "wu": "chou",
-    "xu": "chou",
-    "shen": "yin",
-    "zi": "yin",
-    "chen": "yin",
-    "si": "mao",
-    "you": "mao",
-    "chou": "mao",
-    "hai": "you",
-    "mao": "you",
-    "wei": "you"
+let huoxing: [the12BranchEnum: the12BranchEnum] = [
+    .yin: .chou,
+    .wu: .chou,
+    .xu: .chou,
+    .shen: .yin,
+    .zi: .yin,
+    .chen: .yin,
+    .si: .mao,
+    .you: .mao,
+    .chou: .mao,
+    .hai: .you,
+    .mao: .you,
+    .wei: .you
 ]
 /**
  铃星
  */
-let lingxing: [String: String] = [
-    "yin": "mao",
-    "wu": "mao",
-    "xu": "mao",
-    "shen": "xu",
-    "zi": "xu",
-    "chen": "xu",
-    "si": "xu",
-    "you": "xu",
-    "chou": "xu",
-    "hai": "xu",
-    "mao": "xu",
-    "wei": "xu"
+let lingxing: [the12BranchEnum: the12BranchEnum] = [
+    .yin: .mao,
+    .wu: .mao,
+    .xu: .mao,
+    .shen: .xu,
+    .zi: .xu,
+    .chen: .xu,
+    .si: .xu,
+    .you: .xu,
+    .chou: .xu,
+    .hai: .xu,
+    .mao: .xu,
+    .wei: .xu
 ]
 /**
  咸池
  */
-let xianchi: [String: String] = [
-    "yin": "mao",
-    "wu": "mao",
-    "xu": "mao",
-    "shen": "you",
-    "zi": "you",
-    "chen": "you",
-    "si": "wu",
-    "you": "wu",
-    "chou": "wu",
-    "hai": "zi",
-    "mao": "zi",
-    "wei": "zi"
+let xianchi: [the12BranchEnum: the12BranchEnum] = [
+    .yin: .mao,
+    .wu: .mao,
+    .xu: .mao,
+    .shen: .you,
+    .zi: .you,
+    .chen: .you,
+    .si: .wu,
+    .you: .wu,
+    .chou: .wu,
+    .hai: .zi,
+    .mao: .zi,
+    .wei: .zi
 ]
-
-
