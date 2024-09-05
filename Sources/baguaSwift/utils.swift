@@ -17,7 +17,7 @@ public func getHexagramInfo(for binary: String) -> (name: String, description: S
         return nil
     }
     
-    guard let hexagramInfo = guaBinary[binary] else {
+    guard let hexagramInfo = binary2Hexagram[binary] else {
         print("Hexagram not found")
         return nil
     }

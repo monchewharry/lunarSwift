@@ -27,7 +27,7 @@ let guabench = testgua(binary6: "111111", guaname: "乾",guades: "乾卦原文",
 
 final class baguaSwiftTests: XCTestCase {
     func testGuaNameMatch(){
-        let gua = guaBinary[guabench.binary6]
+        let gua = binary2Hexagram[guabench.binary6]
         XCTAssertEqual(gua?.name, guabench.guaname, "should be following the specific format")
         }
     func testGuaFilehandles(){

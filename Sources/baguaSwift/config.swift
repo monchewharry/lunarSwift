@@ -1,8 +1,25 @@
-
 import Foundation
+struct Hexagram {
+    let cnChar:String // "乾"
+    let unicodeChar: String // "\u{4DC0}"
+    let binaryChar: String // "111111"
+}
+func generateHexagrams() -> [Hexagram] {
+    var hexagrams: [Hexagram] = []
+    
+    for i in 0..<hexagramCnChar.count {
+        let hexagram = Hexagram(
+            cnChar: hexagramCnChar[i],
+            unicodeChar: hexagramUnicode[i],
+            binaryChar: orderedHexagramBinary[i]
+        )
+        hexagrams.append(hexagram)
+    }
+    return hexagrams
+}
 
 // 64卦顺序列表
-public let hexagramNames: [String] = [
+public let hexagramCnChar: [String] = [
     "乾", "坤", "屯", "蒙", "需", "讼", "师", "比",
     "小畜", "履", "泰", "否", "同人", "大有", "谦", "豫",
     "随", "蛊", "临", "观", "噬嗑", "贲", "剥", "复",
@@ -12,10 +29,20 @@ public let hexagramNames: [String] = [
     "革", "鼎", "震", "艮", "渐", "归妹", "丰", "旅",
     "巽", "兑", "涣", "节", "中孚", "小过", "既济", "未济",
 ]
+let hexagramUnicode: [String] = [
+    "\u{4DC0}", "\u{4DC1}", "\u{4DC2}", "\u{4DC3}", "\u{4DC4}", "\u{4DC5}", "\u{4DC6}", "\u{4DC7}",
+    "\u{4DC8}", "\u{4DC9}", "\u{4DCA}", "\u{4DCB}", "\u{4DCC}", "\u{4DCD}", "\u{4DCE}", "\u{4DCF}",
+    "\u{4DD0}", "\u{4DD1}", "\u{4DD2}", "\u{4DD3}", "\u{4DD4}", "\u{4DD5}", "\u{4DD6}", "\u{4DD7}",
+    "\u{4DD8}", "\u{4DD9}", "\u{4DDA}", "\u{4DDB}", "\u{4DDC}", "\u{4DDD}", "\u{4DDE}", "\u{4DDF}",
+    "\u{4DE0}", "\u{4DE1}", "\u{4DE2}", "\u{4DE3}", "\u{4DE4}", "\u{4DE5}", "\u{4DE6}", "\u{4DE7}",
+    "\u{4DE8}", "\u{4DE9}", "\u{4DEA}", "\u{4DEB}", "\u{4DEC}", "\u{4DED}", "\u{4DEE}", "\u{4DEF}",
+    "\u{4DF0}", "\u{4DF1}", "\u{4DF2}", "\u{4DF3}", "\u{4DF4}", "\u{4DF5}", "\u{4DF6}", "\u{4DF7}",
+    "\u{4DF8}", "\u{4DF9}", "\u{4DFA}", "\u{4DFB}", "\u{4DFC}", "\u{4DFD}", "\u{4DFE}", "\u{4DFF}"
+]
 
 // 定义六十四卦0:阴爻, 1:阳爻
-// 64卦的二进制表示，按与hexagramNames相同的顺序排列,先上爻后下爻
-public let guaBinary: [String: (name: String, longname: String, description: String)] = [
+// 64卦的二进制表示，按与hexagramCnChar相同的顺序排列,先上爻后下爻
+public let binary2Hexagram: [String: (name: String, longname: String, description: String)] = [
     "111111": ("乾", "乾为天", "刚健中正"),
     "111011": ("履", "天泽履", "脚踏实地"),
     "111101": ("同人", "天火同人", "上下和同"),
@@ -82,6 +109,6 @@ public let guaBinary: [String: (name: String, longname: String, description: Str
     "000000": ("坤", "坤为地", "柔顺伸展"),
 ]
 
-public let matchedBinary = hexagramNames.compactMap { name in
-    guaBinary.first { $0.value.name == name }?.key
-} // order binary by hexagramNames
+public let orderedHexagramBinary = hexagramCnChar.compactMap { name in
+    binary2Hexagram.first { $0.value.name == name }?.key
+} // order binary by hexagramCnChar

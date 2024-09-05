@@ -3,7 +3,7 @@
 import Foundation
 
 /**
- Revise Swift’s modulo operation to Python behavior
+ Revise Swift’s modulo operation to Python behavior a % n
  */
 func pythonModulo(_ a: Int, _ n: Int) -> Int {
     let result = a % n
@@ -257,7 +257,7 @@ public struct twelvePalaceCalculator {
         // Find the index of the life palace branch in the order
         if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
             var currentBranchIndex:Int = lifeBranchIndex
-            
+            assert(palacesArray.count == 12, "palacesArray count not equal to 12")
             for key in palacesArray {
                 let branch = branchesOrder[currentBranchIndex]
                 let stem = stemsOrder[currentBranchIndex]
@@ -448,12 +448,11 @@ public struct ZiweiStarCalculator {
 
 public extension ZiweiStarCalculator {
     /**
-     填次星, 小星
+     次星规则属性
      */
-    // Define the SmallStarConfig structure
     struct SmallStarConfig {
         let isSub: Bool
-        let rule: [Any]  // The rule for placing the star
+        let rule: (startPalaceCode:String,startDizhi:String?,clockwise:Bool?,endDizhi:String?) // The rule for placing the star
         let star: Star
     //    let cb: ((Palace) -> Void)? = nil  // Optional callback
     }
@@ -484,87 +483,87 @@ public extension ZiweiStarCalculator {
         return [
             SmallStarConfig(
                 isSub: true,
-                rule: [lucunRule[tYearPinyin] ?? ""],  //
+                rule: (lucunRule[tYearPinyin] ?? "",nil,nil,nil),  //
                 star: Star(name: "禄存", pinyin: "lucun")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: [tianma[(dYearPinyin)] ?? ""],
+                rule: (tianma[(dYearPinyin)] ?? "",nil,nil,nil),
                 star: Star(name: "天马", pinyin: "tianma")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: [huoxing[dYearPinyin] ?? "", "子", true, shichen],
+                rule: (huoxing[dYearPinyin] ?? "", "子", true, shichen),
                 star: Star(name: "火星", pinyin: "huoxing")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["hai", "子", false, shichen],
+                rule: ("hai", "子", false, shichen),
                 star: Star(name: "地空", pinyin: "dikong")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["hai", "子", true, shichen],
+                rule: ("hai", "子", true, shichen),
                 star: Star(name: "地劫", pinyin: "dijie")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: [lingxing[dYearPinyin] ?? "", "子", true, shichen],
+                rule: (lingxing[dYearPinyin] ?? "", "子", true, shichen),
                 star: Star(name: "铃星", pinyin: "lingxing")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["mao", "子", false, getDizhiCnChar(dYearPinyin)],
+                rule: ("mao", "子", false, getDizhiCnChar(dYearPinyin)),
                 star: Star(name: "红鸾", pinyin: "hongluan")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["you", "子", false, getDizhiCnChar(dYearPinyin)],
+                rule: ("you", "子", false, getDizhiCnChar(dYearPinyin)),
                 star: Star(name: "天喜", pinyin: "tianxi")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["chou", "子", true, the12EarthlyBranches[lunarMonth - 1]],
+                rule: ("chou", "子", true, the12EarthlyBranches[lunarMonth - 1]),
                 star: Star(name: "天姚", pinyin: "tiantao")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: [xianchi[dYearPinyin] ?? ""],
+                rule: (xianchi[dYearPinyin] ?? "",nil,nil,nil),
                 star: Star(name: "咸池", pinyin: "xianchi")
             ),
             SmallStarConfig(
                 isSub: false,
-                rule: ["you", "子", true, the12EarthlyBranches[lunarMonth - 1]],
+                rule: ("you", "子", true, the12EarthlyBranches[lunarMonth - 1]),
                 star: Star(name: "天刑", pinyin: "tianxing")
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: ["chen", "子", true, the12EarthlyBranches[lunarMonth - 1]],  // Modify as per dizhi lookup
+                rule: ("chen", "子", true, the12EarthlyBranches[lunarMonth - 1]),  // Modify as per dizhi lookup
                 star: Star(name: "左辅", pinyin: "zuofu", sihua: sihuaMap[getTianganCnchar(tYearPinyin)!]?["zuofu"])
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: ["xu", "子", false, the12EarthlyBranches[lunarMonth - 1]],
+                rule: ("xu", "子", false, the12EarthlyBranches[lunarMonth - 1]),
                 star: Star(name: "右弼", pinyin: "youbi", sihua: sihuaMap[getTianganCnchar(tYearPinyin)!]?["youbi"])
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: ["chen", "子", true, shichen],
+                rule: ("chen", "子", true, shichen),
                 star: Star(name: "文曲", pinyin: "wenqu", sihua: sihuaMap[getTianganCnchar(tYearPinyin)!]?["wenqu"])
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: ["xu", "子", false, shichen],
+                rule: ("xu", "子", false, shichen),
                 star: Star(name: "文昌", pinyin: "wenchang", sihua: sihuaMap[getTianganCnchar(tYearPinyin)!]?["wenchang"])
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: [getTiankuiTianyue(t: true)[tYearPinyin] ?? ""],
+                rule: (getTiankuiTianyue(t: true)[tYearPinyin] ?? "",nil,nil,nil),
                 star: Star(name: "天魁", pinyin: "tiankui")
             ),
             SmallStarConfig(
                 isSub: true,
-                rule: [getTiankuiTianyue(t: false)[tYearPinyin] ?? ""],
+                rule: (getTiankuiTianyue(t: false)[tYearPinyin] ?? "",nil,nil,nil),
                 star: Star(name: "天钺", pinyin: "tianyue")
             )
         ]
@@ -573,7 +572,7 @@ public extension ZiweiStarCalculator {
     /**
      返回终点宫支pinyin
      */
-    func getMovePalace(startPalaceBranchPinyin: String, shichenBranch: String, direction: Bool, endDizhi: String) -> String? {
+    func getMovePalace(startPalaceBranchPinyin: String, shichenBranch: String, direction: Bool, endDizhi: String?) -> String? {
         // 获取起始宫
         let startPalaceBranch:String = getDizhiCnChar(startPalaceBranchPinyin)!
         let startPalaceBranchIndex:Int = fillOrder.firstIndex(of: startPalaceBranch)!
@@ -584,7 +583,7 @@ public extension ZiweiStarCalculator {
         let newArr:[String] = Array(the12EarthlyBranches[shichenIndex...]) + Array(the12EarthlyBranches[..<shichenIndex]) // CnChar
         
         // 到达目标地支的索引
-        guard let scIndex:Int = newArr.firstIndex(of: endDizhi) else {
+        guard let scIndex:Int = newArr.firstIndex(of: endDizhi!) else {
             return nil  // Handle the case where endDizhi is not found
         }
         // 根据起始宫的位置顺逆到达目标宫
@@ -605,24 +604,24 @@ public extension ZiweiStarCalculator {
         var subStarsArray:[Star] = []
         var smallStarsArray:[Star] = []
         var palaceBranchPinyin: String? //palace branch pinyin
+        
         for config in smallStarsConfig {
             // determine palace branch
-            if config.rule.count == 1  {
-                palaceBranchPinyin = config.rule[0] as! String
-            } else if config.rule.count == 4 {
+            if config.rule.startDizhi == nil  { // only one rule element
+                palaceBranchPinyin = config.rule.startPalaceCode
+            } else if (config.rule.startDizhi != nil) && (config.rule.clockwise != nil) { // four rule element
                 // Use getMovePalace with the rule as an array
-                let startPalacePinyin = config.rule[0] as! String
-                let shichenBranch = config.rule[1] as! String
-                let direction = config.rule[2] as! Bool
-                let endDizhi = config.rule[3] as! String
-                palaceBranchPinyin = getMovePalace(startPalaceBranchPinyin: startPalacePinyin, shichenBranch: shichenBranch,
-                                             direction: direction, endDizhi: endDizhi)
+                let (startPalacePinyin,shichenBranch,direction,endDizhi) = config.rule
+                palaceBranchPinyin = getMovePalace(startPalaceBranchPinyin: startPalacePinyin, shichenBranch: shichenBranch!,
+                                                   direction: direction!, endDizhi: endDizhi)
             } else {
+                print("cannot find palace for this small star config of the star \(config.star.name)")
                 palaceBranchPinyin = nil
             }
-            // place the star
+            // place the star at palaceBranchPinyin
             if config.isSub {
-                subStarsArray.append(Star(name: config.star.name, pinyin: config.star.pinyin, palaceBranch: getDizhiCnChar(palaceBranchPinyin ?? "unknown")))
+                subStarsArray.append(Star(name: config.star.name, pinyin: config.star.pinyin, 
+                                          palaceBranch: getDizhiCnChar(palaceBranchPinyin ?? "unknown")))
                 if config.star.name == "禄存", let palaceBranchPinyin = palaceBranchPinyin {
                     let prev_palace = pythonModulo(fillOrder.firstIndex(of: getDizhiCnChar(palaceBranchPinyin)!)! - 1, 12)
                     smallStarsArray.append(Star(name: "陀罗", pinyin: "tuoluo", palaceBranch: fillOrder[prev_palace]))

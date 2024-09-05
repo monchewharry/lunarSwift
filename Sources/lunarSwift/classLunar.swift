@@ -142,6 +142,7 @@ open class Lunar:ObservableObject { //open class for user to modify
         return v
     }
     func getLunarMonthCN() -> String {
+        assert(lunarMonthNameList.count == 12, "lunarMonthNameList count not equal to 12")
         var lunarMonth = lunarMonthNameList[(lunarMonth - 1) % 12]
         if isLunarLeapMonth {
             lunarMonth = "闰" + lunarMonth
@@ -152,6 +153,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
 
     func getLunarCn() -> (String, String, String) {
+        assert(lunarDayNameList.count == 30, "lunarDayNameList count not equal to 30")
         return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[(lunarDay - 1) % 30])
     }
 
@@ -183,6 +185,7 @@ open class Lunar:ObservableObject { //open class for user to modify
 
         let todaySolarTerm: String
         if let index = solarTermsDateList.firstIndex(where: { $0 == findDate }) {
+            assert(solarTermsNameList.count == 24, "solarTermsNameList count not equal to 24")
             todaySolarTerm = solarTermsNameList[index]
         } else {
             todaySolarTerm = "无"
@@ -210,7 +213,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     func getSolarTermsDateList(year: Int) -> [(Int, Int)] {
         let solarTermsList = getTheYearAllSolarTermsList(year: year) //function from solar24
         var solarTermsDateList: [(Int, Int)] = []
-
+        assert(solarTermsList.count == 24, "solartermslist length not equal to 24")
         for i in 0..<solarTermsList.count {
             let day = solarTermsList[i]
             let month = i / 2 + 1
@@ -229,6 +232,7 @@ open class Lunar:ObservableObject { //open class for user to modify
         return (yearEarthNum, monthEarthNum, dayEarthNum)
     }
     func getHeavenNum() -> (Int, Int, Int) {
+        assert(the10HeavenlyStems.count == 10 , "the10HeavenlyStems count not equal to 10")
         let yearHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.0.prefix(1))) ?? -1
         let monthHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.1.prefix(1))) ?? -1
         let dayHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.2.prefix(1))) ?? -1
@@ -244,6 +248,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     func getLunarDateNum() -> (Int, Int, Int,Int) {
         // 给定公历日期，计算农历日期
         var lunarYear_:Int = Calendar.current.component(.year, from: date)
+        precondition(lunarYear_ < 2100, "solar year number exceed 2100")
         var lunarMonth_:Int = 1
         var lunarDay_:Int = 1
         let _codeYear = lunarNewYearList[lunarYear_ - startYear]
@@ -353,6 +358,7 @@ open class Lunar:ObservableObject { //open class for user to modify
         let apartNum:Int = (nextNum + 1) / 2 //距离下一个节气相差多少个由24节气分割的月份
         let yeardiffmonth: Int = (Calendar.current.component(.year, from: date) - 2019) * 12
         let _index:Int = pythonModulo((yeardiffmonth + apartNum) , 60)
+        assert(the60HeavenlyEarth.count == 60, "the60HeavenlyEarth count not equal to 60")
         let month8Char = the60HeavenlyEarth[_index]//2019/01/05 小寒为甲子月
         return month8Char
     }
@@ -453,6 +459,7 @@ open class Lunar:ObservableObject { //open class for user to modify
         let apart = calendar.dateComponents([.day], from: referenceDate, to: date).day!
         
         // Assuming `the28StarsList` is an array of strings representing the 28 stars
+        assert(the28StarsList.count == 28, "the28StarsList count not equal to 28")
         return the28StarsList[apart % 28]
     }
 }

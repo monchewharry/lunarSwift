@@ -12,6 +12,7 @@ let leapMonthNumBit = 13
  24节气排序 小寒...冬至
  */
 let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
+
 //let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
 //public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
 //    let startIndex = stc.index(stc.startIndex, offsetBy: index)
@@ -450,10 +451,20 @@ let tiangan: [Tiangan] = [
 
 // Function to get the code of a given Tiangan name
 func getTianganPinyin(_ name: String) -> String? {
-    return tiangan.first(where: { $0.name == name })?.pinyin
+    if let t = tiangan.first(where: { $0.name == name }){
+        return t.pinyin
+    } else {
+        print("cannot find pinyin for the input name \(name)")
+        return nil
+    }
 }
 func getTianganCnchar(_ pinyin: String) -> String? {
-    return tiangan.first(where: { $0.pinyin == pinyin })?.name
+    if let t = tiangan.first(where: { $0.pinyin == pinyin }) {
+        return t.name
+    } else {
+        print("cannot find name for the input pinyin \(pinyin)")
+        return nil
+    }
 }
 
 // Dizhi (Earthly Branches) array
@@ -483,10 +494,20 @@ let dizhiChart: [DizhiChart] = [
 
 // Function to get the code of a given Dizhi name
 func getDizhiPinyin(_ name: String) -> String? {
-    return dizhiChart.first(where: { $0.dizhi == name })?.pinyin
+    if let d = dizhiChart.first(where: { $0.dizhi == name }) {
+        return d.pinyin
+    } else{
+        print("cannot find the pinyin by the input name \(name)")
+        return nil
+    }
 }
 func getDizhiCnChar(_ pinyin: String) -> String? {
-    return dizhiChart.first(where: { $0.pinyin == pinyin })?.dizhi
+    if let d = dizhiChart.first(where: { $0.pinyin == pinyin }) {
+        return d.dizhi
+    } else {
+        print("cannot find the dizhi by the input pinyin \(pinyin)")
+        return nil
+    }
 }
 /**
  禄存
