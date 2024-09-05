@@ -1,4 +1,5 @@
 import Foundation
+
 struct Hexagram {
     let cnChar:String // "乾"
     let unicodeChar: String // "\u{4DC0}"

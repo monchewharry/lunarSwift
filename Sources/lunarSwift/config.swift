@@ -449,6 +449,19 @@ let tiangan: [Tiangan] = [
     Tiangan(name: "癸", pinyin: "gui")
 ]
 
+enum the10StemEnum: String,CaseIterable {
+    case jia  = "甲"
+    case yi   = "乙"
+    case bing = "丙"
+    case ding = "丁"
+    case wu   = "戊"
+    case ji   = "己"
+    case geng = "庚"
+    case xin  = "辛"
+    case ren  = "壬"
+    case gui  = "癸"
+}
+
 // Function to get the code of a given Tiangan name
 func getTianganPinyin(_ name: String) -> String? {
     if let t = tiangan.first(where: { $0.name == name }){
@@ -491,6 +504,35 @@ let dizhiChart: [DizhiChart] = [
     DizhiChart(dizhi: "子", pinyin: "zi"),
     DizhiChart(dizhi: "丑", pinyin: "chou")
 ]
+
+enum the12BranchPalaceOrderEnum: String,CaseIterable {
+  case yin = "寅"
+  case mao = "卯"
+  case chen = "辰"
+  case si = "巳"
+  case wu = "午"
+  case wei = "未"
+  case shen = "申"
+  case you = "酉"
+  case xu = "戌"
+  case hai = "亥"
+  case zi = "子"
+  case chou = "丑"
+}
+enum the12BranchEnum: String, CaseIterable {
+  case zi = "子"
+  case chou = "丑"
+  case yin = "寅"
+  case mao = "卯"
+  case chen = "辰"
+  case si = "巳"
+  case wu = "午"
+  case wei = "未"
+  case shen = "申"
+  case you = "酉"
+  case xu = "戌"
+  case hai = "亥"
+}
 
 // Function to get the code of a given Dizhi name
 func getDizhiPinyin(_ name: String) -> String? {

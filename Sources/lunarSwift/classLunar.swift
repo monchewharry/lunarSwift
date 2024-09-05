@@ -24,21 +24,21 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
     
     //calculate lunar YMD's int
-    public var lunarYMD: (Int,Int,Int,Int) {
+    public var lunarYMD: (lunarYear:Int,lunarMonth:Int,lunarDay:Int,spanDays:Int) {
         getLunarDateNum()
     }
-    public var lunarYear:Int {return lunarYMD.0}
-    public var lunarMonth:Int {return lunarYMD.1}
-    public var lunarDay:Int {return lunarYMD.2}
-    public var spanDays: Int {return lunarYMD.3}
+    public var lunarYear:Int {return lunarYMD.lunarYear}
+    public var lunarMonth:Int {return lunarYMD.lunarMonth}
+    public var lunarDay:Int {return lunarYMD.lunarDay}
+    public var spanDays: Int {return lunarYMD.spanDays}
     
     //find lunar YMD's chinese character
-    public var lunarYMDCn: (String,String,String) {
+    public var lunarYMDCn: (lunarYearCn:String,lunarMonthCn:String,lunarDayCn:String) {
         getLunarCn()
     }
-    public var lunarYearCn:String {return lunarYMDCn.0}
-    public var lunarMonthCn:String {return lunarYMDCn.1}
-    public var lunarDayCn:String {return lunarYMDCn.2}
+    public var lunarYearCn:String {return lunarYMDCn.lunarYearCn}
+    public var lunarMonthCn:String {return lunarYMDCn.lunarMonthCn}
+    public var lunarDayCn:String {return lunarYMDCn.lunarDayCn}
     public var lunarbirthday: String {
         return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.suffix(1) + "时"
     }
