@@ -107,7 +107,7 @@ func matchwuxing(fourPillars:[String])->[[String]]{
     var fiveElementsList: [[String]] = []
     for item in fourPillars {
         // 提取天干和地支
-        let heavenlyStem:String = String(item.prefix(1)) // 天干
+        let heavenlyStem:the10StemEnum = the10StemEnum(rawValue: String(item.prefix(1)))! // 天干
         let earthlyBranch: String = String(item.suffix(1)) // 地支
         
         // 获取对应的五行属性
@@ -181,52 +181,50 @@ func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
 /**
  以日干为基础，与年柱、月柱、时柱中的天干进行比较
  */
-func calculateTenGods(for pillar: String, dayPillars:String) -> String {
-    let heavenlyStem = String(pillar.prefix(1))
-    return tianGanRelationships[String(dayPillars.prefix(1))]?[heavenlyStem] ?? "未知"
+func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> String {
+    return tianGanRelationships[dayStem]?[pillarStem] ?? "未知"
 }
 
 //---------------------------------------------------十二宫计算器
+
 /**
  十二宫定位计算器
  */
 public struct twelvePalaceCalculator {
-    let monthBranch, hourBranch:String
+    let monthBranch, hourBranch: the12BranchEnum
     let fillorder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //12palace order
     /**
      * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
      *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
      */
-    func findLifePalaceBranch()->String{
-        let a:Int = fillorder.firstIndex(of: monthBranch) ?? 0 //lunar month index
-        let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
+    func findLifePalaceBranch()-> the12BranchEnum{
+        let a:Int = fillorder.firstIndex(of: monthBranch.rawValue)!
+        let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
         let lifePalaceBranch2 = fillorder[pythonModulo((a - b),12)]
-        return lifePalaceBranch2
+        return the12BranchEnum(rawValue: lifePalaceBranch2)!
     }
     
     /**
      * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
      *  refer: https://github.com/haibolian/natal-chart
      */
-    func findBodyPalaceBranch()->String{
-        let a:Int = fillorder.firstIndex(of: monthBranch) ?? 0 //lunar month index
-        let b:Int = the12EarthlyBranches.firstIndex(of: hourBranch) ?? 0 //hour index
+    func findBodyPalaceBranch()->the12BranchEnum{
+        let a:Int = fillorder.firstIndex(of: monthBranch.rawValue)!
+        let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
         let bodyPalaceBranch2 = fillorder[pythonModulo((a + b),12)]
-        return bodyPalaceBranch2
+        return the12BranchEnum(rawValue: bodyPalaceBranch2)!
     }
     
     /**
      命宫天干 by 五虎遁月歌
      */
-    func generatingStem(lifePalaceBranch: String, yearPillars:String) -> String? {
-        let yearStem = yearPillars.prefix(1)
-        guard let sequence = yearStemToSequence[String(yearStem)],
-              let index = diZhi2.firstIndex(of: lifePalaceBranch) else {
-            return "未知"
-        }
-        let lifePalaceStem = sequence[index]
+    func generatingStem(lifePalaceBranch: the12BranchEnum, yearStem:the10StemEnum) -> the10StemEnum {
+        let fillorder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
+        let sequence = yearStemToSequence[yearStem]!
+        let index = fillorder.firstIndex(of: lifePalaceBranch.rawValue)!
+        let lifePalaceStem = the10StemEnum( rawValue: sequence[index])!
         return lifePalaceStem
     }
     
@@ -234,38 +232,24 @@ public struct twelvePalaceCalculator {
      十二宫天干从命宫推出
      返回 dict 宫名: (天干，地支)
      */
-    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: String, branch: String), yearStem: String) -> [String: (stem: String, branch: String)] {
-        let branchesOrder = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
-        let stemsOrder:[String] = yearStemToSequence[yearStem] ?? [""] //stem mapped,ordered by branch
+    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: the10StemEnum, branch: the12BranchEnum), yearStem: the10StemEnum) -> [String: (stem: the10StemEnum, branch: the12BranchEnum)] {
+        let branchesOrder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
+        let stemsOrder:[String] = yearStemToSequence[yearStem]!
 
-        var palaces12 = [
-            "命宫": lifePalaceStemBranch,
-            "兄弟宫": ("", ""),
-            "夫妻宫": ("", ""),
-            "子女宫": ("", ""),
-            "财帛宫": ("", ""),
-            "疾厄宫": ("", ""),
-            "迁移宫": ("", ""),
-            "交友宫": ("", ""),
-            "官禄宫": ("", ""),
-            "田宅宫": ("", ""),
-            "福德宫": ("", ""),
-            "父母宫": ("", "")
-        ]
+        var palaces12:[String:(stem: the10StemEnum, branch: the12BranchEnum)] = [:]
 
         // Find the index of the life palace branch in the order
-        if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch) {
+        if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch.rawValue) {
             var currentBranchIndex:Int = lifeBranchIndex
             assert(palacesArray.count == 12, "palacesArray count not equal to 12")
             for key in palacesArray {
-                let branch = branchesOrder[currentBranchIndex]
-                let stem = stemsOrder[currentBranchIndex]
+                let branch:the12BranchEnum = the12BranchEnum(rawValue: branchesOrder[currentBranchIndex])!
+                let stem:the10StemEnum = the10StemEnum(rawValue: stemsOrder[currentBranchIndex])!
                 palaces12[key] = (stem, branch)
                 // (anticlockwise)
                 currentBranchIndex = (currentBranchIndex + 11) % 12
             }
         }
-
         return palaces12
     }
 }
@@ -280,7 +264,7 @@ public struct WuxingGame {
  五行局计算器
  */
 public struct ZiWeiWuxingGameCalculator {
-    let lifePalaceStemBranchArray: [String]
+    let lifePalaceStemBranchArray:(stem:the10StemEnum, branch:the12BranchEnum)
     
     let wuxingGameArray:[WuxingGame] = [
         WuxingGame(name: "金四局", num: 4),
@@ -295,9 +279,9 @@ public struct ZiWeiWuxingGameCalculator {
      */
     func calculateWuxingGame() -> WuxingGame? {
             // 获取天干索引
-            guard let tIndex = the10HeavenlyStems.firstIndex(of: lifePalaceStemBranchArray[0]) else { return nil }
+        guard let tIndex = the10StemEnum.allCases.firstIndex(of: lifePalaceStemBranchArray.stem) else { return nil }
             // 获取地支索引
-            guard let dIndex = the12EarthlyBranches.firstIndex(of: lifePalaceStemBranchArray[1]) else { return nil }
+        guard let dIndex = the12BranchEnum.allCases.firstIndex(of: lifePalaceStemBranchArray.branch) else { return nil }
             
             // 天干决定五行局的起点
             let t2Index = tIndex / 2

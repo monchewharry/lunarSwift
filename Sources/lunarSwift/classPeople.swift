@@ -51,7 +51,9 @@ public extension People{
      十神
      */
     var tenGods:[String] {
-        fourPillars.map { calculateTenGods(for: String($0.prefix(1)), dayPillars: ymd8Char.2) }
+        fourPillars.map { calculateTenGods(pillarStem: the10StemEnum(rawValue: String($0.prefix(1)))!,
+                                           dayStem: the10StemEnum(rawValue:    String(day8Char.prefix(1)))!)
+        }
     }
     
     /**
@@ -59,30 +61,36 @@ public extension People{
      * https://www.douban.com/note/833981956/?_i=4646542gC9k0WR,4655583gC9k0WR
      * https://www.iztro.com/learn/astrolabe.html
      */
-    var lifePalace: [String] {
-        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
-        let lifePalaceBranch:String = calculator.findLifePalaceBranch()
-        let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch, yearPillars: ymd8Char.0)
+    var lifePalace: (stem:the10StemEnum,branch:the12BranchEnum) {
+        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
+                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        let lifePalaceBranch:the12BranchEnum = calculator.findLifePalaceBranch()
+        let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch,
+                                                       yearStem: the10StemEnum(rawValue: String(year8Char.prefix(1)))!)
 
-        return [lifePalaceStem ?? "未知",lifePalaceBranch]
+        return (lifePalaceStem,lifePalaceBranch)
     }
     
     /**
      身宫天干地支
      */
-    var bodyPalace: [String] {
-        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
-        let BodyPalaceBranch:String = calculator.findBodyPalaceBranch()
-        let BodyPalaceStem = calculator.generatingStem(lifePalaceBranch:BodyPalaceBranch, yearPillars: ymd8Char.0)
+    var bodyPalace: (the10StemEnum,the12BranchEnum) {
+        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
+                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        let BodyPalaceBranch:the12BranchEnum = calculator.findBodyPalaceBranch()
+        let BodyPalaceStem = calculator.generatingStem(lifePalaceBranch:BodyPalaceBranch, 
+                                                       yearStem: the10StemEnum(rawValue: String(year8Char.prefix(1)))!)
 
-        return [BodyPalaceStem ?? "未知",BodyPalaceBranch]
+        return (BodyPalaceStem,BodyPalaceBranch)
     }
     /**
      全部十二宫字典
      */
-    var twelvePalaces: [String: (stem: String, branch: String)]{
-        let calculator = twelvePalaceCalculator(monthBranch: String(month8Char.suffix(1)), hourBranch: String(twohour8Char.suffix(1)))
-        return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (lifePalace[0],lifePalace[1]), yearStem: String(ymd8Char.0.prefix(1)))
+    var twelvePalaces: [String: (stem: the10StemEnum, branch: the12BranchEnum)]{
+        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
+                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: lifePalace,
+                                                              yearStem: the10StemEnum(rawValue: String(ymd8Char.0.prefix(1)))!)
     }
     /**
      五行局由命宫的天干地支的纳音而定

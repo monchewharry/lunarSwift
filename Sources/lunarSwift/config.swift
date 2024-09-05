@@ -27,6 +27,18 @@ let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首"
  10天干
  */
 public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
+public enum the10StemEnum: String,CaseIterable {
+    case jia  = "甲"
+    case yi   = "乙"
+    case bing = "丙"
+    case ding = "丁"
+    case wu   = "戊"
+    case ji   = "己"
+    case geng = "庚"
+    case xin  = "辛"
+    case ren  = "壬"
+    case gui  = "癸"
+}
 let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
 /**
  12地支
@@ -34,21 +46,27 @@ let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土",
 public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
 let the12EarthlyBranches5ElementsList = ["水", "土", "木", "木", "土", "火", "火", "土", "金", "金", "土", "水"]//di zhi wuxing
 let earthlyBranchesToFiveElements: [String: String] = Dictionary(uniqueKeysWithValues: zip(the12EarthlyBranches, the12EarthlyBranches5ElementsList))
-public let heavenlyStemsToFiveElements: [String: String] = Dictionary(uniqueKeysWithValues: zip(the10HeavenlyStems, the10HeavenlyStems5ElementsList))
+public let heavenlyStemsToFiveElements: [the10StemEnum: String] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
+
+public enum the12BranchEnum: String, CaseIterable {
+  case zi = "子"
+  case chou = "丑"
+  case yin = "寅"
+  case mao = "卯"
+  case chen = "辰"
+  case si = "巳"
+  case wu = "午"
+  case wei = "未"
+  case shen = "申"
+  case you = "酉"
+  case xu = "戌"
+  case hai = "亥"
+}
+
 /**
  60甲子排序
  */
 let the60HeavenlyEarth: [String] = ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
-//public let the60HeavenlyEarth: [String] = {
-//    var combinations = [String]()
-//    for i in 0..<60 {
-//        let stem = the10HeavenlyStems[i % 10]
-//        let branch = the12EarthlyBranches[i % 12]
-//        combinations.append("\(stem)\(branch)")
-//    }
-//    return combinations
-//}()
-
 /**
  在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
  */
@@ -240,16 +258,16 @@ let lunarNewYearList: [Int] = [
  * - 同类者为比劫(比肩、劫财)。
  * - 再按照天干的阴阳性选择
  */
-public func generateTenGods(for dayStem: String) -> [String: String] {
-    let yinYang: [String: String] = [
-            "甲": "阳", "乙": "阴",
-            "丙": "阳", "丁": "阴",
-            "戊": "阳", "己": "阴",
-            "庚": "阳", "辛": "阴",
-            "壬": "阳", "癸": "阴"
+public func generateTenGods(for dayStem: the10StemEnum) -> [the10StemEnum: String] {
+    let yinYang: [the10StemEnum: String] = [
+        .jia: "阳", .yi: "阴",
+        .bing: "阳", .ding: "阴",
+        .wu: "阳", .ji: "阴",
+        .geng: "阳", .xin: "阴",
+        .ren: "阳", .gui: "阴"
         ]
     let dayelement = heavenlyStemsToFiveElements[dayStem]! //日主为命主：日干
-    var relationships = [String: String]()
+    var relationships = [the10StemEnum: String]()
 
     for (stem, stemElement) in heavenlyStemsToFiveElements {//结合五行生克关系以及阴阳属性
         if dayelement == stemElement {
@@ -287,24 +305,24 @@ public func generateTenGods(for dayStem: String) -> [String: String] {
 /**
  天干十神关系表，详见generateTenGods()
  */
-public let tianGanRelationships: [String: [String: String]] = [
-    "甲": generateTenGods(for: "甲"),
-    "乙": generateTenGods(for: "乙"),
-    "丙": generateTenGods(for: "丙"),
-    "丁": generateTenGods(for: "丁"),
-    "戊": generateTenGods(for: "戊"),
-    "己": generateTenGods(for: "己"),
-    "庚": generateTenGods(for: "庚"),
-    "辛": generateTenGods(for: "辛"),
-    "壬": generateTenGods(for: "壬"),
-    "癸": generateTenGods(for: "癸")
-]//Dictionary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
+public let tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = [
+    .jia : generateTenGods(for: .jia ),
+    .yi  : generateTenGods(for: .yi  ),
+    .bing: generateTenGods(for: .bing),
+    .ding: generateTenGods(for: .ding),
+    .wu  : generateTenGods(for: .wu  ),
+    .ji  : generateTenGods(for: .ji  ),
+    .geng: generateTenGods(for: .geng),
+    .xin : generateTenGods(for: .xin ),
+    .ren : generateTenGods(for: .ren ),
+    .gui : generateTenGods(for: .gui )
+]//Donary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
 
 //-----------十二宫
 /**
  命宫地支参考顺序：命盘顺序 寅...丑
  */
-public let diZhi2:[String] = [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
+
 /**
  十二宫排序array
  */
@@ -343,19 +361,18 @@ let rotatedLeft4 = rotateArrayToLeft(array, by: 4*2)
 /**
  The match between year's stem to 12 palaces' stem ordered by 12 palaces' branch' order (diZhi2)
  */
-let yearStemToSequence: [String: [String]] = [
+let yearStemToSequence: [the10StemEnum : [String]] = [
     //columns are [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
-    "甲": rotatedLeft0,
-    "乙": rotatedLeft1,
-    "丙": rotatedLeft2,
-    "丁": rotatedLeft3,
-    "戊": rotatedLeft4,
-    
-    "己": rotatedLeft0,
-    "庚": rotatedLeft1,
-    "辛": rotatedLeft2,
-    "壬": rotatedLeft3,
-    "癸": rotatedLeft4,
+    .jia : rotatedLeft0,
+    .yi  : rotatedLeft1,
+    .bing: rotatedLeft2,
+    .ding: rotatedLeft3,
+    .wu  : rotatedLeft4,
+    .ji  : rotatedLeft0,
+    .geng: rotatedLeft1,
+    .xin : rotatedLeft2,
+    .ren : rotatedLeft3,
+    .gui : rotatedLeft4,
 ]
 
 //---------------------------------星耀安放
@@ -429,129 +446,6 @@ let sihuaMap: [the10StemEnum: [String: String]] = [
 
 // ----------------------- 次星规则
 
-// Define the Tiangan (Heavenly Stems) structure
-struct Tiangan {
-    let name: String
-    let pinyin: String
-}
-
-// Tiangan array
-let tiangan: [Tiangan] = [
-    Tiangan(name: "甲", pinyin: "jia"),
-    Tiangan(name: "乙", pinyin: "yi"),
-    Tiangan(name: "丙", pinyin: "bing"),
-    Tiangan(name: "丁", pinyin: "ding"),
-    Tiangan(name: "戊", pinyin: "wu"),
-    Tiangan(name: "己", pinyin: "ji"),
-    Tiangan(name: "庚", pinyin: "geng"),
-    Tiangan(name: "辛", pinyin: "xin"),
-    Tiangan(name: "壬", pinyin: "ren"),
-    Tiangan(name: "癸", pinyin: "gui")
-]
-
-public enum the10StemEnum: String,CaseIterable {
-    case jia  = "甲"
-    case yi   = "乙"
-    case bing = "丙"
-    case ding = "丁"
-    case wu   = "戊"
-    case ji   = "己"
-    case geng = "庚"
-    case xin  = "辛"
-    case ren  = "壬"
-    case gui  = "癸"
-}
-
-// Function to get the code of a given Tiangan name
-func getTianganPinyin(_ name: String) -> String? {
-    if let t = tiangan.first(where: { $0.name == name }){
-        return t.pinyin
-    } else {
-        print("cannot find pinyin for the input name \(name)")
-        return nil
-    }
-}
-func getTianganCnchar(_ pinyin: String) -> String? {
-    if let t = tiangan.first(where: { $0.pinyin == pinyin }) {
-        return t.name
-    } else {
-        print("cannot find name for the input pinyin \(pinyin)")
-        return nil
-    }
-}
-
-// Dizhi (Earthly Branches) array
-let dizhi: [String] = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
-
-// DizhiChart structure
-struct DizhiChart {
-    let dizhi: String
-    let pinyin: String
-}
-
-// DizhiChart array
-let dizhiChart: [DizhiChart] = [
-    DizhiChart(dizhi: "寅", pinyin: "yin"),
-    DizhiChart(dizhi: "卯", pinyin: "mao"),
-    DizhiChart(dizhi: "辰", pinyin: "chen"),
-    DizhiChart(dizhi: "巳", pinyin: "si"),
-    DizhiChart(dizhi: "午", pinyin: "wu"),
-    DizhiChart(dizhi: "未", pinyin: "wei"),
-    DizhiChart(dizhi: "申", pinyin: "shen"),
-    DizhiChart(dizhi: "酉", pinyin: "you"),
-    DizhiChart(dizhi: "戌", pinyin: "xu"),
-    DizhiChart(dizhi: "亥", pinyin: "hai"),
-    DizhiChart(dizhi: "子", pinyin: "zi"),
-    DizhiChart(dizhi: "丑", pinyin: "chou")
-]
-
-public enum the12BranchPalaceOrderEnum: String,CaseIterable {
-  case yin = "寅"
-  case mao = "卯"
-  case chen = "辰"
-  case si = "巳"
-  case wu = "午"
-  case wei = "未"
-  case shen = "申"
-  case you = "酉"
-  case xu = "戌"
-  case hai = "亥"
-  case zi = "子"
-  case chou = "丑"
-}
-
-public enum the12BranchEnum: String, CaseIterable {
-  case zi = "子"
-  case chou = "丑"
-  case yin = "寅"
-  case mao = "卯"
-  case chen = "辰"
-  case si = "巳"
-  case wu = "午"
-  case wei = "未"
-  case shen = "申"
-  case you = "酉"
-  case xu = "戌"
-  case hai = "亥"
-}
-
-// Function to get the code of a given Dizhi name
-func getDizhiPinyin(_ name: String) -> String? {
-    if let d = dizhiChart.first(where: { $0.dizhi == name }) {
-        return d.pinyin
-    } else{
-        print("cannot find the pinyin by the input name \(name)")
-        return nil
-    }
-}
-func getDizhiCnChar(_ pinyin: String) -> String? {
-    if let d = dizhiChart.first(where: { $0.pinyin == pinyin }) {
-        return d.dizhi
-    } else {
-        print("cannot find the dizhi by the input pinyin \(pinyin)")
-        return nil
-    }
-}
 /**
  禄存
  */
