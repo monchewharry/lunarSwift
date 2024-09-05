@@ -74,7 +74,7 @@ public extension People{
     /**
      身宫天干地支
      */
-    var bodyPalace: (the10StemEnum,the12BranchEnum) {
+    var bodyPalace: (stem:the10StemEnum,branch:the12BranchEnum) {
         let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
                                                 hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
         let BodyPalaceBranch:the12BranchEnum = calculator.findBodyPalaceBranch()

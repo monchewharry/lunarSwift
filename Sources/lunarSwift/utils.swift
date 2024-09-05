@@ -4,7 +4,7 @@ import Foundation
 /**
  Revise Swift’s modulo operation to Python behavior a % n
  */
-func pythonModulo(_ a: Int, _ n: Int) -> Int {
+public func pythonModulo(_ a: Int, _ n: Int) -> Int {
     let result = a % n
     return result >= 0 ? result : result + n
 }
