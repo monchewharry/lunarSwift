@@ -19,7 +19,6 @@ public enum the5wuxing: String,CaseIterable,Equatable {
 /**
  10天干
  */
-//public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 public enum the10StemEnum: String,CaseIterable,Equatable {
     case jia  = "甲"
     case yi   = "乙"
@@ -32,13 +31,11 @@ public enum the10StemEnum: String,CaseIterable,Equatable {
     case ren  = "壬"
     case gui  = "癸"
 }
-//let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
 let the10HeavenlyStems5ElementsList:[the5wuxing] = [.mu, .mu, .huo, .huo, .tu, .tu, .jin, .jin, .shui, .shui]//tian gan wuxing
 public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
 /**
  12地支
  */
-//public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
 let the12EarthlyBranches5ElementsList:[the5wuxing] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
 let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 public enum the12BranchEnum: String, CaseIterable,Equatable {
@@ -402,70 +399,118 @@ let yearStemToSequence: [the10StemEnum : [String]] = [
 
 //---------------------------------星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
+public enum StarsEnum: String, CaseIterable{
+    //tianfu main stars
+    case tianfu    = "天府"
+    case taiyin    = "太阴"
+    case tanlang   = "贪狼"
+    case jumen     = "巨门"
+    case tianxiang = "天相"
+    case tianliang = "天梁"
+    case qisha     = "七杀"
+    case pojun     = "破军"
+    //ziwei main stars
+    case ziwei     = "紫微"
+    case tianji    = "天机"
+    case taiyang   = "太阳"
+    case wuqu      = "武曲"
+    case tiantong  = "天同"
+    case lianzhen  = "廉贞"
+    //other smallstars with sihua
+    case wenchang  = "文昌"
+    case youbi     = "右弼"
+    case wenqu     = "文曲"
+    case zuofu     = "左辅"
+    // no sihua smallstars
+    case lucun    = "禄存"
+    case tianma    = "天马"
+    case huoxing    = "火星"
+    case dikong    = "地空"
+    case dijie    = "地劫"
+    case lingxing    = "铃星"
+    case hongluan    = "红鸾"
+    case tianxi    = "天喜"
+    case tiantao    = "天姚"
+    case xianchi    = "咸池"
+    case tianxing    = "天刑"
+    case tiankui     = "天魁"
+    case tianyue     = "天钺"
+    case tuoluo      = "陀罗"
+    case qingyang    = "擎羊"
+
+}
+public enum sihuaEnum: String, CaseIterable{
+    case lu      = "禄"
+    case quan    = "权"
+    case ke      = "科"
+    case ji      = "忌"
+}
+
+
 /**
  * 四种重要的星曜变化(四化)：禄、权、科、忌
  * 四化的确定依赖于个人的出生信息（尤其是年柱中的天干），并根据固定的对照表来分配
  */
-let sihuaMap: [the10StemEnum: [String: String]] = [
+public let sihuaMap: [the10StemEnum: [StarsEnum: sihuaEnum]] = [
     .jia: [
-        "lianzhen": "禄",
-        "pojun": "权",
-        "wuqu": "科",
-        "taiyang": "忌"
+        .lianzhen: .lu,
+        .pojun: .quan,
+        .wuqu: .ke,
+        .taiyang: .ji
     ],
     .yi: [
-        "tianji": "禄",
-        "tianliang": "权",
-        "ziwei": "科",
-        "taiyin": "忌"
+        .tianji: .lu,
+        .tianliang: .quan,
+        .ziwei: .ke,
+        .taiyin: .ji
     ],
     .bing: [
-        "tiantong": "禄",
-        "tianji": "权",
-        "wenchang": "科",
-        "lianzhen": "忌"
+        .tiantong: .lu,
+        .tianji: .quan,
+        .wenchang: .ke,
+        .lianzhen: .ji
     ],
     .ding: [
-        "taiyin": "禄",
-        "tiantong": "权",
-        "tianji": "科",
-        "jumen": "忌"
+        .taiyin: .lu,
+        .tiantong: .quan,
+        .tianji: .ke,
+        .jumen: .ji
     ],
     .wu: [
-        "tanlang": "禄",
-        "taiyin": "权",
-        "youbi": "科",
-        "tianji": "忌"
+        .tanlang: .lu,
+        .taiyin: .quan,
+        .youbi: .ke,
+        .tianji: .ji
     ],
     .ji: [
-        "wuqu": "禄",
-        "tanlang": "权",
-        "tianliang": "科",
-        "wenqu": "忌"
+        .wuqu: .lu,
+        .tanlang: .quan,
+        .tianliang: .ke,
+        .wenqu: .ji
     ],
     .geng: [
-        "taiyang": "禄",
-        "wuqu": "权",
-        "taiyin": "科",
-        "tiantong": "忌"
+        .taiyang: .lu,
+        .wuqu: .quan,
+        .taiyin: .ke,
+        .tiantong: .ji
     ],
     .xin: [
-        "jumen": "禄",
-        "taiyang": "权",
-        "wenqu": "科",
-        "wenchang": "忌"
+        .jumen: .lu,
+        .taiyang: .quan,
+        .wenqu: .ke,
+        .wenchang: .ji
     ],
     .ren: [
-        "tianliang": "禄",
-        "ziwei": "权",
-        "zuofu": "科",
-        "wuqu": "忌"
+        .tianliang: .lu,
+        .ziwei: .quan,
+        .zuofu: .ke,
+        .wuqu: .ji
     ],
     .gui: [
-        "pojun": "禄",
-        "jumen": "权",
-        "taiyin": "科",
-        "tanlang": "忌"
+        .pojun: .lu,
+        .jumen: .quan,
+        .taiyin: .ke,
+        .tanlang: .ji
     ]
 ]
 

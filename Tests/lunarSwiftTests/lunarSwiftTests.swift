@@ -10,10 +10,10 @@ class testpeople {
     var twelvePalaces: [String]
     var bodyPalace: String
     var wuxinggame: String
-    var ziweiAllStardict:[String:String] // starname:starbranch
+    var ziweiAllStardict:[String:the12BranchEnum] // starname:starbranch
 
     init(date: Date, lunarbirthdate: String, fourPillars: [String], lifePalace: [String], tenGods: [String]
-         ,twelvePalaces:[String],bodyPalace:String,wuxinggame:String, ziweiAllStardict:[String:String]) {
+         ,twelvePalaces:[String],bodyPalace:String,wuxinggame:String, ziweiAllStardict:[String:the12BranchEnum]) {
         self.date = date
         self.lunarbirthdate = lunarbirthdate
         self.fourPillars = fourPillars
@@ -35,7 +35,7 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
                          twelvePalaces: ["辛酉","庚申","己未","戊午","丁巳","丙辰","乙卯","甲寅","乙丑","甲子","癸亥","壬戌"],
                          bodyPalace: "乙丑",
                          wuxinggame: "木三局",
-                         ziweiAllStardict: ["紫微":"辰","天机":"卯","天府":"子","太阴":"丑"]
+                         ziweiAllStardict: ["紫微":the12BranchEnum.chen,"天机":the12BranchEnum.mao,"天府":the12BranchEnum.zi,"太阴":the12BranchEnum.chou]
 )
 
 final class lunarSwiftTests: XCTestCase {
@@ -74,10 +74,10 @@ final class lunarSwiftTests: XCTestCase {
     测试紫薇天府
     */
     func testStarBranch(){
-        if let ziwei = person.ziweiAllStarArrays.first(where: {$0?.name == "紫微"})??.palaceBranch,
-           let tianji = person.ziweiAllStarArrays.first(where: {$0?.name == "天机"})??.palaceBranch, 
-           let taiyin = person.ziweiAllStarArrays.first(where: {$0?.name == "太阴"})??.palaceBranch, 
-           let tianfu = person.tianfuAllStarArrays.first(where: {$0?.name == "天府"})??.palaceBranch{
+        if let ziwei = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.ziwei })??.palaceBranch,
+           let tianji = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.tianji})??.palaceBranch,
+           let taiyin = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.taiyin})??.palaceBranch,
+           let tianfu = person.tianfuAllStarArrays.first(where: {$0?.pinyin == StarsEnum.tianfu})??.palaceBranch{
                let testdict = ["紫微":ziwei,"天机":tianji,"天府":tianfu,"太阴":taiyin]
                XCTAssertEqual(testdict,p1bench.ziweiAllStardict,"")
            } else {
