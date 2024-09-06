@@ -227,7 +227,7 @@ public struct twelvePalaceCalculator {
         let fillorder:[the12BranchEnum] = palaceFillorder//["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
         let sequence = yearStemToSequence[yearStem]!
         let index = fillorder.firstIndex(of: lifePalaceBranch)!
-        let lifePalaceStem = the10StemEnum( rawValue: sequence[index])!
+        let lifePalaceStem = sequence[index]
         return lifePalaceStem
     }
     
@@ -236,18 +236,16 @@ public struct twelvePalaceCalculator {
      返回 dict 宫名: (天干，地支)
      */
     func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [String: StemBranch] {
-        let branchesOrder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
-        let stemsOrder:[String] = yearStemToSequence[yearStem]!
-
+        let stemsOrder:[the10StemEnum] = yearStemToSequence[yearStem]!
         var palaces12:[String:StemBranch] = [:]
 
         // Find the index of the life palace branch in the order
-        if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch.rawValue) {
+        if let lifeBranchIndex = palaceFillorder.firstIndex(of: lifePalaceStemBranch.branch) {
             var currentBranchIndex:Int = lifeBranchIndex
             assert(palacesArray.count == 12, "palacesArray count not equal to 12")
             for key in palacesArray {
-                let branch:the12BranchEnum = the12BranchEnum(rawValue: branchesOrder[currentBranchIndex])!
-                let stem:the10StemEnum = the10StemEnum(rawValue: stemsOrder[currentBranchIndex])!
+                let branch:the12BranchEnum = palaceFillorder[currentBranchIndex]
+                let stem:the10StemEnum = stemsOrder[currentBranchIndex]
                 palaces12[key] = StemBranch(stem: stem, branch: branch)
                 // (anticlockwise)
                 currentBranchIndex = (currentBranchIndex + 11) % 12

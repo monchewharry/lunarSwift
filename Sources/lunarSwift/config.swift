@@ -367,13 +367,13 @@ public let palacesArray = [
  * 生成五虎遁月歌 年干与十二宫天干对应数据表:
  * https://www.douban.com/note/833981956/?_i=5298526gC9k0WR
  */
-func rotateArrayToLeft(_ array: [String] = ["戊", "己", "庚", "辛", "壬", "癸", "甲", "乙", "丙", "丁"], by steps: Int) -> [String] {
+func rotateArrayToLeft(_ array: [the10StemEnum], by steps: Int) -> [the10StemEnum] {
     let count = array.count
     let effectiveSteps = steps % count  // Ensure the steps don't exceed the array length
     let rotatedleftarray=Array(array[effectiveSteps...] + array[0..<effectiveSteps])//rotate by steps
     return rotatedleftarray.suffix(2) + rotatedleftarray
 }
-var array = ["戊", "己", "庚", "辛", "壬", "癸", "甲", "乙", "丙", "丁"]
+var array:[the10StemEnum] = [.wu, .ji, .geng, .xin, .ren, .gui, .jia, .yi, .bing, .ding]
 let rotatedLeft0 = rotateArrayToLeft(array, by: 0*2)
 let rotatedLeft1 = rotateArrayToLeft(array, by: 1*2)
 let rotatedLeft2 = rotateArrayToLeft(array, by: 2*2)
@@ -383,7 +383,7 @@ let rotatedLeft4 = rotateArrayToLeft(array, by: 4*2)
 /**
  The match between year's stem to 12 palaces' stem ordered by 12 palaces' branch' order (diZhi2)
  */
-let yearStemToSequence: [the10StemEnum : [String]] = [
+let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
     //columns are [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     .jia : rotatedLeft0,
     .yi  : rotatedLeft1,
