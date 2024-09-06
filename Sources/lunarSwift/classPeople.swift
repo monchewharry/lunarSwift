@@ -65,14 +65,14 @@ public extension People{
      * https://www.douban.com/note/833981956/?_i=4646542gC9k0WR,4655583gC9k0WR
      * https://www.iztro.com/learn/astrolabe.html
      */
-    var lifePalace: (stem:the10StemEnum,branch:the12BranchEnum) {
+    var lifePalace: StemBranch {
         let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
                                                 hourBranch: twohour8Char.branch)
         let lifePalaceBranch:the12BranchEnum = calculator.findLifePalaceBranch()
         let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch,
                                                        yearStem: year8Char.stem)
 
-        return (lifePalaceStem,lifePalaceBranch)
+        return StemBranch(stem: lifePalaceStem, branch:lifePalaceBranch)
     }
     
     /**

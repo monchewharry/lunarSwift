@@ -235,7 +235,7 @@ public struct twelvePalaceCalculator {
      十二宫天干从命宫推出
      返回 dict 宫名: (天干，地支)
      */
-    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: (stem: the10StemEnum, branch: the12BranchEnum), yearStem: the10StemEnum) -> [String: (stem: the10StemEnum, branch: the12BranchEnum)] {
+    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [String: (stem: the10StemEnum, branch: the12BranchEnum)] {
         let branchesOrder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
         let stemsOrder:[String] = yearStemToSequence[yearStem]!
 
@@ -267,7 +267,7 @@ public struct WuxingGame {
  五行局计算器
  */
 public struct ZiWeiWuxingGameCalculator {
-    let lifePalaceStemBranchArray:(stem:the10StemEnum, branch:the12BranchEnum)
+    let lifePalaceStemBranchArray: StemBranch
     
     let wuxingGameArray:[WuxingGame] = [
         WuxingGame(name: "金四局", num: 4),

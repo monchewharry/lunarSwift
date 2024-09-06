@@ -12,7 +12,7 @@ let leapMonthNumBit = 13
 /**
  10天干
  */
-public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
+//public let the10HeavenlyStems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 public enum the10StemEnum: String,CaseIterable,Equatable {
     case jia  = "甲"
     case yi   = "乙"
@@ -30,7 +30,7 @@ public let heavenlyStemsToFiveElements: [the10StemEnum: String] = Dictionary(uni
 /**
  12地支
  */
-public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
+//public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
 let the12EarthlyBranches5ElementsList = ["水", "土", "木", "木", "土", "火", "火", "土", "金", "金", "土", "水"]//di zhi wuxing
 let earthlyBranchesToFiveElements: [the12BranchEnum : String] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 public enum the12BranchEnum: String, CaseIterable,Equatable {
@@ -63,7 +63,10 @@ public struct StemBranch: Equatable { // tuple of (the10StemEnum, the12BranchEnu
     }
 }
 // Initialize the array of 60 combinations
-let the60StemBranchEnumArray: [StemBranch] = {
+/**
+ ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
+ */
+public let the60StemBranchEnumArray: [StemBranch] = {
     var combinations = [StemBranch]()
     let num:Int = (12/(12-10) - 1) * 12 //60
     for i in 0..<num {
@@ -74,17 +77,6 @@ let the60StemBranchEnumArray: [StemBranch] = {
     return combinations
 }()
 
-/**
- ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
- */
-//let the60HeavenlyEarth: [String] = {
-//    var combinations = [String]()
-//    for i in 0..<the60StemBranchEnumArray.count {
-//        let pair = the60StemBranchEnumArray[i].stem.rawValue+the60StemBranchEnumArray[i].branch.rawValue
-//        combinations.append(pair)
-//    }
-//    return combinations
-//}()
 
 /**
  24节气排序 小寒...冬至
