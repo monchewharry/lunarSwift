@@ -8,17 +8,19 @@ class testpeople {
     var lifePalace: [String]
     var tenGods: [String]
     var twelvePalaces: [String]
+    var bodyPalace: String
     var wuxinggame: String
     var ziweiAllStardict:[String:String] // starname:starbranch
 
     init(date: Date, lunarbirthdate: String, fourPillars: [String], lifePalace: [String], tenGods: [String]
-    ,twelvePalaces:[String],wuxinggame:String, ziweiAllStardict:[String:String]) {
+         ,twelvePalaces:[String],bodyPalace:String,wuxinggame:String, ziweiAllStardict:[String:String]) {
         self.date = date
         self.lunarbirthdate = lunarbirthdate
         self.fourPillars = fourPillars
         self.lifePalace = lifePalace
         self.tenGods = tenGods
         self.twelvePalaces = twelvePalaces
+        self.bodyPalace = bodyPalace
         self.wuxinggame = wuxinggame
         self.ziweiAllStardict = ziweiAllStardict 
     }
@@ -31,12 +33,17 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
                          lifePalace: ["丙","辰"],
                          tenGods: ["七杀","七杀","比肩","正官"],
                          twelvePalaces: ["辛酉","庚申","己未","戊午","丁巳","丙辰","乙卯","甲寅","乙丑","甲子","癸亥","壬戌"],
+                         bodyPalace: "乙丑",
                          wuxinggame: "木三局",
                          ziweiAllStardict: ["紫微":"辰","天机":"卯","天府":"子","太阴":"丑"]
 )
 
 final class lunarSwiftTests: XCTestCase {
     let person = People(date: p1bench.date, gender: "男")
+    func testconfigs(){
+        XCTAssertEqual(the10StemEnum.allCases.count, 10)
+        XCTAssertEqual(the12BranchEnum.allCases.count, 12)
+        }
     // 测试农历日期换算
     func testLunarDateFormat(){
         XCTAssertEqual(person.lunarbirthday, p1bench.lunarbirthdate, "Lunar Birthdate should be following the specific format")
@@ -56,6 +63,7 @@ final class lunarSwiftTests: XCTestCase {
             person12palaces.append( String(person.twelvePalaces[key]!.stem.rawValue + person.twelvePalaces[key]!.branch.rawValue) )
         }
         XCTAssertEqual(person12palaces, p1bench.twelvePalaces, "Ten Gods should be correctly calculated based on the lunarbirthdate.")
+        XCTAssertEqual(person.bodyPalace.stem.rawValue+person.bodyPalace.branch.rawValue, p1bench.bodyPalace, "body palace should be correctly calculated based on the lunarbirthdate.")
     }
     // 测试五行局
     func testWuXingGameCalculation(){

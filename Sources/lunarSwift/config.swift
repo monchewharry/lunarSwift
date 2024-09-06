@@ -12,16 +12,6 @@ let leapMonthNumBit = 13
  24节气排序 小寒...冬至
  */
 let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
-
-//let stc = "小寒大寒立春雨水惊蛰春分清明谷雨立夏小满芒种夏至小暑大暑立秋处暑白露秋分寒露霜降立冬小雪大雪冬至" //24节气顺序
-//public let solarTermsNameList:[String] = stride(from: 0, to: stc.count, by: 2).map { index -> String in
-//    let startIndex = stc.index(stc.startIndex, offsetBy: index)
-//    let endIndex = stc.index(startIndex, offsetBy: 2)
-//    return String(stc[startIndex..<endIndex])
-//}
-
-
-//天干地支五行
 let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
 /**
  10天干
@@ -40,33 +30,59 @@ public enum the10StemEnum: String,CaseIterable {
     case gui  = "癸"
 }
 let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
+public let heavenlyStemsToFiveElements: [the10StemEnum: String] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
 /**
  12地支
  */
 public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
 let the12EarthlyBranches5ElementsList = ["水", "土", "木", "木", "土", "火", "火", "土", "金", "金", "土", "水"]//di zhi wuxing
-let earthlyBranchesToFiveElements: [String: String] = Dictionary(uniqueKeysWithValues: zip(the12EarthlyBranches, the12EarthlyBranches5ElementsList))
-public let heavenlyStemsToFiveElements: [the10StemEnum: String] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
-
+let earthlyBranchesToFiveElements: [the12BranchEnum : String] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 public enum the12BranchEnum: String, CaseIterable {
-  case zi = "子"
+  case zi   = "子"
   case chou = "丑"
-  case yin = "寅"
-  case mao = "卯"
+  case yin  = "寅"
+  case mao  = "卯"
   case chen = "辰"
-  case si = "巳"
-  case wu = "午"
-  case wei = "未"
+  case si   = "巳"
+  case wu   = "午"
+  case wei  = "未"
   case shen = "申"
-  case you = "酉"
-  case xu = "戌"
-  case hai = "亥"
+  case you  = "酉"
+  case xu   = "戌"
+  case hai  = "亥"
 }
+/**
+reorder the 12 branches into palace order
+*/
+public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
 
 /**
  60甲子排序
  */
-let the60HeavenlyEarth: [String] = ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
+let the60StemBranchEnumArray: [(stem:the10StemEnum,branch:the12BranchEnum)] = {
+    var combinations = [(the10StemEnum,the12BranchEnum)]()
+    let num:Int = (12/(12-10) - 1) * 12 //60
+    for i in 0..<num {
+        let stem = the10StemEnum.allCases[i%10]
+        let branch = the12BranchEnum.allCases[i%12]
+        combinations.append((stem,branch))
+    }
+    return combinations
+}()
+
+/**
+ ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
+ */
+let the60HeavenlyEarth: [String] = {
+    var combinations = [String]()
+    for i in 0..<the60StemBranchEnumArray.count {
+        let pair = the60StemBranchEnumArray[i].stem.rawValue+the60StemBranchEnumArray[i].branch.rawValue
+        combinations.append(pair)
+    }
+    return combinations
+}()
+
+
 /**
  在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
  */

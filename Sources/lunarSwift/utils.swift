@@ -104,14 +104,16 @@ func getTheYearAllSolarTermsList(year: Int) -> [Int] {
  match Wuxing to four pillars
  */
 func matchwuxing(fourPillars:[String])->[[String]]{
+    assert(the10StemEnum.allCases.count == 10, "the count enum the10StemEnum is not 10")
     var fiveElementsList: [[String]] = []
     for item in fourPillars {
         // 提取天干和地支
         let heavenlyStem:the10StemEnum = the10StemEnum(rawValue: String(item.prefix(1)))! // 天干
-        let earthlyBranch: String = String(item.suffix(1)) // 地支
+        let earthlyBranch:the12BranchEnum = the12BranchEnum(rawValue: String(item.suffix(1)))! // 地支
         
         // 获取对应的五行属性
-        if let stemElement = heavenlyStemsToFiveElements[heavenlyStem], let branchElement = earthlyBranchesToFiveElements[earthlyBranch] {
+        if let stemElement = heavenlyStemsToFiveElements[heavenlyStem], 
+           let branchElement = earthlyBranchesToFiveElements[earthlyBranch] {
             fiveElementsList.append([stemElement, branchElement])
         }
     }
@@ -192,17 +194,18 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
  */
 public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
-    let fillorder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //12palace order
+    let fillorder = palaceFillorder
+
     /**
      * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
      *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
      */
     func findLifePalaceBranch()-> the12BranchEnum{
-        let a:Int = fillorder.firstIndex(of: monthBranch.rawValue)!
+        let a:Int = fillorder.firstIndex(of: monthBranch)!
         let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
-        let lifePalaceBranch2 = fillorder[pythonModulo((a - b),12)]
-        return the12BranchEnum(rawValue: lifePalaceBranch2)!
+        let lifePalaceBranch2:the12BranchEnum = fillorder[pythonModulo((a - b),12)]
+        return lifePalaceBranch2
     }
     
     /**
@@ -210,11 +213,11 @@ public struct twelvePalaceCalculator {
      *  refer: https://github.com/haibolian/natal-chart
      */
     func findBodyPalaceBranch()->the12BranchEnum{
-        let a:Int = fillorder.firstIndex(of: monthBranch.rawValue)!
+        let a:Int = fillorder.firstIndex(of: monthBranch)!
         let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
         let bodyPalaceBranch2 = fillorder[pythonModulo((a + b),12)]
-        return the12BranchEnum(rawValue: bodyPalaceBranch2)!
+        return bodyPalaceBranch2
     }
     
     /**
@@ -564,11 +567,14 @@ public extension ZiweiStarCalculator {
         // 获取从那个地支开始的数组
         let shichenIndex:Int = the12BranchEnum.allCases.firstIndex(of: shichenBranch)!
         
-        let newArr:[String] = Array(the12EarthlyBranches[shichenIndex...]) + Array(the12EarthlyBranches[..<shichenIndex]) // CnChar
-        
+//        let newArr:[String] = Array(the12EarthlyBranches[shichenIndex...]) + Array(the12EarthlyBranches[..<shichenIndex]) // CnChar
+        let newArr:[the12BranchEnum] = Array(the12BranchEnum.allCases[shichenIndex...] + the12BranchEnum.allCases[..<shichenIndex])
+
         // 到达目标地支的索引
-        guard let scIndex:Int = newArr.firstIndex(of: endDizhi!.rawValue) else {
-            return nil  // Handle the case where endDizhi is not found
+        guard let _ = endDizhi,
+              let scIndex:Int = newArr.firstIndex(of: endDizhi!) else {
+            print("cannot find endDizhi = nil")
+            return nil
         }
         // 根据起始宫的位置顺逆到达目标宫
         let endPalaceIndex = direction
@@ -624,6 +630,3 @@ public extension ZiweiStarCalculator {
     }
     
 }
-
-
-
