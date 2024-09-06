@@ -12,15 +12,13 @@ open class Lunar:ObservableObject { //open class for user to modify
     public var isLunarLeapMonth: Bool=false
     
     public var godType: String
-    public var year8Char: String
+    public var yearPillarType: String
     public var date: Date
-    public var gender: String
 
-    public init(date: Date, godType: String = "8char", year8Char: String = "year", gender:String = "") {
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "year" ) {
         self.godType = godType
-        self.year8Char = year8Char
+        self.yearPillarType = yearPillarType
         self.date = date
-        self.gender = gender
     }
     
     //calculate lunar YMD's int
@@ -40,7 +38,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     public var lunarMonthCn:String {return lunarYMDCn.lunarMonthCn}
     public var lunarDayCn:String {return lunarYMDCn.lunarDayCn}
     public var lunarbirthday: String {
-        return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.suffix(1) + "时"
+        return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.branch.rawValue + "时"
     }
     
     //find jieqi
@@ -62,15 +60,14 @@ open class Lunar:ObservableObject { //open class for user to modify
 
     //calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
-    public var md8Char: (String,String) { // also update year8Char
+    public var ymd8Char: (year:StemBranch,
+                          month:StemBranch,
+                          day:StemBranch) { // also update year8Char
         getThe8Char()
     }
-    public var month8Char:String {return md8Char.0}
-    public var day8Char:String {return md8Char.1}
-    public var ymd8Char:(String,String,String) {
-        let _ = md8Char
-        return (year8Char,month8Char,day8Char)
-    }
+    public var year8Char:StemBranch {return ymd8Char.year}
+    public var month8Char:StemBranch {return ymd8Char.month}
+    public var day8Char:StemBranch {return ymd8Char.day}
     
     // calculate lunr YMD's BAZI dizhi's index
     public var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
@@ -88,15 +85,15 @@ open class Lunar:ObservableObject { //open class for user to modify
     public var dayHeavenNum:Int {return ymdHeavenNum.2}
     
     //时柱
-    public var twohour8CharList: [String] {getTwohour8CharList()}
-    public var twohour8Char: String {getTwohour8Char()}
+    public var twohour8CharList: [StemBranch] {getTwohour8CharList()}
+    public var twohour8Char: StemBranch {getTwohour8Char()}
     //纳音
     public var nayin: [String] {
         let nayin4list: [String] = [
-            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: year8Char) ?? 0)/2],
-            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: month8Char) ?? 0)/2],
-            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: day8Char) ?? 0)/2],
-            halfStemBranchNayinList[(the60HeavenlyEarth.firstIndex(of: twohour8Char) ?? 0)/2]
+            halfStemBranchNayinList[(the60StemBranchEnumArray.firstIndex(of: year8Char)!)/2],
+            halfStemBranchNayinList[(the60StemBranchEnumArray.firstIndex(of: month8Char)!)/2],
+            halfStemBranchNayinList[(the60StemBranchEnumArray.firstIndex(of: day8Char)!)/2],
+            halfStemBranchNayinList[(the60StemBranchEnumArray.firstIndex(of: twohour8Char)!)/2]
         ]
         
         return nayin4list
@@ -112,7 +109,7 @@ open class Lunar:ObservableObject { //open class for user to modify
         let isBeforeLunarYear = spanDays < 0
         var x = 0
 
-        if year8Char != "beginningOfSpring" {
+        if yearPillarType != "beginningOfSpring" {
             return x
         }
         
@@ -225,18 +222,16 @@ open class Lunar:ObservableObject { //open class for user to modify
 
     func getEarthNum() -> (Int, Int, Int) {
         //地支索引
-        let yearEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.0.suffix(1))) ?? -1
-        let monthEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.1.suffix(1))) ?? -1
-        let dayEarthNum = the12EarthlyBranches.firstIndex(of: String(ymd8Char.2.suffix(1))) ?? -1
+        let yearEarthNum:Int = the12BranchEnum.allCases.firstIndex(of: year8Char.branch)!
+        let monthEarthNum:Int = the12BranchEnum.allCases.firstIndex(of: month8Char.branch)!
+        let dayEarthNum:Int = the12BranchEnum.allCases.firstIndex(of: day8Char.branch)!
         
         return (yearEarthNum, monthEarthNum, dayEarthNum)
     }
     func getHeavenNum() -> (Int, Int, Int) {
-        assert(the10HeavenlyStems.count == 10 , "the10HeavenlyStems count not equal to 10")
-        let yearHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.0.prefix(1))) ?? -1
-        let monthHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.1.prefix(1))) ?? -1
-        let dayHeavenNum = the10HeavenlyStems.firstIndex(of: String(ymd8Char.2.prefix(1))) ?? -1
-        
+        let yearHeavenNum = the10StemEnum.allCases.firstIndex(of: year8Char.stem)!
+        let monthHeavenNum = the10StemEnum.allCases.firstIndex(of: month8Char.stem)!
+        let dayHeavenNum = the10StemEnum.allCases.firstIndex(of: day8Char.stem)!
         return (yearHeavenNum, monthHeavenNum, dayHeavenNum)
     }
     
@@ -333,13 +328,14 @@ open class Lunar:ObservableObject { //open class for user to modify
         return (monthDay, leapMonth, leapDay)
     }
 
-    func getThe8Char() -> (String, String) {
-        year8Char = getYear8Char() // update the property year8Char here
-        return (getMonth8Char(), getDay8Char())
+    func getThe8Char() -> (year:StemBranch,
+                           month:StemBranch,
+                           day:StemBranch) {
+        return (getYear8Char(),getMonth8Char(), getDay8Char())
     }
-    func getYear8Char() -> String {
+    func getYear8Char() -> StemBranch {
         // 立春年干争议算法
-        return the60HeavenlyEarth[((lunarYear - 4) % 60) - _x]
+        return the60StemBranchEnumArray[((lunarYear - 4) % 60) - _x]
     }
     
     /**
@@ -348,7 +344,7 @@ open class Lunar:ObservableObject { //open class for user to modify
      * 原理和五虎遁法效果相同
      * 注意这里的月份精确度只在日，节气分割日当天都为该节气日并开始下一个月干，不精确到时
      */
-    func getMonth8Char() -> String {
+    func getMonth8Char() -> StemBranch {
         var nextNum:Int = nextSolarNum //下一个节气在节气列表中的索引
         if nextNum == 0 && Calendar.current.component(.month, from: date) == 12 {
             //若今天就是某节气，且当前月份为12月
@@ -358,18 +354,19 @@ open class Lunar:ObservableObject { //open class for user to modify
         let apartNum:Int = (nextNum + 1) / 2 //距离下一个节气相差多少个由24节气分割的月份
         let yeardiffmonth: Int = (Calendar.current.component(.year, from: date) - 2019) * 12
         let _index:Int = pythonModulo((yeardiffmonth + apartNum) , 60)
-        assert(the60HeavenlyEarth.count == 60, "the60HeavenlyEarth count not equal to 60")
-        let month8Char = the60HeavenlyEarth[_index]//2019/01/05 小寒为甲子月
+        assert(the60StemBranchEnumArray.count == 60, "the60StemBranchEnumArray count not equal to 60")
+        let month8Char = the60StemBranchEnumArray[_index]//2019/01/05 小寒为甲子月
         return month8Char
     }
     public var dayHeavenlyEarthNum:Int {
         //日柱索引需要注意计算和标准日差的时候的精确度
         let baseDate = DateComponents(calendar: Calendar.current, year: 2019, month: 1, day: 29).date!
+        let baseDayStemBranch = StemBranch(stem:.bing, branch:.yin)
         let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: date)
         let date2 = Calendar.current.date(from: dateComponents)! //remove hour info: default = 0
         
         let apart = Calendar.current.dateComponents([.day], from: baseDate, to: date2).day! // 12 hour accuracy
-        var baseNum = the60HeavenlyEarth.firstIndex(of: "丙寅")! // baseNum==2
+        var baseNum = the60StemBranchEnumArray.firstIndex(of: baseDayStemBranch)! // baseNum==2
         
         // 超过23点算第二天，为防止溢出，在baseNum上操作+1
         if twohourNum == 12 {
@@ -377,9 +374,9 @@ open class Lunar:ObservableObject { //open class for user to modify
         }
         return pythonModulo((apart + baseNum) , 60)
     }
-    func getDay8Char() -> String {
+    func getDay8Char() -> StemBranch {
         //日柱
-        return the60HeavenlyEarth[dayHeavenlyEarthNum]
+        return the60StemBranchEnumArray[dayHeavenlyEarthNum]
     }
     
     func getSeason() -> (Int,Int,String){
@@ -394,16 +391,16 @@ open class Lunar:ObservableObject { //open class for user to modify
         return (seasonType,seasonNum,lunarSeason)
     }
     
-    func getTwohour8CharList() -> [String] {
+    func getTwohour8CharList() -> [StemBranch] {
         // Calculate the start index
-        let begin = (the60HeavenlyEarth.firstIndex(of: day8Char)! * 12) % 60
+        let begin = (the60StemBranchEnumArray.firstIndex(of: day8Char)! * 12) % 60
         
         // Combine the array with itself and extract the relevant slice
-        let extendedList = the60HeavenlyEarth + the60HeavenlyEarth
+        let extendedList = the60StemBranchEnumArray + the60StemBranchEnumArray
         let twohour8CharList = Array(extendedList[begin..<(begin + 13)])
         return twohour8CharList
     }
-    func getTwohour8Char() -> String {
+    func getTwohour8Char() -> StemBranch {
         return twohour8CharList[twohourNum % 12]
     }
     

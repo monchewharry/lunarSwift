@@ -50,7 +50,7 @@ final class lunarSwiftTests: XCTestCase {
     }
     // 测试四柱换算
     func testFourPillarsCalculation() {
-        XCTAssertEqual(person.fourPillars, p1bench.fourPillars, "Four pillars should be correctly calculated based on the lunarbirthdate.")
+        XCTAssertEqual(person.fourPillars.map {$0.name}, p1bench.fourPillars, "Four pillars should be correctly calculated based on the lunarbirthdate.")
         }
     // 测试十神计算
     func testTenGodsCalculation(){

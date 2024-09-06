@@ -5,11 +5,16 @@ import Foundation
 
 //class People for divination use
 open class People: Lunar{
+    public var gender:String
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "year",gender: String = "male") {
+        self.gender = gender
+        super.init(date:date,godType: godType,yearPillarType: yearPillarType)
+    }
     /**
      四柱八字
      */
-    public var fourPillars: [String] {
-        [ymd8Char.0,ymd8Char.1,ymd8Char.2,twohour8Char]
+    public var fourPillars: [StemBranch] {
+        [year8Char,month8Char,day8Char,twohour8Char]
     }
     /**
      四柱五行
@@ -51,8 +56,7 @@ public extension People{
      十神
      */
     var tenGods:[String] {
-        fourPillars.map { calculateTenGods(pillarStem: the10StemEnum(rawValue: String($0.prefix(1)))!,
-                                           dayStem: the10StemEnum(rawValue:    String(day8Char.prefix(1)))!)
+        fourPillars.map { calculateTenGods(pillarStem: $0.stem, dayStem: day8Char.stem)
         }
     }
     
@@ -62,11 +66,11 @@ public extension People{
      * https://www.iztro.com/learn/astrolabe.html
      */
     var lifePalace: (stem:the10StemEnum,branch:the12BranchEnum) {
-        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
-                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
+                                                hourBranch: twohour8Char.branch)
         let lifePalaceBranch:the12BranchEnum = calculator.findLifePalaceBranch()
         let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch,
-                                                       yearStem: the10StemEnum(rawValue: String(year8Char.prefix(1)))!)
+                                                       yearStem: year8Char.stem)
 
         return (lifePalaceStem,lifePalaceBranch)
     }
@@ -75,11 +79,11 @@ public extension People{
      身宫天干地支
      */
     var bodyPalace: (stem:the10StemEnum,branch:the12BranchEnum) {
-        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
-                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
+                                                hourBranch: twohour8Char.branch)
         let BodyPalaceBranch:the12BranchEnum = calculator.findBodyPalaceBranch()
         let BodyPalaceStem = calculator.generatingStem(lifePalaceBranch:BodyPalaceBranch, 
-                                                       yearStem: the10StemEnum(rawValue: String(year8Char.prefix(1)))!)
+                                                       yearStem: year8Char.stem)
 
         return (BodyPalaceStem,BodyPalaceBranch)
     }
@@ -87,10 +91,10 @@ public extension People{
      全部十二宫字典
      */
     var twelvePalaces: [String: (stem: the10StemEnum, branch: the12BranchEnum)]{
-        let calculator = twelvePalaceCalculator(monthBranch: the12BranchEnum(rawValue: String(month8Char.suffix(1)))!,
-                                                hourBranch: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!)
+        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
+                                                hourBranch: twohour8Char.branch)
         return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: lifePalace,
-                                                              yearStem: the10StemEnum(rawValue: String(ymd8Char.0.prefix(1)))!)
+                                                              yearStem: year8Char.stem)
     }
     /**
      五行局由命宫的天干地支的纳音而定
@@ -104,7 +108,7 @@ public extension People{
      */
     var ziweiAllStarArrays:[Star?] {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return calculator.setZiweiStars(yearStem: the10StemEnum(rawValue:String(year8Char.prefix(1)))!)
+        return calculator.setZiweiStars(yearStem: year8Char.stem)
 
     }
     /**
@@ -112,7 +116,7 @@ public extension People{
      */
     var tianfuAllStarArrays:[Star?] {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        return calculator.setTianfuStars(yearStem: the10StemEnum(rawValue:String(year8Char.prefix(1)))!)
+        return calculator.setTianfuStars(yearStem: year8Char.stem)
 
     }
     /**
@@ -120,9 +124,9 @@ public extension People{
      */
     var allSubSmallStars: (Substar:[Star], Smallstar: [Star]) {
         let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
-        let result = calculator.setOtherRegularSmallStars(tYearPinyin: the10StemEnum(rawValue: String(year8Char.prefix(1)))!,
-                                                          dYearPinyin: the12BranchEnum(rawValue: String(year8Char.suffix(1)))!,
-                                                          shichen: the12BranchEnum(rawValue: String(twohour8Char.suffix(1)))!, lunarMonth: lunarMonth)!
+        let result = calculator.setOtherRegularSmallStars(tYearPinyin: year8Char.stem,
+                                                          dYearPinyin: year8Char.branch,
+                                                          shichen: twohour8Char.branch, lunarMonth: lunarMonth)!
         return (result.subStarsArray,result.smallStarsArray)
     }
     

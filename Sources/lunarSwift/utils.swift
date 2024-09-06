@@ -103,13 +103,13 @@ func getTheYearAllSolarTermsList(year: Int) -> [Int] {
 /**
  match Wuxing to four pillars
  */
-func matchwuxing(fourPillars:[String])->[[String]]{
+func matchwuxing(fourPillars:[StemBranch])->[[String]]{
     assert(the10StemEnum.allCases.count == 10, "the count enum the10StemEnum is not 10")
     var fiveElementsList: [[String]] = []
     for item in fourPillars {
         // 提取天干和地支
-        let heavenlyStem:the10StemEnum = the10StemEnum(rawValue: String(item.prefix(1)))! // 天干
-        let earthlyBranch:the12BranchEnum = the12BranchEnum(rawValue: String(item.suffix(1)))! // 地支
+        let heavenlyStem:the10StemEnum = item.stem // 天干
+        let earthlyBranch:the12BranchEnum = item.branch // 地支
         
         // 获取对应的五行属性
         if let stemElement = heavenlyStemsToFiveElements[heavenlyStem], 
@@ -122,11 +122,11 @@ func matchwuxing(fourPillars:[String])->[[String]]{
 /**
  四柱五行报告+纳音
  */
-func calculateGanZhiAndWuXing(fourPillars:[String],fiveElements:[[String]],nayin:[String]) -> String{
+func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[String]],nayin:[String]) -> String{
     let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
     var report:String="四柱: 干支 五行 纳音\n\n"
     for (index,pillarname) in pillarnames.enumerated() {
-        report += "\(pillarname): \(fourPillars[index]) \(fiveElements[index][0])\(fiveElements[index][1]) \(nayin[index])\n"
+        report += "\(pillarname): \(fourPillars[index].name) \(fiveElements[index][0])\(fiveElements[index][1]) \(nayin[index])\n"
     }
     return report
 }
