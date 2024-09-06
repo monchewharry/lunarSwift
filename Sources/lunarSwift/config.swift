@@ -56,9 +56,9 @@ public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu
  60甲子排序
  */
 public struct StemBranch: Equatable { // tuple of (the10StemEnum, the12BranchEnum) is not equatable
-    let stem: the10StemEnum
-    let branch: the12BranchEnum
-    var name: String {
+    public let stem: the10StemEnum
+    public let branch: the12BranchEnum
+    public var name: String {
         stem.rawValue+branch.rawValue
     }
 }
