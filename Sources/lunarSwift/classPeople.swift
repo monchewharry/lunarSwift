@@ -19,14 +19,14 @@ open class People: Lunar{
     /**
      四柱五行
      */
-    public var fiveElements: [[String]] {
+    public var fiveElements: [[the5wuxing]] {
         matchwuxing(fourPillars:fourPillars)
     }
     /**
      四柱五行统计
      */
-    public var fiveElementsCount: [String: Int] {
-                var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
+    public var fiveElementsCount: [the5wuxing: Int] {
+        var elementsCount: [the5wuxing: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
                 
                 for elements in fiveElements {
                     for element in elements {
@@ -90,7 +90,7 @@ public extension People{
     /**
      全部十二宫字典
      */
-    var twelvePalaces: [String: (stem: the10StemEnum, branch: the12BranchEnum)]{
+    var twelvePalaces: [String: StemBranch]{
         let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
                                                 hourBranch: twohour8Char.branch)
         return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: lifePalace,

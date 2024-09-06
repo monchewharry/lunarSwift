@@ -8,6 +8,13 @@ let startYear = 1901
 let monthDayBit = 12
 let leapMonthNumBit = 13
 
+public enum the5wuxing: String,CaseIterable,Equatable {
+    case jin   =   "金"
+    case mu    =   "木"
+    case shui  =   "水"
+    case huo   =   "火"
+    case tu    =   "土"
+}
 
 /**
  10天干
@@ -25,14 +32,15 @@ public enum the10StemEnum: String,CaseIterable,Equatable {
     case ren  = "壬"
     case gui  = "癸"
 }
-let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
-public let heavenlyStemsToFiveElements: [the10StemEnum: String] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
+//let the10HeavenlyStems5ElementsList = ["木", "木", "火", "火", "土", "土", "金", "金", "水", "水"]//tian gan wuxing
+let the10HeavenlyStems5ElementsList:[the5wuxing] = [.mu, .mu, .huo, .huo, .tu, .tu, .jin, .jin, .shui, .shui]//tian gan wuxing
+public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
 /**
  12地支
  */
 //public let the12EarthlyBranches = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]//di zhi
-let the12EarthlyBranches5ElementsList = ["水", "土", "木", "木", "土", "火", "火", "土", "金", "金", "土", "水"]//di zhi wuxing
-let earthlyBranchesToFiveElements: [the12BranchEnum : String] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
+let the12EarthlyBranches5ElementsList:[the5wuxing] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
+let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 public enum the12BranchEnum: String, CaseIterable,Equatable {
   case zi   = "子"
   case chou = "丑"
@@ -289,29 +297,29 @@ public func generateTenGods(for dayStem: the10StemEnum) -> [the10StemEnum: Strin
     for (stem, stemElement) in heavenlyStemsToFiveElements {//结合五行生克关系以及阴阳属性
         if dayelement == stemElement {
             relationships[stem] = dayStem == stem ? "比肩" : "劫财"
-        } else if dayelement == "木" && stemElement == "火" ||
-                    dayelement == "火" && stemElement == "土" ||
-                    dayelement == "土" && stemElement == "金" ||
-                    dayelement == "金" && stemElement == "水" ||
-                    dayelement == "水" && stemElement == "木" {
+        } else if dayelement == .mu && stemElement == .huo ||
+                    dayelement == .huo && stemElement == .tu ||
+                    dayelement == .tu && stemElement == .jin ||
+                    dayelement == .jin && stemElement == .shui ||
+                    dayelement == .shui && stemElement == .mu {
             relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "食神" : "伤官"
-        } else if dayelement == "木" && stemElement == "土" || //dayElement destroy stemElement
-                    dayelement == "火" && stemElement == "金" ||
-                    dayelement == "土" && stemElement == "水" ||
-                    dayelement == "金" && stemElement == "木" ||
-                    dayelement == "水" && stemElement == "火" {
+        } else if dayelement == .mu && stemElement == .tu || //dayElement destroy stemElement
+                    dayelement == .huo && stemElement == .jin ||
+                    dayelement == .tu && stemElement == .shui ||
+                    dayelement == .jin && stemElement == .mu ||
+                    dayelement == .shui && stemElement == .huo {
             relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "偏财" : "正财"
-        } else if dayelement == "木" && stemElement == "金" || //stemElement destroy dayElement
-                    dayelement == "火" && stemElement == "水" ||
-                    dayelement == "土" && stemElement == "木" ||
-                    dayelement == "金" && stemElement == "火" ||
-                    dayelement == "水" && stemElement == "土" {
+        } else if dayelement == .mu && stemElement == .jin || //stemElement destroy dayElement
+                    dayelement == .huo && stemElement == .shui ||
+                    dayelement == .tu && stemElement == .mu ||
+                    dayelement == .jin && stemElement == .huo ||
+                    dayelement == .shui && stemElement == .tu {
             relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "七杀" : "正官"
-        } else if dayelement == "木" && stemElement == "水" || //stemElement generate dayElement
-                    dayelement == "火" && stemElement == "木" ||
-                    dayelement == "土" && stemElement == "火" ||
-                    dayelement == "金" && stemElement == "土" ||
-                    dayelement == "水" && stemElement == "金" {
+        } else if dayelement == .mu && stemElement == .shui || //stemElement generate dayElement
+                    dayelement == .huo && stemElement == .mu ||
+                    dayelement == .tu && stemElement == .huo ||
+                    dayelement == .jin && stemElement == .tu ||
+                    dayelement == .shui && stemElement == .jin {
             relationships[stem] = yinYang[stem] == yinYang[dayStem] ? "偏印" : "正印"
         }
     }

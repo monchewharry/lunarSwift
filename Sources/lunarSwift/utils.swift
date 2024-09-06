@@ -103,17 +103,17 @@ func getTheYearAllSolarTermsList(year: Int) -> [Int] {
 /**
  match Wuxing to four pillars
  */
-func matchwuxing(fourPillars:[StemBranch])->[[String]]{
+func matchwuxing(fourPillars:[StemBranch])->[[the5wuxing]]{
     assert(the10StemEnum.allCases.count == 10, "the count enum the10StemEnum is not 10")
-    var fiveElementsList: [[String]] = []
+    var fiveElementsList: [[the5wuxing]] = []
     for item in fourPillars {
         // 提取天干和地支
         let heavenlyStem:the10StemEnum = item.stem // 天干
         let earthlyBranch:the12BranchEnum = item.branch // 地支
         
         // 获取对应的五行属性
-        if let stemElement = heavenlyStemsToFiveElements[heavenlyStem], 
-           let branchElement = earthlyBranchesToFiveElements[earthlyBranch] {
+        if let stemElement:the5wuxing = heavenlyStemsToFiveElements[heavenlyStem],
+           let branchElement:the5wuxing = earthlyBranchesToFiveElements[earthlyBranch] {
             fiveElementsList.append([stemElement, branchElement])
         }
     }
@@ -122,20 +122,20 @@ func matchwuxing(fourPillars:[StemBranch])->[[String]]{
 /**
  四柱五行报告+纳音
  */
-func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[String]],nayin:[String]) -> String{
+func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[the5wuxing]],nayin:[String]) -> String{
     let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
     var report:String="四柱: 干支 五行 纳音\n\n"
     for (index,pillarname) in pillarnames.enumerated() {
-        report += "\(pillarname): \(fourPillars[index].name) \(fiveElements[index][0])\(fiveElements[index][1]) \(nayin[index])\n"
+        report += "\(pillarname): \(fourPillars[index].name) \(fiveElements[index][0].rawValue)\(fiveElements[index][1].rawValue) \(nayin[index])\n"
     }
     return report
 }
 /**
  五行均衡性分析
  */
-func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
+func analyzeFiveElementsBalance(fiveElements:[[the5wuxing]]) -> [String] {
     // 统计五行的数量
-    var elementsCount: [String: Int] = ["木": 0, "火": 0, "土": 0, "金": 0, "水": 0]
+    var elementsCount: [the5wuxing: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
     
     // 遍历五行属性列表，统计每个五行的数量
     for elements in fiveElements {
@@ -147,13 +147,13 @@ func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
     // wuxing hist
     var analysisResult1:String = ""
     for (element, count) in elementsCount {
-        analysisResult1 += "\(element): \(count)\n"
+        analysisResult1 += "\(element.rawValue): \(count)\n"
     }
     
     // 分析五行平衡
     var analysisResult2:String = ""
-    guard let maxElement = elementsCount.max(by: { $0.value < $1.value })?.key,
-          let minElement = elementsCount.min(by: { $0.value < $1.value })?.key else {
+    guard let maxElement:the5wuxing = elementsCount.max(by: { $0.value < $1.value })?.key,
+          let minElement:the5wuxing = elementsCount.min(by: { $0.value < $1.value })?.key else {
         return [analysisResult1,"五行分析失败：未能找到最大或最小五行元素。"]
     }
     
@@ -165,14 +165,14 @@ func analyzeFiveElementsBalance(fiveElements:[[String]]) -> [String] {
         analysisResult2 += "五行不平衡。\n"
         
         // 分析是否某五行过旺或过弱
-        analysisResult2 += "最旺的五行: \(maxElement)\n"
-        analysisResult2 += "最弱的五行: \(minElement)\n"
+        analysisResult2 += "最旺的五行: \(maxElement.rawValue)\n"
+        analysisResult2 += "最弱的五行: \(minElement.rawValue)\n"
         
         // 建议的喜用神
         if elementsCount[minElement]! < 2 {
-            analysisResult2 += "建议补充: \(minElement)\n"
+            analysisResult2 += "建议补充: \(minElement.rawValue)\n"
         } else {
-            analysisResult2 += "建议控制: \(maxElement) 的旺势\n"
+            analysisResult2 += "建议控制: \(maxElement.rawValue) 的旺势\n"
         }
     }
     
@@ -235,11 +235,11 @@ public struct twelvePalaceCalculator {
      十二宫天干从命宫推出
      返回 dict 宫名: (天干，地支)
      */
-    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [String: (stem: the10StemEnum, branch: the12BranchEnum)] {
+    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [String: StemBranch] {
         let branchesOrder:[String] = ["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"] //命盘左下角地支排序
         let stemsOrder:[String] = yearStemToSequence[yearStem]!
 
-        var palaces12:[String:(stem: the10StemEnum, branch: the12BranchEnum)] = [:]
+        var palaces12:[String:StemBranch] = [:]
 
         // Find the index of the life palace branch in the order
         if let lifeBranchIndex = branchesOrder.firstIndex(of: lifePalaceStemBranch.branch.rawValue) {
@@ -248,7 +248,7 @@ public struct twelvePalaceCalculator {
             for key in palacesArray {
                 let branch:the12BranchEnum = the12BranchEnum(rawValue: branchesOrder[currentBranchIndex])!
                 let stem:the10StemEnum = the10StemEnum(rawValue: stemsOrder[currentBranchIndex])!
-                palaces12[key] = (stem, branch)
+                palaces12[key] = StemBranch(stem: stem, branch: branch)
                 // (anticlockwise)
                 currentBranchIndex = (currentBranchIndex + 11) % 12
             }
