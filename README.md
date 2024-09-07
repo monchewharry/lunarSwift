@@ -20,7 +20,6 @@ class PeopleApp:People{
 // calendar and BaZi
 var p1 = PeopleApp(date: Date(), year8Char: "beginningOfSpring")
 print(p1.date) //solar date
-print(p1.lunarYMDCn) //lunar date in chinese character
 print(p1.lunarbirthday) //农历日期
 print(p1.ymd8Char) //八字
 print(p1.nayin) //纳音
@@ -33,10 +32,10 @@ print(p1.starsBranchDict) //星耀
 
 import baguaSwift
 //ZhouYi 64 Gua
-let getAbinary = getRandomBinary() // 随机卦象二进制string
-let guaInfo = getHexagramInfo(for: getAbinary) //卦辞全解
+let binarystr= getRandomBinary() // 随机卦象二进制string
+let theHexagram = getHexagram(for: binarystr) //卦全解
 
-let (labels, paragraphs) = getHexagramInfoParts(guaInfo)!.description) //卦辞全解段落
+let (labels, paragraphs) = theHexagram.paragraphs.paragraphsDict
 
 for label in labels {
     if let content = paragraphs[label] {
