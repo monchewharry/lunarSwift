@@ -27,17 +27,17 @@ let guabench = testgua(binary6: "111111", guaname: "乾",guades: "乾卦原文",
 
 final class baguaSwiftTests: XCTestCase {
     func testGuaNameMatch(){
-        let gua = binary2Hexagram[guabench.binary6]
-        XCTAssertEqual(gua?.name, guabench.guaname, "should be following the specific format")
+        let gua = Hexagram(binary: guabench.binary6)
+        XCTAssertEqual(gua.name, guabench.guaname, "should be following the specific format")
         }
     func testGuaFilehandles(){
-        let gua = getHexagramInfo(for: guabench.binary6)!
-        let guades = String(gua.description.prefix(4))
-        let (labels, paragraphs) = getHexagramInfoParts(getHexagramInfo(for: guabench.binary6)!.description)
+        let gua = Hexagram(binary: guabench.binary6)
+        let guades = String(gua.docString.prefix(4))
+        let (labels, paragraphs) = gua.paragraphs
         let paraExpected = "乾卦：大吉大利，吉利的贞卜。\n《象辞》说：天道刚健，运行不已。君子观此卦象，从而以天为法，自强不息。"
         
         XCTAssertEqual(guades, guabench.guades, "should be following the specific format")
-        XCTAssertEqual(labels, titles, "should be following the specific format")
+        XCTAssertEqual(labels, guabench.guadestitles, "should be following the specific format")
         XCTAssertEqual(paragraphs["白话文解释"],paraExpected,"should be following the specific format")
         }
 
