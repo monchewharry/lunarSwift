@@ -1,5 +1,8 @@
 import Foundation
 
+/**
+ 返回一个随机的 “111111”
+ */
 public func getRandomBinary() -> String{
     //6爻的随机二进制
     var randomnums: [Int] = []
@@ -7,18 +10,21 @@ public func getRandomBinary() -> String{
         let randomnum = Int.random(in: 0...1)
         randomnums.append(randomnum)
         }
-    return randomnums.map { String($0)}.joined()
+    let binary6 = randomnums.map { String($0)}.joined()
+    
+    return binary6
     }
-
-public func getHexagramInfo(for binary: String) -> (name: String, description: String)? {
+/**
+ 从一个二进制符号，返回卦和他的文档
+ */
+public func getHexagramInfo(for binary: String) -> (hexagram:Hexagram?, description: String)? {
     //获取相应卦象的名字，文档
     guard binary.count == 6 else {
         print("Invalid binary string length")
         return nil
     }
     
-    guard let hexagramInfo = binary2Hexagram[binary] else {
-        print("Hexagram not found")
+    guard let theHexagram:Hexagram = HexagramArray.first(where: {$0.binary == binary}) else {
         return nil
     }
 
@@ -30,16 +36,19 @@ public func getHexagramInfo(for binary: String) -> (name: String, description: S
 
     do {
         let description = try String(contentsOf: fileURL, encoding: .utf8)
-        return (name: hexagramInfo.name, description: description)
+        return (hexagram: theHexagram, description: description)
     } catch {
         print("Error reading file: \(error)")
         return nil
     }
 }
 
-//文档分段
+/**
+ 文档分段:
+ 给定一个卦辞文档，返回文档的段落名顺序列表，段落内容字典
+ */
 public func getHexagramInfoParts(_ document:String) -> ([String],[String:String]){
-    //给定一个卦辞文档，返回文档的段落名顺序列表，段落内容字典
+    
     // 定义固定的标签
     let fixedLabels = [
         "白话文解释",
