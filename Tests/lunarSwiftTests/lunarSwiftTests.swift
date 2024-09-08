@@ -37,7 +37,8 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
                          wuxinggame: "木三局",
                          ziweiAllStardict: ["紫微":the12BranchEnum.chen,"天机":the12BranchEnum.mao,"天府":the12BranchEnum.zi,"太阴":the12BranchEnum.chou]
 )
-// Helper function to create a valid People instance
+
+/// Helper function to create a valid People instance
 func createValidPerson() throws -> People {
     return try People(date: p1bench.date, gender: "male")
 }
@@ -47,11 +48,6 @@ final class lunarSwiftTests: XCTestCase {
         XCTAssertEqual(the10StemEnum.allCases.count, 10)
         XCTAssertEqual(the12BranchEnum.allCases.count, 12)
         }
-    
-//    func testdateBounds(){
-//        
-//    }
-//    let person:People = People(date: p1bench.date, gender: "男")
     func testValidDateInitialization() throws {
             // Given: A valid date within the allowed range
             let validDate = Calendar.current.date(from: DateComponents(year: 2000, month: 1, day: 1))!

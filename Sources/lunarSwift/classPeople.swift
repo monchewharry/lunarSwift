@@ -5,8 +5,8 @@ import Foundation
 
 //class People for divination use
 open class People: Lunar{
-    public var gender:String
-    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring",gender: String = "male") throws{
+    public var gender: gendersEnum
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring",gender:gendersEnum = .male) throws{
         self.gender = gender
         try super.init(date:date,godType: godType,yearPillarType: yearPillarType)
     }
@@ -19,14 +19,14 @@ open class People: Lunar{
     /**
      四柱五行
      */
-    public var fiveElements: [[the5wuxing]] {
+    public var fiveElements: [[the5wuxingEnum]] {
         matchwuxing(fourPillars:fourPillars)
     }
     /**
      四柱五行统计
      */
-    public var fiveElementsCount: [the5wuxing: Int] {
-        var elementsCount: [the5wuxing: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
+    public var fiveElementsCount: [the5wuxingEnum: Int] {
+        var elementsCount: [the5wuxingEnum: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
                 
                 for elements in fiveElements {
                     for element in elements {

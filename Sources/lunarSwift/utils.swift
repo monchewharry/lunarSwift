@@ -103,17 +103,17 @@ func getTheYearAllSolarTermsList(year: Int) -> [Int] {
 /**
  match Wuxing to four pillars
  */
-func matchwuxing(fourPillars:[StemBranch])->[[the5wuxing]]{
+func matchwuxing(fourPillars:[StemBranch])->[[the5wuxingEnum]]{
     assert(the10StemEnum.allCases.count == 10, "the count enum the10StemEnum is not 10")
-    var fiveElementsList: [[the5wuxing]] = []
+    var fiveElementsList: [[the5wuxingEnum]] = []
     for item in fourPillars {
         // 提取天干和地支
         let heavenlyStem:the10StemEnum = item.stem // 天干
         let earthlyBranch:the12BranchEnum = item.branch // 地支
         
         // 获取对应的五行属性
-        if let stemElement:the5wuxing = heavenlyStemsToFiveElements[heavenlyStem],
-           let branchElement:the5wuxing = earthlyBranchesToFiveElements[earthlyBranch] {
+        if let stemElement:the5wuxingEnum = heavenlyStemsToFiveElements[heavenlyStem],
+           let branchElement:the5wuxingEnum = earthlyBranchesToFiveElements[earthlyBranch] {
             fiveElementsList.append([stemElement, branchElement])
         }
     }
@@ -122,7 +122,7 @@ func matchwuxing(fourPillars:[StemBranch])->[[the5wuxing]]{
 /**
  四柱五行报告+纳音
  */
-func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[the5wuxing]],nayin:[String]) -> String{
+func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[the5wuxingEnum]],nayin:[String]) -> String{
     let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
     var report:String="四柱: 干支 五行 纳音\n\n"
     for (index,pillarname) in pillarnames.enumerated() {
@@ -133,9 +133,9 @@ func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[the5wuxing
 /**
  五行均衡性分析
  */
-func analyzeFiveElementsBalance(fiveElements:[[the5wuxing]]) -> [String] {
+func analyzeFiveElementsBalance(fiveElements:[[the5wuxingEnum]]) -> [String] {
     // 统计五行的数量
-    var elementsCount: [the5wuxing: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
+    var elementsCount: [the5wuxingEnum: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
     
     // 遍历五行属性列表，统计每个五行的数量
     for elements in fiveElements {
@@ -152,8 +152,8 @@ func analyzeFiveElementsBalance(fiveElements:[[the5wuxing]]) -> [String] {
     
     // 分析五行平衡
     var analysisResult2:String = ""
-    guard let maxElement:the5wuxing = elementsCount.max(by: { $0.value < $1.value })?.key,
-          let minElement:the5wuxing = elementsCount.min(by: { $0.value < $1.value })?.key else {
+    guard let maxElement:the5wuxingEnum = elementsCount.max(by: { $0.value < $1.value })?.key,
+          let minElement:the5wuxingEnum = elementsCount.min(by: { $0.value < $1.value })?.key else {
         return [analysisResult1,"五行分析失败：未能找到最大或最小五行元素。"]
     }
     

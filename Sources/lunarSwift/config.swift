@@ -3,13 +3,21 @@
 // 1901~2100年农历数据表
 
 import Foundation
-
+public enum gendersEnum: String, CaseIterable{
+    case male = "男"
+    case female = "女"
+    case unknowngender = "未知"
+}
+/// define errors for Lunar Class
+public enum LunarError: Error {
+    case dateOutOfBounds
+}
 let startYear = 1901
 let monthDayBit = 12
 let leapMonthNumBit = 13
 
 /// the five elements' type
-public enum the5wuxing: String,CaseIterable,Equatable {
+public enum the5wuxingEnum: String,CaseIterable,Equatable {
     case jin   =   "金"
     case mu    =   "木"
     case shui  =   "水"
@@ -30,10 +38,10 @@ public enum the10StemEnum: String,CaseIterable,Equatable {
     case ren  = "壬"
     case gui  = "癸"
 }
-let the10HeavenlyStems5ElementsList:[the5wuxing] = [.mu, .mu, .huo, .huo, .tu, .tu, .jin, .jin, .shui, .shui]//tian gan wuxing
-public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
-let the12EarthlyBranches5ElementsList:[the5wuxing] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
-let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
+let the10HeavenlyStems5ElementsList:[the5wuxingEnum] = [.mu, .mu, .huo, .huo, .tu, .tu, .jin, .jin, .shui, .shui]//tian gan wuxing
+public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxingEnum] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
+let the12EarthlyBranches5ElementsList:[the5wuxingEnum] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
+let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxingEnum] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 /// the 12 branches type
 public enum the12BranchEnum: String, CaseIterable,Equatable {
   case zi   = "子"
@@ -164,10 +172,7 @@ extension Date {
         return Calendar.current.date(from: components)!
     }
 }
-/// date range out-of-boundary error for class Lunar
-enum LunarError: Error {
-    case dateOutOfBounds
-}
+
 /**
  * 1901-2100年香港天文台公布二十四节气按年存储16进制，1个16进制为4个2进制记录了一年的24节气日期.
  * unZipSolarTermsList(data:solarTermsDataList[0]) -> [6, 21, 4, 19, 6, 21, 5, 21, 6, 22, 6, 22, 8, 23, 8, 24, 8, 24, 9, 24, 8, 23, 8, 22]
