@@ -6,9 +6,9 @@ import Foundation
 //class People for divination use
 open class People: Lunar{
     public var gender:String
-    public init(date: Date, godType: String = "8char", yearPillarType: String = "year",gender: String = "male") {
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring",gender: String = "male") throws{
         self.gender = gender
-        super.init(date:date,godType: godType,yearPillarType: yearPillarType)
+        try super.init(date:date,godType: godType,yearPillarType: yearPillarType)
     }
     /**
      四柱八字

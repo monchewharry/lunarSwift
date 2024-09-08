@@ -1,27 +1,34 @@
 //
 //  Created by Dingxian Cao on 8/27/24.
-//  All public properties are accessible for pkg users
 //
 import Foundation
 
-open class Lunar:ObservableObject { //open class for user to modify
+/**
+ The class Lunar initiated with a Date() object. It will store and calculate all relavant information of that specific date in the literature of Chinese Lunar Calendar.
+ */
+open class Lunar:ObservableObject {
     public var twohourNum: Int {
         (Calendar.current.component(.hour, from: date) + 1) / 2
-    }//时辰索引
-    
+    }
     public var isLunarLeapMonth: Bool=false
-    
     public var godType: String
     public var yearPillarType: String
     public var date: Date
 
-    public init(date: Date, godType: String = "8char", yearPillarType: String = "year" ) {
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring" )throws {
+        //date range check
+        if date >= Date.minAllowedDate && date <= Date.maxAllowedDate {
+                    self.date = date
+        } else {
+            print("Date input: \(date) is out of the allowed range Year (1901-2100).")
+            throw LunarError.dateOutOfBounds
+        }
+        
         self.godType = godType
         self.yearPillarType = yearPillarType
-        self.date = date
     }
     
-    //calculate lunar YMD's int
+    
     public var lunarYMD: (lunarYear:Int,lunarMonth:Int,lunarDay:Int,spanDays:Int) {
         getLunarDateNum()
     }
@@ -101,8 +108,8 @@ open class Lunar:ObservableObject { //open class for user to modify
     public var luckygodsdirectionlist:[String:String]{
         getLuckyGodsDirection()
     }
-
-    //----------methods
+    
+    // if the yearPillarType = "beginningOfSpring", calculate the year pillar by 24 jieqi
     func getBeginningOfSpringX() -> Int {
         
         let isBeforeBeginningOfSpring = nextSolarNum < 3
@@ -171,6 +178,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
     /**
      返回 (今日节气，今年节气列表[(month,day)]，下一个节气索引，下一个节气年):  帮助确定年柱，月柱
+     - Returns: <#description#>
      */
     func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
         var year:Int = Calendar.current.component(.year, from: date)
@@ -236,9 +244,11 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
     
     /**
+     * The funtction  calculate the number representation of lunar year,month,day
      * 返回 (lunarYear_, lunarMonth_, lunarDay_,spanDays)，
      * 返回的月份，高4bit为闰月月份，低4bit为其它正常月份
      *  注意这里的立春时间只精确到日，立春日全天都算立春
+     * - Returns: <#description#>
      */
     func getLunarDateNum() -> (Int, Int, Int,Int) {
         // 给定公历日期，计算农历日期
@@ -297,6 +307,11 @@ open class Lunar:ObservableObject { //open class for user to modify
             return (lunarYear_, lunarMonth_, lunarDay_,spanDays)
         }
     }
+    /// Calculate leap month's index and its days number
+    /// - Parameters:
+    ///   - lunarYear_: <#lunarYear_ description#>
+    ///   - lunarMonth_: <#lunarMonth_ description#>
+    /// - Returns: <#description#>
     func getMonthLeapMonthLeapDays(lunarYear_:Int,lunarMonth_:Int) -> (Int,Int,Int) {
         // 计算阴历月天数
         var (leapMonth,leapDay,monthDay) = (0,0,0)
@@ -343,6 +358,7 @@ open class Lunar:ObservableObject { //open class for user to modify
      * 比如2019/01/05 小寒 为甲子月，加上当前过了几个节气(共24个,每个公历月有两个节气)除以2
      * 原理和五虎遁法效果相同
      * 注意这里的月份精确度只在日，节气分割日当天都为该节气日并开始下一个月干，不精确到时
+     * - Returns: <#description#>
      */
     func getMonth8Char() -> StemBranch {
         var nextNum:Int = nextSolarNum //下一个节气在节气列表中的索引
@@ -431,6 +447,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
     /**
      返回吉神方位
+     - Returns: <#description#>
      */
     func getLuckyGodsDirection() -> [String:String] {
         let todayNum = dayHeavenNum
@@ -447,6 +464,7 @@ open class Lunar:ObservableObject { //open class for user to modify
     }
     /**
      返回28宿
+     - Returns: <#description#>
      */
     func getThe28Stars() -> String {
         let calendar = Calendar.current

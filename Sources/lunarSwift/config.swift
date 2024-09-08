@@ -8,6 +8,7 @@ let startYear = 1901
 let monthDayBit = 12
 let leapMonthNumBit = 13
 
+/// the five elements' type
 public enum the5wuxing: String,CaseIterable,Equatable {
     case jin   =   "金"
     case mu    =   "木"
@@ -16,9 +17,7 @@ public enum the5wuxing: String,CaseIterable,Equatable {
     case tu    =   "土"
 }
 
-/**
- 10天干
- */
+/// the 10 stems type
 public enum the10StemEnum: String,CaseIterable,Equatable {
     case jia  = "甲"
     case yi   = "乙"
@@ -33,11 +32,9 @@ public enum the10StemEnum: String,CaseIterable,Equatable {
 }
 let the10HeavenlyStems5ElementsList:[the5wuxing] = [.mu, .mu, .huo, .huo, .tu, .tu, .jin, .jin, .shui, .shui]//tian gan wuxing
 public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
-/**
- 12地支
- */
 let the12EarthlyBranches5ElementsList:[the5wuxing] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
 let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxing] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
+/// the 12 branches type
 public enum the12BranchEnum: String, CaseIterable,Equatable {
   case zi   = "子"
   case chou = "丑"
@@ -57,9 +54,6 @@ reorder the 12 branches into palace order
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
 
-/**
- 60甲子排序
- */
 public struct StemBranch: Equatable { // tuple of (the10StemEnum, the12BranchEnum) is not equatable
     public let stem: the10StemEnum
     public let branch: the12BranchEnum
@@ -68,7 +62,10 @@ public struct StemBranch: Equatable { // tuple of (the10StemEnum, the12BranchEnu
     }
 }
 // Initialize the array of 60 combinations
+
 /**
+ 60甲子排序, the 60 combination of 10 stems and 12 branches
+ 
  ["甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉", "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未", "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳", "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯", "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑", "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"]
  */
 public let the60StemBranchEnumArray: [StemBranch] = {
@@ -83,24 +80,18 @@ public let the60StemBranchEnumArray: [StemBranch] = {
 }()
 
 
-/**
- 24节气排序 小寒...冬至
- */
+/// 24节气排序 小寒...冬至
 let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
 let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
 
-/**
- 在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
- */
+/// 在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
 let halfStemBranchNayinList = [
     "海中金", "炉中火", "大林木", "路旁土", "剑锋金", "山头火", "涧下水", "城头土", "白蜡金", "杨柳木", "井泉水",
     "屋上土", "霹雳火", "松柏木", "长流水", "砂中金", "山下火", "平地木", "壁上土", "金箔金", "覆灯火", "天河水",
     "大驿土", "钗钏金", "桑柘木", "大溪水", "砂中土", "天上火", "石榴木", "大海水"
 ]//theHalf60HeavenlyEarth5ElementsList
 
-/**
- 28宿：星宿被分成四象，每象包含七宿
- */
+/// 28宿：星宿被分成四象，每象包含七宿
 let the28StarsList:[String] = [
     "角木蛟", "亢金龙", "氐土貉", "房日兔", "心月狐", "尾火虎", "箕水豹", //东方青龙七宿
     "斗木獬", "牛金牛", "女土蝠", "虚日鼠", "危月燕", "室火猪", "壁水貐", //南方朱雀七宿
@@ -108,25 +99,17 @@ let the28StarsList:[String] = [
     "井木犴", "鬼金羊", "柳土獐", "星日马", "张月鹿", "翼火蛇", "轸水蚓" //北方玄武七宿
 ]
 
-/**
- 生肖
- */
+/// 12 生肖
 let chineseZodiacNameList:[Character] = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]
-/**
- 12值日神
- */
+/// 12值日神
 let chinese12DayOfficers:[Character] = Array("建除满平定执破危成收开闭" )
-/**
- 12宫，12长生
- */
+/// 12宫，12长生
 let chinese12DayGods:[String] = ["青龙", "明堂", "天刑", "朱雀", "金贵", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"]
 
-//方位和八卦的对应
+///方位和八卦的对应
 let directionList:[String] = ["正北", "东北", "正东", "东南", "正南", "西南", "正西", "西北"]
 let chinese8Trigrams:[Character] = Array("坎艮震巽离坤兑乾")
-/**
- 吉神排序列表
- */
+/// 吉神排序列表
 public let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
 let luckyGodDirection:[Character] = Array("艮乾坤离巽艮乾坤离巽") //吉神,福神，财神，阳贵，阴贵方位
 let wealthGodDirection:[Character] = Array("艮艮坤坤坎坎震震离离")
@@ -134,9 +117,7 @@ let mascotGodDirection:[Character] = Array("坎坤乾巽艮坎坤乾巽艮")
 let sunNobleDirection:[Character] = Array("坤坤兑乾艮坎离艮震巽")
 let moonNobleDirection:[Character] = Array("艮坎乾兑坤坤艮离巽震")
 
-/**
- 胎神
- */
+/// 胎神
 let fetalGodList = [
     "碓磨门外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床厕外正南", "占门床外正南",
     "占碓磨外正南", "厨灶厕外西南", "仓库炉外西南", "房床门外西南", "门碓栖外西南", "碓磨床外西南",
@@ -149,9 +130,7 @@ let fetalGodList = [
     "仓库碓外东北", "房床厕外东北", "占门炉外东北", "碓磨门外正东", "厨灶栖外正东", "仓库床外正东",
     "房床碓外正东", "占门厕外正东", "碓磨炉外东南", "仓库栖外东南", "占房床外东南", "占门碓外东南"
 ]
-/**
- 时辰经络
- */
+/// 时辰经络
 let meridiansName = ["胆", "肝", "肺", "大肠", "胃", "脾", "心", "小肠", "膀胱", "肾", "心包", "三焦"]
 
 let lunarMonthNameList = ["正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"]
@@ -164,11 +143,31 @@ let lunarDayNameList = [
 let upperNum = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
 let weekDay = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
 
-/**
- 1901-2100年二十节气最小数序列 向量压缩法
- */
+/// 1901-2100年二十节气最小数序列 向量压缩法
 let encVectorList:[Int] = [4, 19, 3, 18, 4, 19, 4, 19, 4, 20, 4, 20, 6, 22, 6, 22, 6, 22, 7, 22, 6, 21, 6, 21]
 
+/// limit date range 1901-2100
+extension Date {
+    static var minAllowedDate: Date {
+        var components = DateComponents()
+        components.year = 1901
+        components.month = 1
+        components.day = 1
+        return Calendar.current.date(from: components)!
+    }
+
+    static var maxAllowedDate: Date {
+        var components = DateComponents()
+        components.year = 2100
+        components.month = 12
+        components.day = 31
+        return Calendar.current.date(from: components)!
+    }
+}
+/// date range out-of-boundary error for class Lunar
+enum LunarError: Error {
+    case dateOutOfBounds
+}
 /**
  * 1901-2100年香港天文台公布二十四节气按年存储16进制，1个16进制为4个2进制记录了一年的24节气日期.
  * unZipSolarTermsList(data:solarTermsDataList[0]) -> [6, 21, 4, 19, 6, 21, 5, 21, 6, 22, 6, 22, 8, 23, 8, 24, 8, 24, 9, 24, 8, 23, 8, 22]
@@ -218,9 +217,7 @@ let solarTermsDataList: [Int] = [
         0x15, 0x100110500, 0x55110510501, 0x155551554505, 0x555555555515
 ]
 
-/**
- 闰几月 闰月日数  12-1 月份农历日数 0=29天 1=30天
- */
+/// 闰几月 闰月日数  12-1 月份农历日数 0=29天 1=30天
 let lunarMonthData: [Int] = [
     0x00752, 0x00ea5, 0x0ab2a, 0x0064b, 0x00a9b, 0x09aa6, 0x0056a, 0x00b59, 0x04baa, 0x00752,  // 1901 ~ 1910
         0x0cda5, 0x00b25, 0x00a4b, 0x0ba4b, 0x002ad, 0x0056b, 0x045b5, 0x00da9, 0x0fe92, 0x00e92,  // 1911 ~ 1920
@@ -243,9 +240,7 @@ let lunarMonthData: [Int] = [
         0x00c96, 0x0ecce, 0x00556, 0x00ab5, 0x0bad2, 0x006d2, 0x00ea5, 0x0872a, 0x0068b, 0x10697,  // 2081 ~ 2090
         0x004ab, 0x0055b, 0x0d556, 0x00b6a, 0x00752, 0x08b95, 0x00b45, 0x00a8b, 0x04a4f,
 ]
-/**
- 春节月  春节日
- */
+/// 春节月  春节日
 let lunarNewYearList: [Int] = [
     0x53, 0x48, 0x3d, 0x50, 0x44, 0x39, 0x4d, 0x42, 0x36, 0x4a,  // 1901 ~ 1910
         0x3e, 0x52, 0x46, 0x3a, 0x4e, 0x43, 0x37, 0x4b, 0x41, 0x54,  // 1911 ~ 1920
@@ -271,6 +266,7 @@ let lunarNewYearList: [Int] = [
 
 
 //----------十神
+
 /**
  * 计算十神规则：以日干为命主（我），结合天干的五行生克与阴阳属性，计算与其他三柱天干的关系
  * - 生我者为印绶(正印、偏印)；
@@ -279,6 +275,8 @@ let lunarNewYearList: [Int] = [
  * - 我克者为妻财(正财、偏财)；
  * - 同类者为比劫(比肩、劫财)。
  * - 再按照天干的阴阳性选择
+ * - Parameter dayStem: the stem of dayPillar
+ * - Returns: the array of stems of the ten god for each pillar
  */
 public func generateTenGods(for dayStem: the10StemEnum) -> [the10StemEnum: String] {
     let yinYang: [the10StemEnum: String] = [
@@ -345,9 +343,7 @@ public let tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = [
  命宫地支参考顺序：命盘顺序 寅...丑
  */
 
-/**
- 十二宫排序array
- */
+/// 十二宫排序array
 public let palacesArray = [
     "命宫",    // Destiny Palace
     "兄弟宫",  // Siblings Palace
@@ -380,9 +376,7 @@ let rotatedLeft2 = rotateArrayToLeft(array, by: 2*2)
 let rotatedLeft3 = rotateArrayToLeft(array, by: 3*2)
 let rotatedLeft4 = rotateArrayToLeft(array, by: 4*2)
 
-/**
- The match between year's stem to 12 palaces' stem ordered by 12 palaces' branch' order (diZhi2)
- */
+/// The match between year's stem to 12 palaces' stem ordered by 12 palaces' branch' order (diZhi2)
 let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
     //columns are [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     .jia : rotatedLeft0,
@@ -399,6 +393,7 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
 
 //---------------------------------星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
+
 public enum StarsEnum: String, CaseIterable{
     //tianfu main stars
     case tianfu    = "天府"
@@ -516,9 +511,7 @@ public let sihuaMap: [the10StemEnum: [StarsEnum: sihuaEnum]] = [
 
 // ----------------------- 次星规则
 
-/**
- 禄存
- */
+/// 禄存 规则
 let lucunRule: [the10StemEnum: the12BranchEnum] = [
    .jia: .yin,
    .yi: .mao,
@@ -531,9 +524,7 @@ let lucunRule: [the10StemEnum: the12BranchEnum] = [
    .ren: .hai,
    .gui: .zi
 ]
-/**
- 天马
- */
+/// 天马 规则
 let tianma: [the12BranchEnum: the12BranchEnum] = [
     .shen: .yin,
     .zi: .yin,
@@ -548,9 +539,7 @@ let tianma: [the12BranchEnum: the12BranchEnum] = [
     .you: .hai,
     .chou: .hai
 ]
-/**
- 火星: yearBranch: branch
- */
+/// 火星 规则
 let huoxing: [the12BranchEnum: the12BranchEnum] = [
     .yin: .chou,
     .wu: .chou,
@@ -565,9 +554,7 @@ let huoxing: [the12BranchEnum: the12BranchEnum] = [
     .mao: .you,
     .wei: .you
 ]
-/**
- 铃星
- */
+/// 铃星 规则
 let lingxing: [the12BranchEnum: the12BranchEnum] = [
     .yin: .mao,
     .wu: .mao,
@@ -582,9 +569,7 @@ let lingxing: [the12BranchEnum: the12BranchEnum] = [
     .mao: .xu,
     .wei: .xu
 ]
-/**
- 咸池
- */
+/// 咸池 规则
 let xianchi: [the12BranchEnum: the12BranchEnum] = [
     .yin: .mao,
     .wu: .mao,
