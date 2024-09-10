@@ -29,7 +29,7 @@ open class Lunar:ObservableObject {
     }
     
     
-    public var lunarYMD: (lunarYear:Int,lunarMonth:Int,lunarDay:Int,spanDays:Int) {
+    private var lunarYMD: (lunarYear:Int,lunarMonth:Int,lunarDay:Int,spanDays:Int) {
         getLunarDateNum()
     }
     public var lunarYear:Int {return lunarYMD.lunarYear}
@@ -38,7 +38,7 @@ open class Lunar:ObservableObject {
     public var spanDays: Int {return lunarYMD.spanDays}
     
     //find lunar YMD's chinese character
-    public var lunarYMDCn: (lunarYearCn:String,lunarMonthCn:String,lunarDayCn:String) {
+    private var lunarYMDCn: (lunarYearCn:String,lunarMonthCn:String,lunarDayCn:String) {
         getLunarCn()
     }
     public var lunarYearCn:String {return lunarYMDCn.lunarYearCn}
@@ -67,7 +67,7 @@ open class Lunar:ObservableObject {
 
     //calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
-    public var ymd8Char: (year:StemBranch,
+    private var ymd8Char: (year:StemBranch,
                           month:StemBranch,
                           day:StemBranch) { // also update year8Char
         getThe8Char()
@@ -77,14 +77,14 @@ open class Lunar:ObservableObject {
     public var day8Char:StemBranch {return ymd8Char.day}
     
     // calculate lunr YMD's BAZI dizhi's index
-    public var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
+    private var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
         getEarthNum()
     }
     public var yearEarthNum:Int {return ymdEarthNum.0}
     public var monthEarthNum:Int {return ymdEarthNum.1}
     public var dayEarthNum:Int {return ymdEarthNum.2}
     // calculate lunr YMD's BAZI tiangan's index
-    public var ymdHeavenNum: (Int,Int,Int) {
+    private var ymdHeavenNum: (Int,Int,Int) {
         getHeavenNum()
     }
     public var yearHeavenNum:Int {return ymdHeavenNum.0}
@@ -110,7 +110,7 @@ open class Lunar:ObservableObject {
     }
     
     // if the yearPillarType = "beginningOfSpring", calculate the year pillar by 24 jieqi
-    func getBeginningOfSpringX() -> Int {
+    private func getBeginningOfSpringX() -> Int {
         
         let isBeforeBeginningOfSpring = nextSolarNum < 3
         let isBeforeLunarYear = spanDays < 0

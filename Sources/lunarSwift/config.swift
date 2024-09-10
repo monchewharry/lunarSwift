@@ -58,7 +58,8 @@ public enum the12BranchEnum: String, CaseIterable,Equatable {
   case hai  = "亥"
 }
 /**
-reorder the 12 branches into palace order
+* reorder the 12 branches into palace order
+* [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
 

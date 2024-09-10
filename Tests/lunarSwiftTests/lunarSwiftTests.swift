@@ -40,7 +40,7 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
 
 /// Helper function to create a valid People instance
 func createValidPerson() throws -> People {
-    return try People(date: p1bench.date, gender: "male")
+    return try People(date: p1bench.date, gender: gendersEnum.male )
 }
 
 final class lunarSwiftTests: XCTestCase {
@@ -56,7 +56,7 @@ final class lunarSwiftTests: XCTestCase {
             let person = try People(date: validDate)
             
             // Then: The instance should be created successfully
-            XCTAssertEqual(person.gender, "male") // Default gender is "male"
+        XCTAssertEqual(person.gender.rawValue , "男") // Default gender is "male"
             XCTAssertEqual(person.date, validDate) // The date should match the one passed
             XCTAssertEqual(person.godType, "8char") // Default godType is "8char"
             XCTAssertEqual(person.yearPillarType, "beginningOfSpring") // Default yearPillarType is "beginningOfSpring"
