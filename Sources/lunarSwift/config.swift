@@ -121,9 +121,41 @@ public let the60StemBranchEnumArray: [StemBranch] = {
     return combinations
 }()
 
+/**
+ *  24节气排序 小寒...冬至
+ * https://www.hko.gov.hk/en/gts/time/24solarterms.htm
+ */
+//let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
+public enum solarTermsEnum:String,CaseIterable,Equatable,LocalizableEnum{
+    case xiaohan     = "小寒" 
+    case dahan       = "大寒"
+    case lichun      = "立春"
+    case yushui      = "雨水"
+    case jinzhe      = "惊蛰"
+    case chunfen     = "春分"
+    case qingming    = "清明"
+    case guyu        = "谷雨"
+    case lixia       = "立夏"
+    case xiaoman     = "小满"
+    case mangzhong   = "芒种"
+    case xiazhi      = "夏至"
+    case xiaoshu     = "小暑"
+    case dashu       = "大暑"
+    case liqiu       = "立秋"
+    case chushu      = "处暑"
+    case bailu       = "白露"
+    case qiufen      = "秋分"
+    case hanlu       = "寒露"
+    case shuangjiang = "霜降"
+    case lidong      = "立冬"
+    case xiaoxue     = "小雪"
+    case daxue       = "大雪"
+    case dongzhi     = "冬至"
+    
+    case no          = "无"
+}
 
-/// 24节气排序 小寒...冬至
-let solarTermsNameList:[String] = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋","处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"]
+
 let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
 
 /// 在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。

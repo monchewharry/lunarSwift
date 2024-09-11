@@ -49,11 +49,11 @@ open class Lunar:ObservableObject {
     }
     
     //find jieqi
-    public var solarinfo: (String,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
-    public var todaySolarTerms: String {solarinfo.0}
+    public var solarinfo: (solarTermsEnum,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
+    public var todaySolarTerms: solarTermsEnum {solarinfo.0}
     public var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
     public var nextSolarNum:Int {solarinfo.2}
-    public var nextSolarTerm:String {solarTermsNameList[nextSolarNum]}
+    public var nextSolarTerm:solarTermsEnum {Array(solarTermsEnum.allCases.dropLast())[nextSolarNum]}
     public var nextSolarTermDate:(Int,Int) {thisYearSolarTermsDateList[nextSolarNum]}
     public var nextSolarTermYear:Int {solarinfo.3}
     
@@ -180,7 +180,7 @@ open class Lunar:ObservableObject {
      返回 (今日节气，今年节气列表[(month,day)]，下一个节气索引，下一个节气年):  帮助确定年柱，月柱
      - Returns: <#description#>
      */
-    func getTodaySolarTerms() -> (String,[(Int,Int)],Int,Int) {
+    func getTodaySolarTerms() -> (solarTermsEnum,[(Int,Int)],Int,Int) {
         var year:Int = Calendar.current.component(.year, from: date)
         var solarTermsDateList:[(Int,Int)] = getSolarTermsDateList(year: year)
         let thisYearSolarTermsDateList:[(Int,Int)] = solarTermsDateList
@@ -188,12 +188,12 @@ open class Lunar:ObservableObject {
         let findDate:(Int,Int) = (Calendar.current.component(.month, from: date), Calendar.current.component(.day, from: date))
         let nextSolarNum:Int = getNextNum(findDate: findDate, solarTermsDateList: solarTermsDateList)
 
-        let todaySolarTerm: String
+        let todaySolarTerm: solarTermsEnum
         if let index = solarTermsDateList.firstIndex(where: { $0 == findDate }) {
-            assert(solarTermsNameList.count == 24, "solarTermsNameList count not equal to 24")
-            todaySolarTerm = solarTermsNameList[index]
+            assert(solarTermsEnum.allCases.count == (24+1), "solarTermsEnum count not equal to 24+1")
+            todaySolarTerm = Array(solarTermsEnum.allCases.dropLast())[index]
         } else {
-            todaySolarTerm = "无"
+            todaySolarTerm = solarTermsEnum.no
         }
 
         // 次年节气
@@ -203,9 +203,6 @@ open class Lunar:ObservableObject {
                 solarTermsDateList = getSolarTermsDateList(year: year)
             }
         }
-
-        //nextSolarTerm = solarTermsNameList[nextSolarNum]
-        //nextSolarTermDate = solarTermsDateList[nextSolarNum]
         let nextSolarTermYear:Int = year
 
         return (todaySolarTerm,thisYearSolarTermsDateList,nextSolarNum,nextSolarTermYear)
