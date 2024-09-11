@@ -35,20 +35,7 @@ open class People: Lunar{
                 }
                 return elementsCount
             }
-    /**
-     四柱五行结果打印
-     */
-    public var fourPillarsfiveElementsResult: String{
-        calculateGanZhiAndWuXing(fourPillars: fourPillars, fiveElements:fiveElements, nayin: nayin)
-    }
-    /**
-     四柱五行平衡分析结果
-     */
-    public var fourPillarsfiveElementsAnalysis: [String]{
-            get{
-                return analyzeFiveElementsBalance(fiveElements:fiveElements)
-            }
-        }
+    
 }
 
 public extension People{

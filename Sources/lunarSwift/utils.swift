@@ -119,65 +119,6 @@ func matchwuxing(fourPillars:[StemBranch])->[[the5wuxingEnum]]{
     }
     return fiveElementsList
 }
-/**
- 四柱五行报告+纳音
- */
-func calculateGanZhiAndWuXing(fourPillars:[StemBranch],fiveElements:[[the5wuxingEnum]],nayin:[String]) -> String{
-    let pillarnames:[String]=["年柱","月柱","日柱","时柱"]
-    var report:String="四柱: 干支 五行 纳音\n\n"
-    for (index,pillarname) in pillarnames.enumerated() {
-        report += "\(pillarname): \(fourPillars[index].name) \(fiveElements[index][0].rawValue)\(fiveElements[index][1].rawValue) \(nayin[index])\n"
-    }
-    return report
-}
-/**
- 五行均衡性分析
- */
-func analyzeFiveElementsBalance(fiveElements:[[the5wuxingEnum]]) -> [String] {
-    // 统计五行的数量
-    var elementsCount: [the5wuxingEnum: Int] = [.mu: 0, .huo: 0, .tu: 0, .jin: 0, .shui: 0]
-    
-    // 遍历五行属性列表，统计每个五行的数量
-    for elements in fiveElements {
-        for element in elements {
-            elementsCount[element, default: 0] += 1
-        }
-    }
-    
-    // wuxing hist
-    var analysisResult1:String = ""
-    for (element, count) in elementsCount {
-        analysisResult1 += "\(element.rawValue): \(count)\n"
-    }
-    
-    // 分析五行平衡
-    var analysisResult2:String = ""
-    guard let maxElement:the5wuxingEnum = elementsCount.max(by: { $0.value < $1.value })?.key,
-          let minElement:the5wuxingEnum = elementsCount.min(by: { $0.value < $1.value })?.key else {
-        return [analysisResult1,"五行分析失败：未能找到最大或最小五行元素。"]
-    }
-    
-    
-    // 判断平衡情况
-    if elementsCount.values.allSatisfy({ $0 > 0 }) {
-        analysisResult2 += "五行均衡，无需特别补充\n"
-    } else {
-        analysisResult2 += "五行不平衡。\n"
-        
-        // 分析是否某五行过旺或过弱
-        analysisResult2 += "最旺的五行: \(maxElement.rawValue)\n"
-        analysisResult2 += "最弱的五行: \(minElement.rawValue)\n"
-        
-        // 建议的喜用神
-        if elementsCount[minElement]! < 2 {
-            analysisResult2 += "建议补充: \(minElement.rawValue)\n"
-        } else {
-            analysisResult2 += "建议控制: \(maxElement.rawValue) 的旺势\n"
-        }
-    }
-    
-    return [analysisResult1,analysisResult2]
-}
 
 //---------------------------------------------------十神
 /**

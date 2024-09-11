@@ -3,10 +3,22 @@
 // 1901~2100年农历数据表
 
 import Foundation
-public enum gendersEnum: String, CaseIterable{
+
+///protocol for enums that have a rawValue of type String, same as adding the method localized to all enum instances.
+public protocol LocalizableEnum: RawRepresentable where RawValue == String {}
+extension LocalizableEnum {
+    // Method to localize rawValue with tableName
+    public func localized(in tableName: String) -> String {
+        return NSLocalizedString(self.rawValue, tableName: tableName, bundle: .main, value: "", comment: "")
+    }
+}
+
+
+
+public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
     case male = "男"
     case female = "女"
-    case unknowngender = "未知"
+    case unknowngender = "性别未知"
 }
 /// define errors for Lunar Class
 public enum LunarError: Error {
@@ -17,7 +29,7 @@ let monthDayBit = 12
 let leapMonthNumBit = 13
 
 /// the five elements' type
-public enum the5wuxingEnum: String,CaseIterable,Equatable {
+public enum the5wuxingEnum: String,CaseIterable,Equatable,LocalizableEnum {
     case jin   =   "金"
     case mu    =   "木"
     case shui  =   "水"
@@ -26,7 +38,7 @@ public enum the5wuxingEnum: String,CaseIterable,Equatable {
 }
 
 /// the 10 stems type
-public enum the10StemEnum: String,CaseIterable,Equatable {
+public enum the10StemEnum: String,CaseIterable,Equatable,LocalizableEnum {
     case jia  = "甲"
     case yi   = "乙"
     case bing = "丙"
@@ -43,7 +55,7 @@ public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxingEnum] = Dictio
 let the12EarthlyBranches5ElementsList:[the5wuxingEnum] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
 let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxingEnum] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
 /// the 12 branches type
-public enum the12BranchEnum: String, CaseIterable,Equatable {
+public enum the12BranchEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case zi   = "子"
   case chou = "丑"
   case yin  = "寅"
@@ -56,6 +68,7 @@ public enum the12BranchEnum: String, CaseIterable,Equatable {
   case you  = "酉"
   case xu   = "戌"
   case hai  = "亥"
+
 }
 /**
 * reorder the 12 branches into palace order
@@ -63,11 +76,31 @@ public enum the12BranchEnum: String, CaseIterable,Equatable {
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
 
-public struct StemBranch: Equatable { // tuple of (the10StemEnum, the12BranchEnum) is not equatable
+///protocol for struct that have a rawValue of type String, same as adding the method localized to all enum instances.
+public protocol LocalizableStemBranchName {
+    var localizationStemKey: String { get }
+    var localizationBranchKey: String { get }
+    func localName(tableName: String) -> String
+}
+extension LocalizableStemBranchName {
+    public func localName(tableName: String) -> String {
+        let stems = NSLocalizedString(localizationStemKey, tableName: tableName, bundle: .main, value: localizationStemKey, comment: "")
+        let branchs = NSLocalizedString(localizationBranchKey, tableName: tableName, bundle: .main, value: localizationBranchKey, comment: "")
+        return stems+branchs
+    }
+}
+public struct StemBranch: Equatable, LocalizableStemBranchName { // tuple of (the10StemEnum, the12BranchEnum) is not equatable
     public let stem: the10StemEnum
     public let branch: the12BranchEnum
     public var name: String {
         stem.rawValue+branch.rawValue
+    }
+    
+    public var localizationStemKey: String{
+        stem.rawValue
+    }
+    public var localizationBranchKey: String{
+        branch.rawValue
     }
 }
 // Initialize the array of 60 combinations
@@ -400,7 +433,7 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
 //---------------------------------星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
 
-public enum StarsEnum: String, CaseIterable{
+public enum StarsEnum: String, CaseIterable, LocalizableEnum{
     //tianfu main stars
     case tianfu    = "天府"
     case taiyin    = "太阴"
@@ -440,7 +473,7 @@ public enum StarsEnum: String, CaseIterable{
     case qingyang    = "擎羊"
 
 }
-public enum sihuaEnum: String, CaseIterable{
+public enum sihuaEnum: String, CaseIterable,LocalizableEnum{
     case lu      = "禄"
     case quan    = "权"
     case ke      = "科"
