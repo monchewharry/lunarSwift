@@ -1,5 +1,4 @@
 # lunarSwift is a pkg for Swift
-
 This Swift package will calculate lunar calendar from solar calendar. Based on the four pillars derived from the lunar calendar, the package also provide some functionality to support traditional Dividation.
 
 **Current Features**
