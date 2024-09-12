@@ -13,8 +13,6 @@ extension LocalizableEnum {
     }
 }
 
-
-
 public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
     case male = "男"
     case female = "女"
@@ -438,7 +436,7 @@ public let palacesArray = [
     "财帛宫",  // Wealth Palace
     "疾厄宫",  // Misfortune Palace
     "迁移宫",  // Travel Palace
-    "交友宫",
+    "交友宫",  // Friend Palace
     "仕途宫",  // Career Palace
     "田宅宫",  // Property Palace
     "福德宫",  // Blessings Palace
