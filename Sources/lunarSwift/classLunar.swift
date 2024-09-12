@@ -105,7 +105,7 @@ open class Lunar:ObservableObject {
         
         return nayin4list
         }
-    public var luckygodsdirectionlist:[String:String]{
+    public var luckygodsdirectionlist:[luckgodsNameEnum:directionEnum]{
         getLuckyGodsDirection()
     }
     
@@ -446,17 +446,17 @@ open class Lunar:ObservableObject {
      返回吉神方位
      - Returns: <#description#>
      */
-    func getLuckyGodsDirection() -> [String:String] {
+    func getLuckyGodsDirection() -> [luckgodsNameEnum:directionEnum] {
         let todayNum = dayHeavenNum
         //let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
         let direction = [
-            directionList[chinese8Trigrams.firstIndex(of: luckyGodDirection[todayNum])!],
-            directionList[chinese8Trigrams.firstIndex(of: wealthGodDirection[todayNum])!],
-            directionList[chinese8Trigrams.firstIndex(of: mascotGodDirection[todayNum])!],
-            directionList[chinese8Trigrams.firstIndex(of: sunNobleDirection[todayNum])!],
-            directionList[chinese8Trigrams.firstIndex(of: moonNobleDirection[todayNum])!]
+            directionEnum.allCases[chinese8Trigrams.firstIndex(of: luckyGodDirection[todayNum])!],
+            directionEnum.allCases[chinese8Trigrams.firstIndex(of: wealthGodDirection[todayNum])!],
+            directionEnum.allCases[chinese8Trigrams.firstIndex(of: mascotGodDirection[todayNum])!],
+            directionEnum.allCases[chinese8Trigrams.firstIndex(of: sunNobleDirection[todayNum])!],
+            directionEnum.allCases[chinese8Trigrams.firstIndex(of: moonNobleDirection[todayNum])!]
         ]
-        let result = Dictionary(uniqueKeysWithValues:zip(listofluckgods,direction))
+        let result = Dictionary(uniqueKeysWithValues:zip(luckgodsNameEnum.allCases,direction))
         return result
     }
     /**

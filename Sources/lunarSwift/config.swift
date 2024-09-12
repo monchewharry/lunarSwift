@@ -181,10 +181,25 @@ let chinese12DayOfficers:[Character] = Array("建除满平定执破危成收开�
 let chinese12DayGods:[String] = ["青龙", "明堂", "天刑", "朱雀", "金贵", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"]
 
 ///方位和八卦的对应
-let directionList:[String] = ["正北", "东北", "正东", "东南", "正南", "西南", "正西", "西北"]
+public enum directionEnum:String,CaseIterable,Equatable,LocalizableEnum{
+    case n =  "正北"
+    case en = "东北"
+    case e  = "正东"
+    case es = "东南"
+    case s  = "正南"
+    case sw = "西南"
+    case w  = "正西"
+    case nw = "西北"
+}
 let chinese8Trigrams:[Character] = Array("坎艮震巽离坤兑乾")
 /// 吉神排序列表
-public let listofluckgods:[String] = ["喜神","财神","福神","阳贵","阴贵"]
+public enum luckgodsNameEnum:String,CaseIterable,Equatable,LocalizableEnum{
+    case xi   = "喜神"
+    case cai  = "财神"
+    case fu   = "福神"
+    case yang = "阳贵"
+    case yin  = "阴贵"
+}
 let luckyGodDirection:[Character] = Array("艮乾坤离巽艮乾坤离巽") //吉神,福神，财神，阳贵，阴贵方位
 let wealthGodDirection:[Character] = Array("艮艮坤坤坎坎震震离离")
 let mascotGodDirection:[Character] = Array("坎坤乾巽艮坎坤乾巽艮")
