@@ -421,6 +421,20 @@ public let tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = [
     .ren : generateTenGods(for: .ren ),
     .gui : generateTenGods(for: .gui )
 ]//Donary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
+//-----------五行局
+
+public struct WuxingGame {
+    public let name: String
+    public let num: Int
+}
+
+public let wuxingGameArray:[WuxingGame] = [
+        WuxingGame(name: "金四局", num: 4),
+        WuxingGame(name: "水二局", num: 2),
+        WuxingGame(name: "火六局", num: 6),
+        WuxingGame(name: "土五局", num: 5),
+        WuxingGame(name: "木三局", num: 3)
+    ]
 
 //-----------十二宫
 /**

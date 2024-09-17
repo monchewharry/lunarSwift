@@ -198,23 +198,12 @@ public struct twelvePalaceCalculator {
 
 
 //---------------------------------------------------五行局计算器
-public struct WuxingGame {
-    public let name: String
-    public let num: Int
-}
 /**
  五行局计算器
  */
 public struct ZiWeiWuxingGameCalculator {
     let lifePalaceStemBranchArray: StemBranch
     
-    let wuxingGameArray:[WuxingGame] = [
-        WuxingGame(name: "金四局", num: 4),
-        WuxingGame(name: "水二局", num: 2),
-        WuxingGame(name: "火六局", num: 6),
-        WuxingGame(name: "土五局", num: 5),
-        WuxingGame(name: "木三局", num: 3)
-    ]
     /**
      * 根据命宫天干地支，计算五行局
      * js code https://github.com/haibolian/natal-chart/blob/main/src/views/natal-chart/utils/Person.js#L123
@@ -334,7 +323,7 @@ public struct ZiweiStarCalculator {
      天府星地支
      */
     func getTianfuIndex() -> (index: Int, dizhi:the12BranchEnum){
-        let tianfuindex = 12 - getZiweiIndex().index
+        let tianfuindex = pythonModulo((12 - getZiweiIndex().index), 12)
         return (tianfuindex, fillOrder[tianfuindex])
     }
     
