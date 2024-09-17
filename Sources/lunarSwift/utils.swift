@@ -282,7 +282,7 @@ public struct ZiweiStarCalculator {
         }
         
         let index = Int(jumpNum) - 1 //9
-        let dizhiIndex = index < 0 ? index + 12 : index // pythonmodule(index, 12)
+        let dizhiIndex = index < 0 ? index + 12 : index // pythonmodulo(index, 12)
         let dizhi = fillOrder[dizhiIndex] //亥
         return (index, dizhi)
     }
