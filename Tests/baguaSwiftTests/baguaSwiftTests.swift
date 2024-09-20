@@ -26,10 +26,12 @@ let guabench = testgua(binary6: "111111", guaname: "乾",guades: "乾卦原文",
 
 
 final class baguaSwiftTests: XCTestCase {
+    // test from binary to gua match
     func testGuaNameMatch(){
         let gua = Hexagram(binary: guabench.binary6)
         XCTAssertEqual(gua.name, guabench.guaname, "should be following the specific format")
         }
+    // test from binary to gua doc match
     func testGuaFilehandles(){
         let gua = Hexagram(binary: guabench.binary6)
         let guades = String(gua.docString.prefix(4))

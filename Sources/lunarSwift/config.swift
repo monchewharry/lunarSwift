@@ -376,7 +376,7 @@ public func generateTenGods(for dayStem: the10StemEnum) -> [the10StemEnum: Strin
     for (stem, stemElement) in heavenlyStemsToFiveElements {//结合五行生克关系以及阴阳属性
         if dayelement == stemElement {
             relationships[stem] = dayStem == stem ? "比肩" : "劫财"
-        } else if dayelement == .mu && stemElement == .huo ||
+        } else if dayelement == .mu && stemElement == .huo || // dayElement generate stemElement
                     dayelement == .huo && stemElement == .tu ||
                     dayelement == .tu && stemElement == .jin ||
                     dayelement == .jin && stemElement == .shui ||
