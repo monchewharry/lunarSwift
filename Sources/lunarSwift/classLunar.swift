@@ -167,7 +167,6 @@ open class Lunar:ObservableObject {
     }
 
     func getLunarCn() -> (String, String, String) {
-        assert(lunarDayNameList.count == 30, "lunarDayNameList count not equal to 30")
         return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[pythonModulo((lunarDay - 1) , 30)])
     }
 
