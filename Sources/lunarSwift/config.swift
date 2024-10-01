@@ -78,6 +78,10 @@ public enum the12BranchEnum: String, CaseIterable,Equatable,LocalizableEnum {
 * [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
+//public let palaceFillorderDict: [the12BranchEnum: Int] = [
+//    .yin: 0, .mao: 1, .chen: 2, .si: 3, .wu: 4, .wei: 5,
+//    .shen: 6, .you: 7, .xu: 8, .hai: 9, .zi: 10, .chou: 11
+//]
 
 //MARK: protocol for struct that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableStemBranchName {
@@ -435,7 +439,12 @@ public let tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = [
     .xin : generateTenGods(for: .xin ),
     .ren : generateTenGods(for: .ren ),
     .gui : generateTenGods(for: .gui )
-]//Donary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
+]
+//public var tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = {
+//    the10StemEnum.allCases.reduce(into: [the10StemEnum: [the10StemEnum: String]]()) {
+//        $0[$1] = generateTenGods(for: $1)
+//    }
+//}()
 
 //MARK: 五行局
 public struct WuxingGame {
@@ -482,6 +491,7 @@ func rotateArrayToLeft(_ array: [the10StemEnum], by steps: Int) -> [the10StemEnu
     let rotatedleftarray=Array(array[effectiveSteps...] + array[0..<effectiveSteps])//rotate by steps
     return rotatedleftarray.suffix(2) + rotatedleftarray
 }
+
 var array:[the10StemEnum] = [.wu, .ji, .geng, .xin, .ren, .gui, .jia, .yi, .bing, .ding]
 let rotatedLeft0 = rotateArrayToLeft(array, by: 0*2)
 let rotatedLeft1 = rotateArrayToLeft(array, by: 1*2)
