@@ -28,19 +28,32 @@ open class Lunar:ObservableObject {
         self.yearPillarType = yearPillarType
     }
     
-    
-    private var lunarYMD: (lunarYear:Int,lunarMonth:Int,lunarDay:Int,spanDays:Int) {
-        getLunarDateNum()
-    }
+    // Cached computed properties
+    private var cachedLunarYMD: (lunarYear: Int, lunarMonth: Int, lunarDay: Int, spanDays: Int)?
+    private var cachedLunarYMDCn: (lunarYearCn: String, lunarMonthCn: String, lunarDayCn: String)?
+    private var cachedSolarInfo: (solarTermsEnum, [(Int, Int)], Int, Int)?
+    private var lunarYMD: (lunarYear: Int, lunarMonth: Int, lunarDay: Int, spanDays: Int) {
+            if let cached = cachedLunarYMD {
+                return cached
+            }
+            let calculated = getLunarDateNum()
+            cachedLunarYMD = calculated
+            return calculated
+        }
     public var lunarYear:Int {return lunarYMD.lunarYear}
     public var lunarMonth:Int {return lunarYMD.lunarMonth}
     public var lunarDay:Int {return lunarYMD.lunarDay}
     public var spanDays: Int {return lunarYMD.spanDays}
     
     //MARK: find lunar YMD's chinese character
-    private var lunarYMDCn: (lunarYearCn:String,lunarMonthCn:String,lunarDayCn:String) {
-        getLunarCn()
-    }
+    private var lunarYMDCn: (lunarYearCn: String, lunarMonthCn: String, lunarDayCn: String) {
+            if let cached = cachedLunarYMDCn {
+                return cached
+            }
+            let calculated = getLunarCn()
+            cachedLunarYMDCn = calculated
+            return calculated
+        }
     public var lunarYearCn:String {return lunarYMDCn.lunarYearCn}
     public var lunarMonthCn:String {return lunarYMDCn.lunarMonthCn}
     public var lunarDayCn:String {return lunarYMDCn.lunarDayCn}
@@ -49,7 +62,14 @@ open class Lunar:ObservableObject {
     }
     
     //MARK: find jieqi
-    public var solarinfo: (solarTermsEnum,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
+    public var solarinfo: (solarTermsEnum, [(Int, Int)], Int, Int) {
+            if let cached = cachedSolarInfo {
+                return cached
+            }
+            let calculated = getTodaySolarTerms()
+            cachedSolarInfo = calculated
+            return calculated
+        }
     public var todaySolarTerms: solarTermsEnum {solarinfo.0}
     public var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
     public var nextSolarNum:Int {solarinfo.2}
@@ -116,29 +136,19 @@ open class Lunar:ObservableObject {
         let isBeforeLunarYear = spanDays < 0
         var x = 0
 
-        if yearPillarType != "beginningOfSpring" {
-            return x
-        }
+        guard yearPillarType == "beginningOfSpring" else { return x }
         
         if isBeforeLunarYear {
-            if !isBeforeBeginningOfSpring {
-                x = -1
+                x = isBeforeBeginningOfSpring ? 0 : -1
+            } else {
+                x = isBeforeBeginningOfSpring ? 1 : 0
             }
-        } else {
-            if isBeforeBeginningOfSpring {
-                x = 1
-            }
-        }
 
         return x
     }
 
-    func getLunarYearCN() -> String { //wrong
-        var _upper_year: String=""
-        for char in String(lunarYear) {
-            _upper_year += upperNum[Int(String(char))!]
-        }
-        return _upper_year
+    func getLunarYearCN() -> String {
+        return String(lunarYear).compactMap { upperNum[Int(String($0))!] }.joined()
     }
     func setlunarMonthLong() -> Bool{
         let thisLunarMonthDays = isLunarLeapMonth ? monthDaysList[2] : monthDaysList[0]
@@ -158,7 +168,7 @@ open class Lunar:ObservableObject {
 
     func getLunarCn() -> (String, String, String) {
         assert(lunarDayNameList.count == 30, "lunarDayNameList count not equal to 30")
-        return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[(lunarDay - 1) % 30])
+        return (getLunarYearCN(), getLunarMonthCN(), lunarDayNameList[pythonModulo((lunarDay - 1) , 30)])
     }
 
     func getPhaseOfMoon() -> String {
