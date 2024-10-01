@@ -4,6 +4,16 @@
 
 import Foundation
 
+public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
+    case male = "男"
+    case female = "女"
+    case unknowngender = "性别未知"
+}
+let startYear = 1901
+let monthDayBit = 12
+let leapMonthNumBit = 13
+
+//MARK:  enums localization protocol
 ///protocol for enums that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableEnum: RawRepresentable where RawValue == String {}
 extension LocalizableEnum {
@@ -13,20 +23,14 @@ extension LocalizableEnum {
     }
 }
 
-public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
-    case male = "男"
-    case female = "女"
-    case unknowngender = "性别未知"
-}
-/// define errors for Lunar Class
+
+
+//MARK:  define errors for Lunar Class
 public enum LunarError: Error {
     case dateOutOfBounds
 }
-let startYear = 1901
-let monthDayBit = 12
-let leapMonthNumBit = 13
 
-/// the five elements' type
+//MARK: the five elements' type
 public enum the5wuxingEnum: String,CaseIterable,Equatable,LocalizableEnum {
     case jin   =   "金"
     case mu    =   "木"
@@ -35,7 +39,7 @@ public enum the5wuxingEnum: String,CaseIterable,Equatable,LocalizableEnum {
     case tu    =   "土"
 }
 
-/// the 10 stems type
+//MARK: the 10 stems type
 public enum the10StemEnum: String,CaseIterable,Equatable,LocalizableEnum {
     case jia  = "甲"
     case yi   = "乙"
@@ -52,7 +56,8 @@ let the10HeavenlyStems5ElementsList:[the5wuxingEnum] = [.mu, .mu, .huo, .huo, .t
 public let heavenlyStemsToFiveElements: [the10StemEnum: the5wuxingEnum] = Dictionary(uniqueKeysWithValues: zip(the10StemEnum.allCases, the10HeavenlyStems5ElementsList))
 let the12EarthlyBranches5ElementsList:[the5wuxingEnum] = [.shui, .tu, .mu, .mu, .tu, .huo, .huo, .tu, .jin, .jin, .tu, .shui]//di zhi wuxing
 let earthlyBranchesToFiveElements: [the12BranchEnum : the5wuxingEnum] = Dictionary(uniqueKeysWithValues: zip(the12BranchEnum.allCases, the12EarthlyBranches5ElementsList))
-/// the 12 branches type
+
+//MARK: the 12 branches type
 public enum the12BranchEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case zi   = "子"
   case chou = "丑"
@@ -74,7 +79,7 @@ public enum the12BranchEnum: String, CaseIterable,Equatable,LocalizableEnum {
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
 
-///protocol for struct that have a rawValue of type String, same as adding the method localized to all enum instances.
+//MARK: protocol for struct that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableStemBranchName {
     var localizationStemKey: String { get }
     var localizationBranchKey: String { get }
@@ -101,7 +106,8 @@ public struct StemBranch: Equatable, LocalizableStemBranchName { // tuple of (th
         branch.rawValue
     }
 }
-// Initialize the array of 60 combinations
+
+//MARK: Initialize the array of 60 combinations
 
 /**
  60甲子排序, the 60 combination of 10 stems and 12 branches
@@ -118,6 +124,8 @@ public let the60StemBranchEnumArray: [StemBranch] = {
     }
     return combinations
 }()
+
+//MARK: 节气
 
 /**
  *  24节气排序 小寒...冬至
@@ -156,6 +164,7 @@ public enum solarTermsEnum:String,CaseIterable,Equatable,LocalizableEnum{
 
 let eastZodiacList = ["玄枵", "娵訾", "降娄", "大梁", "实沈", "鹑首", "鹑火", "鹑尾", "寿星", "大火", "析木", "星纪"]
 
+//MARK: 纳音
 /// 在六十甲子纳音（每个甲子组合对应一个特定的自然象征或物质象征，如海中金）体系中，它代表特定的天干地支组合的属性。
 let halfStemBranchNayinList = [
     "海中金", "炉中火", "大林木", "路旁土", "剑锋金", "山头火", "涧下水", "城头土", "白蜡金", "杨柳木", "井泉水",
@@ -163,7 +172,8 @@ let halfStemBranchNayinList = [
     "大驿土", "钗钏金", "桑柘木", "大溪水", "砂中土", "天上火", "石榴木", "大海水"
 ]//theHalf60HeavenlyEarth5ElementsList
 
-/// 28宿：星宿被分成四象，每象包含七宿
+
+//MARK: 28宿：星宿被分成四象，每象包含七宿
 let the28StarsList:[String] = [
     "角木蛟", "亢金龙", "氐土貉", "房日兔", "心月狐", "尾火虎", "箕水豹", //东方青龙七宿
     "斗木獬", "牛金牛", "女土蝠", "虚日鼠", "危月燕", "室火猪", "壁水貐", //南方朱雀七宿
@@ -171,14 +181,14 @@ let the28StarsList:[String] = [
     "井木犴", "鬼金羊", "柳土獐", "星日马", "张月鹿", "翼火蛇", "轸水蚓" //北方玄武七宿
 ]
 
-/// 12 生肖
+//MARK: 12 生肖
 let chineseZodiacNameList:[Character] = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"]
-/// 12值日神
+//MARK: 12值日神
 let chinese12DayOfficers:[Character] = Array("建除满平定执破危成收开闭" )
-/// 12宫，12长生
+//MARK: 12宫，12长生
 let chinese12DayGods:[String] = ["青龙", "明堂", "天刑", "朱雀", "金贵", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈"]
 
-///方位和八卦的对应
+//MARK: 方位和八卦的对应
 public enum directionEnum:String,CaseIterable,Equatable,LocalizableEnum{
     case n =  "正北"
     case en = "东北"
@@ -190,7 +200,8 @@ public enum directionEnum:String,CaseIterable,Equatable,LocalizableEnum{
     case nw = "西北"
 }
 let chinese8Trigrams:[Character] = Array("坎艮震巽离坤兑乾")
-/// 吉神排序列表
+
+//MARK: 吉神排序列表
 public enum luckgodsNameEnum:String,CaseIterable,Equatable,LocalizableEnum{
     case xi   = "喜神"
     case cai  = "财神"
@@ -204,7 +215,7 @@ let mascotGodDirection:[Character] = Array("坎坤乾巽艮坎坤乾巽艮")
 let sunNobleDirection:[Character] = Array("坤坤兑乾艮坎离艮震巽")
 let moonNobleDirection:[Character] = Array("艮坎乾兑坤坤艮离巽震")
 
-/// 胎神
+//MARK:  胎神
 let fetalGodList = [
     "碓磨门外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床厕外正南", "占门床外正南",
     "占碓磨外正南", "厨灶厕外西南", "仓库炉外西南", "房床门外西南", "门碓栖外西南", "碓磨床外西南",
@@ -217,9 +228,10 @@ let fetalGodList = [
     "仓库碓外东北", "房床厕外东北", "占门炉外东北", "碓磨门外正东", "厨灶栖外正东", "仓库床外正东",
     "房床碓外正东", "占门厕外正东", "碓磨炉外东南", "仓库栖外东南", "占房床外东南", "占门碓外东南"
 ]
-/// 时辰经络
+//MARK:  时辰经络
 let meridiansName = ["胆", "肝", "肺", "大肠", "胃", "脾", "心", "小肠", "膀胱", "肾", "心包", "三焦"]
 
+//MARK: lunar date chinese letters
 let lunarMonthNameList = ["正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"]
 let lunarDayNameList = [
     "初一", "初二", "初三", "初四", "初五", "初六", "初七", "初八", "初九", "初十",
@@ -230,6 +242,8 @@ let lunarDayNameList = [
 let upperNum = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
 let weekDay = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"]
 
+
+//MARK: lunar calendar dataset
 /// 1901-2100年二十节气最小数序列 向量压缩法
 let encVectorList:[Int] = [4, 19, 3, 18, 4, 19, 4, 19, 4, 20, 4, 20, 6, 22, 6, 22, 6, 22, 7, 22, 6, 21, 6, 21]
 
@@ -251,6 +265,7 @@ extension Date {
         return Calendar.current.date(from: components)!
     }
 }
+
 
 /**
  * 1901-2100年香港天文台公布二十四节气按年存储16进制，1个16进制为4个2进制记录了一年的24节气日期.
@@ -349,7 +364,7 @@ let lunarNewYearList: [Int] = [
 ]
 
 
-//----------十神
+//MARK: 十神
 
 /**
  * 计算十神规则：以日干为命主（我），结合天干的五行生克与阴阳属性，计算与其他三柱天干的关系
@@ -421,8 +436,8 @@ public let tianGanRelationships: [the10StemEnum: [the10StemEnum: String]] = [
     .ren : generateTenGods(for: .ren ),
     .gui : generateTenGods(for: .gui )
 ]//Donary(uniqueKeysWithValues: tianGan.map { ($0, generateTenGods(for: $0)) })
-//-----------五行局
 
+//MARK: 五行局
 public struct WuxingGame {
     public let name: String
     public let num: Int
@@ -436,7 +451,7 @@ public let wuxingGameArray:[WuxingGame] = [
         WuxingGame(name: "木三局", num: 3)
     ]
 
-//-----------十二宫
+//MARK: 十二宫
 /**
  命宫地支参考顺序：命盘顺序 寅...丑
  */
@@ -489,7 +504,7 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
     .gui : rotatedLeft4,
 ]
 
-//---------------------------------星耀安放
+//MARK: 星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
 
 public enum StarsEnum: String, CaseIterable, LocalizableEnum{
@@ -607,7 +622,7 @@ public let sihuaMap: [the10StemEnum: [StarsEnum: sihuaEnum]] = [
     ]
 ]
 
-// ----------------------- 次星规则
+//MARK:  次星规则
 
 /// 禄存 规则
 let lucunRule: [the10StemEnum: the12BranchEnum] = [

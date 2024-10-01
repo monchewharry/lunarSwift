@@ -37,7 +37,7 @@ open class Lunar:ObservableObject {
     public var lunarDay:Int {return lunarYMD.lunarDay}
     public var spanDays: Int {return lunarYMD.spanDays}
     
-    //find lunar YMD's chinese character
+    //MARK: find lunar YMD's chinese character
     private var lunarYMDCn: (lunarYearCn:String,lunarMonthCn:String,lunarDayCn:String) {
         getLunarCn()
     }
@@ -48,7 +48,7 @@ open class Lunar:ObservableObject {
         return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.branch.rawValue + "时"
     }
     
-    //find jieqi
+    //MARK: find jieqi
     public var solarinfo: (solarTermsEnum,[(Int,Int)],Int,Int) {getTodaySolarTerms()}
     public var todaySolarTerms: solarTermsEnum {solarinfo.0}
     public var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
@@ -65,7 +65,7 @@ open class Lunar:ObservableObject {
     public var lunarMonthLong:Bool {setlunarMonthLong()}
     public var _x: Int {getBeginningOfSpringX()} //must before the update of year8Char
 
-    //calculate lunar YMD's BAZI
+    //MARK: calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
     private var ymd8Char: (year:StemBranch,
                           month:StemBranch,
@@ -109,7 +109,7 @@ open class Lunar:ObservableObject {
         getLuckyGodsDirection()
     }
     
-    // if the yearPillarType = "beginningOfSpring", calculate the year pillar by 24 jieqi
+    //MARK: if the yearPillarType = "beginningOfSpring", calculate the year pillar by 24 jieqi
     private func getBeginningOfSpringX() -> Int {
         
         let isBeforeBeginningOfSpring = nextSolarNum < 3
