@@ -73,7 +73,8 @@ open class Lunar:ObservableObject {
     public var todaySolarTerms: solarTermsEnum {solarinfo.0}
     public var thisYearSolarTermsDateList:[(Int, Int)] {solarinfo.1}
     public var nextSolarNum:Int {solarinfo.2}
-    public var nextSolarTerm:solarTermsEnum {Array(solarTermsEnum.allCases.dropLast())[nextSolarNum]}
+    private let allSolarTermsExcludeNone = Array(solarTermsEnum.allCases.dropLast())
+    public var nextSolarTerm:solarTermsEnum {allSolarTermsExcludeNone[nextSolarNum]}
     public var nextSolarTermDate:(Int,Int) {thisYearSolarTermsDateList[nextSolarNum]}
     public var nextSolarTermYear:Int {solarinfo.3}
     
@@ -200,7 +201,7 @@ open class Lunar:ObservableObject {
         let todaySolarTerm: solarTermsEnum
         if let index = solarTermsDateList.firstIndex(where: { $0 == findDate }) {
             assert(solarTermsEnum.allCases.count == (24+1), "solarTermsEnum count not equal to 24+1")
-            todaySolarTerm = Array(solarTermsEnum.allCases.dropLast())[index]
+            todaySolarTerm = allSolarTermsExcludeNone[index]
         } else {
             todaySolarTerm = solarTermsEnum.no
         }
@@ -376,7 +377,6 @@ open class Lunar:ObservableObject {
         let apartNum:Int = (nextNum + 1) / 2 //距离下一个节气相差多少个由24节气分割的月份
         let yeardiffmonth: Int = (Calendar.current.component(.year, from: date) - 2019) * 12
         let _index:Int = pythonModulo((yeardiffmonth + apartNum) , 60)
-        assert(the60StemBranchEnumArray.count == 60, "the60StemBranchEnumArray count not equal to 60")
         let month8Char = the60StemBranchEnumArray[_index]//2019/01/05 小寒为甲子月
         return month8Char
     }
