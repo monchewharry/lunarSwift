@@ -36,6 +36,29 @@ open class People: Lunar{
                 return elementsCount
             }
     
+    /// setup calculator for 12 palaces to avoid duplicate calls
+    private var cachedtwelvePalaceCalculator:twelvePalaceCalculator?
+    private var PalaceCalculator: twelvePalaceCalculator {
+            if let cached = cachedtwelvePalaceCalculator {
+                return cached
+            } else {
+                let calculated = twelvePalaceCalculator(monthBranch: month8Char.branch,
+                                                        hourBranch: twohour8Char.branch)
+                cachedtwelvePalaceCalculator = calculated
+                return calculated
+            }
+        }
+    /// setup calculator for ziweistar to avoid duplicate calls
+    private var cachedZiweiStarCalculator:ZiweiStarCalculator?
+    private var ziweistarCalculator: ZiweiStarCalculator {
+            if let cached = cachedZiweiStarCalculator {
+                return cached
+            } else {
+                let calculated = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+                cachedZiweiStarCalculator = calculated
+                return calculated
+            }
+        }
 }
 
 public extension People{
@@ -52,9 +75,9 @@ public extension People{
      * https://www.douban.com/note/833981956/?_i=4646542gC9k0WR,4655583gC9k0WR
      * https://www.iztro.com/learn/astrolabe.html
      */
+
     var lifePalace: StemBranch {
-        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
-                                                hourBranch: twohour8Char.branch)
+        let calculator = PalaceCalculator
         let lifePalaceBranch:the12BranchEnum = calculator.findLifePalaceBranch()
         let lifePalaceStem = calculator.generatingStem(lifePalaceBranch:lifePalaceBranch,
                                                        yearStem: year8Char.stem)
@@ -66,8 +89,7 @@ public extension People{
      身宫天干地支
      */
     var bodyPalace: (stem:the10StemEnum,branch:the12BranchEnum) {
-        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
-                                                hourBranch: twohour8Char.branch)
+        let calculator = PalaceCalculator
         let BodyPalaceBranch:the12BranchEnum = calculator.findBodyPalaceBranch()
         let BodyPalaceStem = calculator.generatingStem(lifePalaceBranch:BodyPalaceBranch, 
                                                        yearStem: year8Char.stem)
@@ -78,8 +100,7 @@ public extension People{
      全部十二宫字典
      */
     var twelvePalaces: [String: StemBranch]{
-        let calculator = twelvePalaceCalculator(monthBranch: month8Char.branch,
-                                                hourBranch: twohour8Char.branch)
+        let calculator = PalaceCalculator
         return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: lifePalace,
                                                               yearStem: year8Char.stem)
     }
@@ -94,7 +115,7 @@ public extension People{
      主星 紫薇星 所有星耀
      */
     var ziweiAllStarArrays:[Star?] {
-        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        let calculator = ziweistarCalculator
         return calculator.setZiweiStars(yearStem: year8Char.stem)
 
     }
@@ -102,7 +123,7 @@ public extension People{
      主星 天府星 所有星耀
      */
     var tianfuAllStarArrays:[Star?] {
-        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        let calculator = ziweistarCalculator
         return calculator.setTianfuStars(yearStem: year8Char.stem)
 
     }
@@ -110,7 +131,7 @@ public extension People{
      所有sub star
      */
     var allSubSmallStars: (Substar:[Star], Smallstar: [Star]) {
-        let calculator = ZiweiStarCalculator(lunarDayNum: lunarDay, wuxingGameNum: wuxingGame!.num)
+        let calculator = ziweistarCalculator
         let result = calculator.setOtherRegularSmallStars(tYearPinyin: year8Char.stem,
                                                           dYearPinyin: year8Char.branch,
                                                           shichen: twohour8Char.branch, lunarMonth: lunarMonth)!

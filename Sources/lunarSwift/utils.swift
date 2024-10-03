@@ -138,26 +138,48 @@ public struct twelvePalaceCalculator {
     /// palace order: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
     
-    /// 对宫：是 本宫 序号 加6 所在的位置
-    private static func createCyclicDictionary(from fillorder: [the12BranchEnum]) -> [the12BranchEnum: the12BranchEnum] {
-            var cyclicDict: [the12BranchEnum: the12BranchEnum] = [:]
-            let count = fillorder.count
-            for (index, element) in fillorder.enumerated() {
-                // Calculate the index 6 positions forward, wrapping around using modulo
-                let nextIndex = (index + 6) % count
-                cyclicDict[element] = fillorder[nextIndex]
-            }
-            return cyclicDict
-        }
+    /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
     let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
+    
+    ///三合位: 是指 本宫 和本宫的序号 加减4 所在的两个位置
+    let SanHePosition: [the12BranchEnum: (forward4:the12BranchEnum, backward4:the12BranchEnum)]
+    
+    ///暗合宫: 把紫微斗数星盘从中间纵向分开，左右镜像宫位即是暗合宫位
+    let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.mao,.you,.xu,.yin,.chou,.zi,.hai]
     
     /// Initializer
     public init(monthBranch: the12BranchEnum, hourBranch: the12BranchEnum) {
         self.monthBranch = monthBranch
         self.hourBranch = hourBranch
-        self.duiPalaceDict = twelvePalaceCalculator.createCyclicDictionary(from: fillorder)
+        self.duiPalaceDict = twelvePalaceCalculator
+            .createCyclicDictionary(from: fillorder, forwardBy: 6)
+        self.SanHePosition = twelvePalaceCalculator.combineDictionaries(
+            twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: 4),
+            twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
+        )
     }
-    
+    private static func createCyclicDictionary(from fillorder: [the12BranchEnum], forwardBy:Int) -> [the12BranchEnum: the12BranchEnum] {
+            var cyclicDict: [the12BranchEnum: the12BranchEnum] = [:]
+            let count = fillorder.count
+            for (index, element) in fillorder.enumerated() {
+                // Calculate the index 6 positions forward, wrapping around using modulo
+                let nextIndex = pythonModulo((index + forwardBy), count)
+                cyclicDict[element] = fillorder[nextIndex]
+            }
+            return cyclicDict
+        }
+    private static func combineDictionaries<Key, Value1, Value2>(_ dict1: [Key: Value1], _ dict2: [Key: Value2]) -> [Key: (Value1, Value2)] {
+        var combinedDict: [Key: (Value1, Value2)] = [:]
+        
+        // Iterate over the first dictionary
+        for (key, value1) in dict1 {
+            if let value2 = dict2[key] { // Ensure the key exists in the second dictionary
+                combinedDict[key] = (value1, value2)
+            }
+        }
+        
+        return combinedDict
+    }
 
     /**
      * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
@@ -216,7 +238,7 @@ public struct twelvePalaceCalculator {
         }
         return palaces12
     }
-    // TODO: 对宫, 三合位,四正位 (https://www.iztro.com/learn/basis.html#宫位)
+    // TODO: 对宫, 三合位,暗合宫(https://www.iztro.com/learn/basis.html#宫位)
     
     /// from current palace branch to its duiPalace's branch
     func findDuiPalace(currentPalceBranch:the12BranchEnum) -> the12BranchEnum {

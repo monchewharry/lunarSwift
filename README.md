@@ -60,3 +60,4 @@ Many inspiration from the multiple Python projects.
 1. 中华绝学-中国历代方术大关, 雒启坤, 1998年, 青海人民出版社
 2. http://www.ziweicn.com/ziweirumen/ziweijichu/3083.html
 3. [紫微研习社](https://www.iztro.com/)
+    - [紫微斗数基础](https://www.iztro.com/learn/basis.html)
