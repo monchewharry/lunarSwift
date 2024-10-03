@@ -135,7 +135,29 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
  */
 public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
+    /// palace order: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
+    
+    /// 对宫：是 本宫 序号 加6 所在的位置
+    private static func createCyclicDictionary(from fillorder: [the12BranchEnum]) -> [the12BranchEnum: the12BranchEnum] {
+            var cyclicDict: [the12BranchEnum: the12BranchEnum] = [:]
+            let count = fillorder.count
+            for (index, element) in fillorder.enumerated() {
+                // Calculate the index 6 positions forward, wrapping around using modulo
+                let nextIndex = (index + 6) % count
+                cyclicDict[element] = fillorder[nextIndex]
+            }
+            return cyclicDict
+        }
+    let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
+    
+    /// Initializer
+    public init(monthBranch: the12BranchEnum, hourBranch: the12BranchEnum) {
+        self.monthBranch = monthBranch
+        self.hourBranch = hourBranch
+        self.duiPalaceDict = twelvePalaceCalculator.createCyclicDictionary(from: fillorder)
+    }
+    
 
     /**
      * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
@@ -194,6 +216,15 @@ public struct twelvePalaceCalculator {
         }
         return palaces12
     }
+    // TODO: 对宫, 三合位,四正位 (https://www.iztro.com/learn/basis.html#宫位)
+    
+    /// from current palace branch to its duiPalace's branch
+    func findDuiPalace(currentPalceBranch:the12BranchEnum) -> the12BranchEnum {
+        return duiPalaceDict[currentPalceBranch]!
+    }
+    
+    
+    
 }
 
 
@@ -286,6 +317,7 @@ public struct ZiweiStarCalculator {
         let dizhi = fillOrder[dizhiIndex] //亥
         return (index, dizhi)
     }
+    // MARK: 主星
     /**
      基于年干，确定紫薇主星的四化. 排星 -> 确定紫薇 ，逆时针依次，天机 ->空格 ->太阳 ->武曲 ->天同 -> 空两格 -> 廉贞
      */

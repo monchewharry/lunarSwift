@@ -534,6 +534,7 @@ public enum StarsEnum: String, CaseIterable, LocalizableEnum{
     case wuqu      = "武曲"
     case tiantong  = "天同"
     case lianzhen  = "廉贞"
+    
     //other smallstars with sihua
     case wenchang  = "文昌"
     case youbi     = "右弼"
