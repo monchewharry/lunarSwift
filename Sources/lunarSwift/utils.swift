@@ -135,7 +135,7 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
  */
 public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
-    /// palace order: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
+    /// palace order clockwise from .yin: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
     
     /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
@@ -160,8 +160,8 @@ public struct twelvePalaceCalculator {
         self.duiPalaceDict = twelvePalaceCalculator
             .createCyclicDictionary(from: fillorder, forwardBy: 6)
         self.SanHePosition = twelvePalaceCalculator.combineDictionaries(
-            twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: 4),
-            twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
+            forward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: 4),
+            backward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
         )
     }
     private static func createCyclicDictionary(from fillorder: [the12BranchEnum], forwardBy:Int) -> [the12BranchEnum: the12BranchEnum] {
@@ -169,22 +169,20 @@ public struct twelvePalaceCalculator {
             let count = fillorder.count
             for (index, element) in fillorder.enumerated() {
                 // Calculate the index 6 positions forward, wrapping around using modulo
-                let nextIndex = pythonModulo((index + forwardBy), count)
+                let nextIndex = (index + forwardBy + count) % count
                 cyclicDict[element] = fillorder[nextIndex]
             }
             return cyclicDict
         }
-    private static func combineDictionaries<Key, Value1, Value2>(_ dict1: [Key: Value1], _ dict2: [Key: Value2]) -> [Key: (Value1, Value2)] {
-        var combinedDict: [Key: (Value1, Value2)] = [:]
+    /// Combine two dictionaries (forward and backward)
+    private static func combineDictionaries(forward: [the12BranchEnum: the12BranchEnum], backward: [the12BranchEnum: the12BranchEnum]) -> [the12BranchEnum: (forward4: the12BranchEnum, backward4: the12BranchEnum)] {
+        var combined: [the12BranchEnum: (forward4: the12BranchEnum, backward4: the12BranchEnum)] = [:]
         
-        // Iterate over the first dictionary
-        for (key, value1) in dict1 {
-            if let value2 = dict2[key] { // Ensure the key exists in the second dictionary
-                combinedDict[key] = (value1, value2)
-            }
+        for (key, forwardValue) in forward {
+            let backwardValue = backward[key] ?? key
+            combined[key] = (forwardValue, backwardValue)
         }
-        
-        return combinedDict
+        return combined
     }
 
     /**
