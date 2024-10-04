@@ -78,10 +78,6 @@ public enum the12BranchEnum: String, CaseIterable,Equatable,LocalizableEnum {
 * [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
 */
 public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
-//public let palaceFillorderDict: [the12BranchEnum: Int] = [
-//    .yin: 0, .mao: 1, .chen: 2, .si: 3, .wu: 4, .wei: 5,
-//    .shen: 6, .you: 7, .xu: 8, .hai: 9, .zi: 10, .chou: 11
-//]
 
 //MARK: protocol for struct that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableStemBranchName {
@@ -466,7 +462,7 @@ public let wuxingGameArray:[WuxingGame] = [
  */
 
 /// 十二宫排序array
-public let palacesArray = [
+public let palacesArray:[String] = [
     "命宫",    // Destiny Palace
     "兄弟宫",  // Siblings Palace
     "夫妻宫",  // Spouse Palace
@@ -480,6 +476,20 @@ public let palacesArray = [
     "福德宫",  // Blessings Palace
     "父母宫",  // Parents Palace
 ]
+public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
+  case ming  = "命宫"
+  case xiongdi  = "兄弟宫"
+  case fuqi   = "夫妻宫"
+  case zinv   = "子女宫"
+  case caibo  = "财帛宫"
+  case jie    = "疾厄宫"
+  case qianyi    = "迁移宫"
+  case jiaoyou   = "交友宫"
+  case shitu  = "仕途宫"
+  case tianzhai   = "田宅宫"
+  case fude    = "福德宫"
+  case fumu   = "父母宫"
+}
 
 /**
  * 生成五虎遁月歌 年干与十二宫天干对应数据表:
@@ -516,6 +526,14 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
 
 //MARK: 星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
+public struct Star: Hashable {
+    public let pinyin: StarsEnum
+    public var name:String {
+        pinyin.rawValue
+    }
+    public var sihua: sihuaEnum? = nil
+    public var palaceBranch: the12BranchEnum? = nil
+}
 
 public enum StarsEnum: String, CaseIterable, LocalizableEnum{
     //tianfu main stars
@@ -708,3 +726,6 @@ let xianchi: [the12BranchEnum: the12BranchEnum] = [
     .mao: .zi,
     .wei: .zi
 ]
+
+
+

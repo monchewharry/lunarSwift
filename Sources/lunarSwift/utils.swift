@@ -4,9 +4,8 @@ import Foundation
 /**
  Revise Swift’s modulo operation to Python behavior a % n
  */
-public func pythonModulo(_ a: Int, _ n: Int) -> Int {
-    let result = a % n
-    return result >= 0 ? result : result + n
+public func pythonModulo(_ x: Int, _ n: Int) -> Int {
+    return (x % n + n) % n
 }
 
 /**
@@ -137,7 +136,7 @@ public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
     /// palace order clockwise from .yin: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
-    
+    // MARK:  三方四正是4个宫位的统称，其中包含 本宫，对宫（也叫 四正位），三合宫（也叫三方位）
     /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
     let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
     
@@ -289,17 +288,7 @@ public struct ZiWeiWuxingGameCalculator {
 
 //---------------------------------------------------星耀安放
 
-/**
- 一个星耀的信息，名字，拼音，四化，宫位地支
- */
-public struct Star: Hashable {
-    public let pinyin: StarsEnum
-    public var name:String {
-        pinyin.rawValue
-    }
-    public var sihua: sihuaEnum? = nil
-    public var palaceBranch: the12BranchEnum? = nil
-}
+
 
 /**
  Calculator includes every thing about star  in 紫微斗数命盘
@@ -569,7 +558,8 @@ public extension ZiweiStarCalculator {
             : startPalaceBranchIndex - scIndex  // Backward direction
         
         // Get and return the target palace branch
-        return fillOrder[pythonModulo(endPalaceIndex,12)]
+        let endPalaceBranch = fillOrder[pythonModulo(endPalaceIndex,12)]
+        return endPalaceBranch
     }
     
 
