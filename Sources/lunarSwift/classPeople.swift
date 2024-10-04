@@ -146,6 +146,14 @@ public extension People{
                                                           shichen: twohour8Char.branch, lunarMonth: lunarMonth)!
         return (result.subStarsArray,result.smallStarsArray)
     }
+    var twelvePalaceCubes:[ZiweiPalaceCube]{
+        get12ZiweiPalaceCube(
+            twelvePalaces,
+            mainStarsArray: ziweiAllStarArrays + tianfuAllStarArrays,
+            subStarsArray: allSubSmallStars.Substar,
+            smallStarsArray: allSubSmallStars.Smallstar
+        )
+    }
     
 
 }

@@ -138,7 +138,7 @@ public struct twelvePalaceCalculator {
     let fillorder:[the12BranchEnum] = palaceFillorder
     // MARK:  三方四正是4个宫位的统称，其中包含 本宫，对宫（也叫 四正位），三合宫（也叫三方位）
     /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
-    let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
+    public let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
     
     ///三合位: 是指 本宫 和本宫的序号 加减4 所在的两个位置
     let SanHePosition: [the12BranchEnum: (forward4:the12BranchEnum, backward4:the12BranchEnum)]

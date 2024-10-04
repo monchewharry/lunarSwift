@@ -729,3 +729,55 @@ let xianchi: [the12BranchEnum: the12BranchEnum] = [
 
 
 
+
+/**
+- palacebranch order in the chart, from left to right and  from top left to bottom right,
+- | 1 巳   | 2   | 3  | 4申 |
+- | 5       | 6   | 7   | 8    |
+- | 9       | 10 | 11 | 12  |
+- | 13 寅| 14 | 15 | 16 丑|
+
+- [["巳", "午", "未", "申"],
+- ["辰", "",  "", "酉"],
+- ["卯", "",  "", "戌"],
+- ["寅", "丑","子", "亥"],
+]
+ */
+public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you,.mao,.xu,.yin,.chou,.zi,.hai]
+
+/**
+ 紫薇命盘lazygrid中的一个cube
+ */
+public struct ZiweiPalaceCube: Identifiable,Equatable {
+    public let id = UUID()
+    public let palaceBranchEnum: the12BranchEnum
+    public let palaceBranch: String
+    public let palaceStem: String
+    public let palaceName: String
+    public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
+    public var subStarsArray: [lunarSwift.Star?] = [nil]
+    public var smallStarsArray: [lunarSwift.Star?] = [nil]
+}
+
+/**
+ 画图信息
+ 生成一个12命宫的信息列表[ZiweiPalaceCube] ordered by 命盘排序
+ */
+func get12ZiweiPalaceCube(_ twelvePalace:[String: StemBranch],
+                          mainStarsArray:[lunarSwift.Star?], subStarsArray:[lunarSwift.Star?],smallStarsArray:[lunarSwift.Star?]) -> [ZiweiPalaceCube] {
+    
+    var result:[ZiweiPalaceCube] = []
+    
+    for branch in palaceBranchArray1 {
+        if let (palaceName, value) = twelvePalace.first(where: { $0.value.branch == branch }) {
+            let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceBranch: branch.rawValue, palaceStem: value.stem.rawValue, palaceName: palaceName,
+                                             mainStarsArray: mainStarsArray.filter { star in star?.palaceBranch == branch},
+                                             subStarsArray:subStarsArray.filter { star in star?.palaceBranch == branch},
+                                             smallStarsArray: smallStarsArray.filter { star in star?.palaceBranch == branch})
+            result.append(palaceCube)
+        } else {
+            // Handle the case where there's no matching palace (e.g., for empty strings)
+        }
+    }
+    return result
+}
