@@ -145,12 +145,18 @@ public struct twelvePalaceCalculator {
     let SanHePosition: [the12BranchEnum: (forward4:the12BranchEnum, backward4:the12BranchEnum)]
     
     ///暗合宫: 把紫微斗数星盘从中间纵向分开，左右镜像宫位即是暗合宫位
-    let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.mao,.you,.xu,.yin,.chou,.zi,.hai]
+    let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you,.mao,.xu,.yin,.chou,.zi,.hai]
+    let anhePalacePosition: [the12BranchEnum: the12BranchEnum] = [
+        .si:.shen,.wu:.wei,.wei:.wu,.shen:.si,
+        .chen:.you,.mao:.xu,.you:.chen,.xu:.mao,
+        .yin:.hai,.chou:.zi,.zi:.chou,.hai:.yin
+    ]
     
     /// Initializer
     public init(monthBranch: the12BranchEnum, hourBranch: the12BranchEnum) {
         self.monthBranch = monthBranch
         self.hourBranch = hourBranch
+        
         self.duiPalaceDict = twelvePalaceCalculator
             .createCyclicDictionary(from: fillorder, forwardBy: 6)
         self.SanHePosition = twelvePalaceCalculator.combineDictionaries(

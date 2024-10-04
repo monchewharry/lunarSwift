@@ -36,6 +36,7 @@ open class People: Lunar{
                 return elementsCount
             }
     
+    // MARK: cache calculators
     /// setup calculator for 12 palaces to avoid duplicate calls
     private var cachedtwelvePalaceCalculator:twelvePalaceCalculator?
     private var PalaceCalculator: twelvePalaceCalculator {
@@ -48,6 +49,14 @@ open class People: Lunar{
                 return calculated
             }
         }
+    /// 对宫四合位
+    public var duiPalacePairs:  [the12BranchEnum : the12BranchEnum] {
+        PalaceCalculator.duiPalaceDict
+    }
+    /// 三合位
+    public var sanhePalacePairs:  [the12BranchEnum : (forward4: the12BranchEnum, backward4: the12BranchEnum)] {
+        PalaceCalculator.SanHePosition
+    }
     /// setup calculator for ziweistar to avoid duplicate calls
     private var cachedZiweiStarCalculator:ZiweiStarCalculator?
     private var ziweistarCalculator: ZiweiStarCalculator {
@@ -86,7 +95,7 @@ public extension People{
     }
     
     /**
-     身宫天干地支
+     身宫天干地支:身宫是星盘主人个性的 变化趋势
      */
     var bodyPalace: (stem:the10StemEnum,branch:the12BranchEnum) {
         let calculator = PalaceCalculator
@@ -105,7 +114,7 @@ public extension People{
                                                               yearStem: year8Char.stem)
     }
     /**
-     五行局由命宫的天干地支的纳音而定
+     五行局由命宫的天干地支的纳音而定: 五行局是紫微斗数里决定几岁开始起运的依据
      */
     var wuxingGame: WuxingGame? {
         let calculator = ZiWeiWuxingGameCalculator(lifePalaceStemBranchArray: lifePalace)
