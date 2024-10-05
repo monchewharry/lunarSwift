@@ -111,14 +111,22 @@ final class lunarSwiftTests: XCTestCase {
     }
 
     /**
-    测试紫薇天府
+    测试紫薇,天府
     */
     func testStarBranch()throws{
         let person = try createValidPerson()
-        if let ziwei = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.ziwei })??.palaceBranch,
-           let tianji = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.tianji})??.palaceBranch,
-           let taiyin = person.ziweiAllStarArrays.first(where: {$0?.pinyin == StarsEnum.taiyin})??.palaceBranch,
-           let tianfu = person.tianfuAllStarArrays.first(where: {$0?.pinyin == StarsEnum.tianfu})??.palaceBranch{
+        if let ziwei = person.ziweiAllStarArrays.first(
+            where: {$0?.pinyin == StarEnum.mainStars(.ziwei(.ziwei))
+            })??.palaceBranch,
+           let tianji = person.ziweiAllStarArrays.first(where: {
+               $0?.pinyin == StarEnum.mainStars(.ziwei(.tianji))
+                })??.palaceBranch,
+            let taiyin = person.ziweiAllStarArrays.first(where: {
+                   $0?.pinyin == StarEnum.mainStars(.tianfu(.taiyin))
+                    })??.palaceBranch,
+            let tianfu = person.tianfuAllStarArrays.first(where: {
+                $0?.pinyin == StarEnum.mainStars(.tianfu(.tianfu))})??.palaceBranch {
+                
                let testdict = ["紫微":ziwei,"天机":tianji,"天府":tianfu,"太阴":taiyin]
                XCTAssertEqual(testdict,p1bench.ziweiAllStardict,"")
            } else {

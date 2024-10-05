@@ -338,15 +338,33 @@ public struct ZiweiStarCalculator {
      */
     func getMainStarsWithZiwei(for yearStem: the10StemEnum) -> [Star?] {
         return [
-            Star(pinyin: .ziwei, sihua: sihuaMap[yearStem]?[.ziwei]),
-            Star(pinyin: .tianji, sihua: sihuaMap[yearStem]?[.tianji]),
-            nil,
-            Star(pinyin: .taiyang, sihua: sihuaMap[yearStem]?[.taiyang]),
-            Star(pinyin: .wuqu, sihua: sihuaMap[yearStem]?[.wuqu]),
-            Star(pinyin: .tiantong, sihua: sihuaMap[yearStem]?[.tiantong]),
-            nil,
-            nil,
-            Star(pinyin: .lianzhen, sihua: sihuaMap[yearStem]?[.lianzhen])
+            Star(
+                pinyin: .mainStars(.ziwei(.ziwei)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.ziwei))]
+            ),
+            Star(
+                pinyin: .mainStars(.ziwei(.tianji)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.tianji))]
+            ),
+            nil, // Some missing star
+            Star(
+                pinyin: .mainStars(.ziwei(.taiyang)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.taiyang))]
+            ),
+            Star(
+                pinyin: .mainStars(.ziwei(.wuqu)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.wuqu))]
+            ),
+            Star(
+                pinyin: .mainStars(.ziwei(.tiantong)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.tiantong))]
+            ),
+            nil, // Some missing star
+            nil, // Some missing star
+            Star(
+                pinyin: .mainStars(.ziwei(.lianzhen)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.ziwei(.lianzhen))]
+            )
         ]
     }
 
@@ -379,17 +397,41 @@ public struct ZiweiStarCalculator {
      */
     func getMainStarsWithTianfu(for yearStem: the10StemEnum) -> [Star?] {
         return [
-            Star(pinyin: .tianfu, sihua: sihuaMap[yearStem]?[.tianfu]),
-            Star(pinyin: .taiyin, sihua: sihuaMap[yearStem]?[.taiyin]),
-            Star(pinyin: .tanlang, sihua: sihuaMap[yearStem]?[.tanlang]),
-            Star(pinyin: .jumen, sihua: sihuaMap[yearStem]?[.jumen]),
-            Star(pinyin: .tianxiang, sihua: sihuaMap[yearStem]?[.tianxiang]),
-            Star(pinyin: .tianliang, sihua: sihuaMap[yearStem]?[.tianliang]),
-            Star(pinyin: .qisha, sihua: sihuaMap[yearStem]?[.qisha]),
-            nil, 
-            nil,
-            nil,
-            Star(pinyin: .pojun, sihua: sihuaMap[yearStem]?[.pojun])
+            Star(
+                pinyin: .mainStars(.tianfu(.tianfu)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.tianfu))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.taiyin)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.taiyin))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.tanlang)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.tanlang))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.jumen)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.jumen))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.tianxiang)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.tianxiang))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.tianliang)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.tianliang))]
+            ),
+            Star(
+                pinyin: .mainStars(.tianfu(.qisha)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.qisha))]
+            ),
+            nil, // Some missing stars
+            nil, // Some missing stars
+            nil, // Some missing stars
+            Star(
+                pinyin: .mainStars(.tianfu(.pojun)),
+                sihua: sihuaMap[yearStem]?[.mainStars(.tianfu(.pojun))]
+            )
         ]
     }
     /**
@@ -413,7 +455,7 @@ public extension ZiweiStarCalculator {
     /**
      次星规则属性
      */
-    struct SmallStarConfig {
+    struct minorStarConfig {
         let isSub: Bool
         let rule: (startPalaceCode:the12BranchEnum,startDizhi:the12BranchEnum?,clockwise:Bool?,endDizhi:the12BranchEnum?) // The rule for placing the star
         let star: Star
@@ -442,93 +484,109 @@ public extension ZiweiStarCalculator {
     }
     
     
-    // set smallstar config
-    func getSmallStarsConfig(tYearPinyin:the10StemEnum,dYearPinyin:the12BranchEnum,shichen:the12BranchEnum,lunarMonth:Int) -> [SmallStarConfig] {
+    /// set 14-2=12 minorStars and 5 adjStars config, exclude .minorStars(.bad(.tuoluo)), .minorStars(.bad(.qingyang))
+    func getSmallStarsConfig(tYearPinyin:the10StemEnum,dYearPinyin:the12BranchEnum,shichen:the12BranchEnum,lunarMonth:Int) -> [minorStarConfig] {
         return [
-            SmallStarConfig(
+            // 2 help stars
+            minorStarConfig(
                 isSub: true,
                 rule: (lucunRule[tYearPinyin]!,nil,nil,nil),
-                star: Star(pinyin: .lucun)
+                star: Star(pinyin: .minorStars(.help(.lucun)))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (tianma[(dYearPinyin)]!,nil,nil,nil),
-                star: Star(pinyin: .tianma)
+                star: Star(pinyin: .minorStars(.help(.tianma)))
             ),
-            SmallStarConfig(
+            // 6bad stars, exclude .minorStars(.bad(.tuoluo)), .minorStars(.bad(.qingyang))
+            minorStarConfig(
                 isSub: false,
                 rule: (huoxing[dYearPinyin]!, .zi, true, shichen),
-                star: Star(pinyin: .huoxing)
+                star: Star(pinyin: .minorStars(.bad(.huoxing)))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (.hai, .zi, false, shichen),
-                star: Star(pinyin: .dikong)
+                star: Star(pinyin: .minorStars(.bad(.dikong)))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (.hai, .zi, true, shichen),
-                star: Star(pinyin: .dijie)
+                star: Star(pinyin: .minorStars(.bad(.dijie)))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (lingxing[dYearPinyin]!, .zi, true, shichen),
-                star: Star(pinyin: .lingxing)
+                star: Star(pinyin: .minorStars(.bad(.lingxing)))
             ),
-            SmallStarConfig(
+            // 5adj stars
+            minorStarConfig(
                 isSub: false,
                 rule: (.mao, .zi, false, dYearPinyin),
-                star: Star(pinyin: .hongluan)
+                star: Star(pinyin: .adjStars(.hongluan))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (.you, .zi, false, dYearPinyin),
-                star: Star(pinyin: .tianxi)
+                star: Star(pinyin: .adjStars(.tianxi))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (.chou, .zi, true, the12BranchEnum.allCases[lunarMonth - 1]),
-                star: Star(pinyin: .tiantao)
+                star: Star(pinyin: .adjStars(.tiantao))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (xianchi[dYearPinyin]!,nil,nil,nil),
-                star: Star(pinyin: .xianchi)
+                star: Star(pinyin: .adjStars(.xianchi))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: false,
                 rule: (.you, .zi, true, the12BranchEnum.allCases[lunarMonth - 1]),
-                star: Star(pinyin: .tianxing)
+                star: Star(pinyin: .adjStars(.tianxing))
             ),
-            SmallStarConfig(
+            // 6good stars
+            minorStarConfig(
                 isSub: true,
-                rule: (.chen, .zi, true, the12BranchEnum.allCases[lunarMonth - 1]),  // Modify as per dizhi lookup
-                star: Star(pinyin: .zuofu, sihua: sihuaMap[tYearPinyin]?[.zuofu])
+                rule: (.chen, .zi, true, the12BranchEnum.allCases[lunarMonth - 1]),
+                star: Star(
+                    pinyin: .minorStars(.good(.zuofu)),
+                    sihua: sihuaMap[tYearPinyin]?[.minorStars(.good(.zuofu))]
+                )
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: true,
                 rule: (.xu, .zi, false, the12BranchEnum.allCases[lunarMonth - 1]),
-                star: Star(pinyin: .youbi, sihua: sihuaMap[tYearPinyin]?[.youbi])
+                star: Star(
+                    pinyin: .minorStars(.good(.youbi)),
+                    sihua: sihuaMap[tYearPinyin]?[.minorStars(.good(.youbi))]
+                )
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: true,
                 rule: (.chen, .zi, true, shichen),
-                star: Star(pinyin: .wenqu, sihua: sihuaMap[tYearPinyin]?[.wenqu])
+                star: Star(
+                    pinyin: .minorStars(.good(.wenqu)),
+                    sihua: sihuaMap[tYearPinyin]?[.minorStars(.good(.wenqu))]
+                )
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: true,
                 rule: (.xu, .zi, false, shichen),
-                star: Star(pinyin: .wenchang, sihua: sihuaMap[tYearPinyin]?[.wenchang])
+                star: Star(
+                    pinyin: .minorStars(.good(.wenchang)),
+                    sihua: sihuaMap[tYearPinyin]?[.minorStars(.good(.wenchang))]
+                )
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: true,
                 rule: (getTiankuiTianyue(t: true)[tYearPinyin]!,nil,nil,nil),
-                star: Star(pinyin: .tiankui)
+                star: Star(pinyin: .minorStars(.good(.tiankui)))
             ),
-            SmallStarConfig(
+            minorStarConfig(
                 isSub: true,
                 rule: (getTiankuiTianyue(t: false)[tYearPinyin]!,nil,nil,nil),
-                star: Star(pinyin: .tianyue)
+                star: Star(pinyin: .minorStars(.good(.tianyue)))
             )
         ]
     }
@@ -593,9 +651,9 @@ public extension ZiweiStarCalculator {
                 )
                 if config.star.name == "禄存", let palaceBranchPinyin = palaceBranchPinyin {
                     let prev_palace = pythonModulo(fillOrder.firstIndex(of: palaceBranchPinyin)! - 1, 12)
-                    smallStarsArray.append(Star(pinyin: .tuoluo, palaceBranch: fillOrder[prev_palace]))
+                    smallStarsArray.append(Star(pinyin: .minorStars(.bad(.tuoluo)), palaceBranch: fillOrder[prev_palace]))
                     let next_palace = pythonModulo(fillOrder.firstIndex(of: palaceBranchPinyin)! + 1, 12)
-                    smallStarsArray.append(Star(pinyin: .qingyang, palaceBranch: fillOrder[next_palace]))
+                    smallStarsArray.append(Star(pinyin: .minorStars(.bad(.qingyang)), palaceBranch: fillOrder[next_palace]))
                 }
             } else {
                 smallStarsArray.append(Star(pinyin: config.star.pinyin,

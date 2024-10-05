@@ -527,7 +527,7 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
 //MARK: 星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
 public struct Star: Hashable {
-    public let pinyin: StarsEnum
+    public let pinyin: StarEnum
     public var name:String {
         pinyin.rawValue
     }
@@ -535,7 +535,55 @@ public struct Star: Hashable {
     public var palaceBranch: the12BranchEnum? = nil
 }
 
-public enum StarsEnum: String, CaseIterable, LocalizableEnum{
+public enum StarEnum: Hashable {
+    case mainStars(mainStarsEnum) // 14
+    case minorStars(minorStarsEnum) // 14
+    case adjStars(adjStarsEnum) // 5-37
+    
+    /// Get the raw value for each enum case
+    public var rawValue: String {
+        switch self {
+        case .mainStars(let star):
+            return star.rawValue
+        case .minorStars(let star):
+            return star.rawValue
+        case .adjStars(let star):
+            return star.rawValue
+        }
+    }
+    
+    /// Get all cases programmatically by combining cases from both enums
+    public static var allCases: [StarEnum] {
+        let goodCases = mainStarsEnum.allCases.map { StarEnum.mainStars($0) }
+        let badCases = minorStarsEnum.allCases.map { StarEnum.minorStars($0) }
+        let helpCases = adjStarsEnum.allCases.map { StarEnum.adjStars($0) }
+        return goodCases + badCases + helpCases
+    }
+}
+/// 14主星
+public enum mainStarsEnum: Hashable {
+    case tianfu(tianfuMainStarsEnum)
+    case ziwei(ziweiMainStarsEnum)
+    
+    /// Get the raw value for each enum case
+    public var rawValue: String {
+        switch self {
+        case .tianfu(let star):
+            return star.rawValue
+        case .ziwei(let star):
+            return star.rawValue
+        }
+    }
+    
+    /// Get all cases programmatically by combining cases from both enums
+    public static var allCases: [mainStarsEnum] {
+        let tianfuCases = tianfuMainStarsEnum.allCases.map { mainStarsEnum.tianfu($0) }
+        let ziweiCases = ziweiMainStarsEnum.allCases.map { mainStarsEnum.ziwei($0) }
+        return tianfuCases + ziweiCases
+    }
+}
+
+public enum tianfuMainStarsEnum: String, CaseIterable, LocalizableEnum{
     //tianfu main stars
     case tianfu    = "天府"
     case taiyin    = "太阴"
@@ -545,6 +593,8 @@ public enum StarsEnum: String, CaseIterable, LocalizableEnum{
     case tianliang = "天梁"
     case qisha     = "七杀"
     case pojun     = "破军"
+}
+public enum ziweiMainStarsEnum: String, CaseIterable, LocalizableEnum{
     //ziwei main stars
     case ziwei     = "紫微"
     case tianji    = "天机"
@@ -552,30 +602,107 @@ public enum StarsEnum: String, CaseIterable, LocalizableEnum{
     case wuqu      = "武曲"
     case tiantong  = "天同"
     case lianzhen  = "廉贞"
+}
+///  14辅星
+public enum minorStarsEnum: Hashable {
+    case good(sixGoodMinorStarsEnum)
+    case bad(sixBadMinorStarsEnum)
+    case help(twoHelpMinorStarsEnum)
     
-    //other smallstars with sihua
-    case wenchang  = "文昌"
+    /// Get the raw value for each enum case
+    public var rawValue: String {
+        switch self {
+        case .good(let star):
+            return star.rawValue
+        case .bad(let star):
+            return star.rawValue
+        case .help(let star):
+            return star.rawValue
+        }
+    }
+    
+    /// Get all cases programmatically by combining cases from both enums
+    public static var allCases: [minorStarsEnum] {
+        let goodCases = sixGoodMinorStarsEnum.allCases.map { minorStarsEnum.good($0) }
+        let badCases = sixBadMinorStarsEnum.allCases.map { minorStarsEnum.bad($0) }
+        let helpCases = twoHelpMinorStarsEnum.allCases.map { minorStarsEnum.help($0) }
+        return goodCases + badCases + helpCases
+    }
+}
+
+public enum sixGoodMinorStarsEnum: String, CaseIterable, LocalizableEnum{
     case youbi     = "右弼"
-    case wenqu     = "文曲"
     case zuofu     = "左辅"
-    // no sihua smallstars
-    case lucun    = "禄存"
-    case tianma    = "天马"
-    case huoxing    = "火星"
+    case wenqu     = "文曲"
+    case wenchang  = "文昌"
+    case tiankui     = "天魁"
+    case tianyue     = "天钺"
+}
+
+public enum sixBadMinorStarsEnum: String, CaseIterable, LocalizableEnum{
     case dikong    = "地空"
     case dijie    = "地劫"
+    case huoxing    = "火星"
     case lingxing    = "铃星"
+    case tuoluo      = "陀罗"
+    case qingyang    = "擎羊"
+}
+
+public enum twoHelpMinorStarsEnum: String, CaseIterable, LocalizableEnum{
+    case lucun    = "禄存"
+    case tianma    = "天马"
+}
+
+/// 37杂耀
+public enum adjStarsEnum: String, CaseIterable, LocalizableEnum{
     case hongluan    = "红鸾"
     case tianxi    = "天喜"
     case tiantao    = "天姚"
     case xianchi    = "咸池"
     case tianxing    = "天刑"
-    case tiankui     = "天魁"
-    case tianyue     = "天钺"
-    case tuoluo      = "陀罗"
-    case qingyang    = "擎羊"
-
 }
+
+//public enum StarsEnum: String, CaseIterable, LocalizableEnum{
+//    //tianfu main stars
+//    case tianfu    = "天府"
+//    case taiyin    = "太阴"
+//    case tanlang   = "贪狼"
+//    case jumen     = "巨门"
+//    case tianxiang = "天相"
+//    case tianliang = "天梁"
+//    case qisha     = "七杀"
+//    case pojun     = "破军"
+//    //ziwei main stars
+//    case ziwei     = "紫微"
+//    case tianji    = "天机"
+//    case taiyang   = "太阳"
+//    case wuqu      = "武曲"
+//    case tiantong  = "天同"
+//    case lianzhen  = "廉贞"
+//    
+//    //other smallstars with sihua
+//    case wenchang  = "文昌"
+//    case youbi     = "右弼"
+//    case wenqu     = "文曲"
+//    case zuofu     = "左辅"
+//    // no sihua smallstars
+//    case lucun    = "禄存"
+//    case tianma    = "天马"
+//    case huoxing    = "火星"
+//    case dikong    = "地空"
+//    case dijie    = "地劫"
+//    case lingxing    = "铃星"
+//    case hongluan    = "红鸾"
+//    case tianxi    = "天喜"
+//    case tiantao    = "天姚"
+//    case xianchi    = "咸池"
+//    case tianxing    = "天刑"
+//    case tiankui     = "天魁"
+//    case tianyue     = "天钺"
+//    case tuoluo      = "陀罗"
+//    case qingyang    = "擎羊"
+//
+//}
 public enum sihuaEnum: String, CaseIterable,LocalizableEnum{
     case lu      = "禄"
     case quan    = "权"
@@ -588,66 +715,66 @@ public enum sihuaEnum: String, CaseIterable,LocalizableEnum{
  * 四种重要的星曜变化(四化)：禄、权、科、忌
  * 四化的确定依赖于个人的出生信息（尤其是年柱中的天干），并根据固定的对照表来分配
  */
-public let sihuaMap: [the10StemEnum: [StarsEnum: sihuaEnum]] = [
+public let sihuaMap: [the10StemEnum: [StarEnum: sihuaEnum]] = [
     .jia: [
-        .lianzhen: .lu,
-        .pojun: .quan,
-        .wuqu: .ke,
-        .taiyang: .ji
+        .mainStars(.ziwei(.lianzhen)): .lu,
+        .mainStars(.ziwei(.wuqu)): .ke,
+        .mainStars(.ziwei(.taiyang)): .ji,
+        .mainStars(.tianfu(.pojun)): .quan,
     ],
     .yi: [
-        .tianji: .lu,
-        .tianliang: .quan,
-        .ziwei: .ke,
-        .taiyin: .ji
+        .mainStars(.ziwei(.tianji)): .lu,
+        .mainStars(.tianfu(.tianliang)): .quan,
+        .mainStars(.ziwei(.ziwei)): .ke,
+        .mainStars(.tianfu(.taiyin)): .ji
     ],
     .bing: [
-        .tiantong: .lu,
-        .tianji: .quan,
-        .wenchang: .ke,
-        .lianzhen: .ji
+        .mainStars(.ziwei(.tiantong)): .lu,
+        .mainStars(.ziwei(.tianji)): .quan,
+        .minorStars(.good(.wenchang)): .ke,
+        .mainStars(.ziwei(.lianzhen)): .ji
     ],
     .ding: [
-        .taiyin: .lu,
-        .tiantong: .quan,
-        .tianji: .ke,
-        .jumen: .ji
+        .mainStars(.tianfu(.taiyin)): .lu,
+        .mainStars(.ziwei(.tiantong)): .quan,
+        .mainStars(.ziwei(.tianji)): .ke,
+        .mainStars(.tianfu(.jumen)): .ji
     ],
     .wu: [
-        .tanlang: .lu,
-        .taiyin: .quan,
-        .youbi: .ke,
-        .tianji: .ji
+        .mainStars(.tianfu(.tanlang)): .lu,
+        .mainStars(.tianfu(.taiyin)): .quan,
+        .minorStars(.good(.youbi)): .ke,
+        .mainStars(.ziwei(.tianji)): .ji
     ],
     .ji: [
-        .wuqu: .lu,
-        .tanlang: .quan,
-        .tianliang: .ke,
-        .wenqu: .ji
+        .mainStars(.ziwei(.wuqu)): .lu,
+        .mainStars(.tianfu(.tanlang)): .quan,
+        .mainStars(.tianfu(.tianliang)): .ke,
+        .minorStars(.good(.wenqu)): .ji
     ],
     .geng: [
-        .taiyang: .lu,
-        .wuqu: .quan,
-        .taiyin: .ke,
-        .tiantong: .ji
+        .mainStars(.ziwei(.taiyang)): .lu,
+        .mainStars(.ziwei(.wuqu)): .quan,
+        .mainStars(.tianfu(.taiyin)): .ke,
+        .mainStars(.ziwei(.tiantong)): .ji
     ],
     .xin: [
-        .jumen: .lu,
-        .taiyang: .quan,
-        .wenqu: .ke,
-        .wenchang: .ji
+        .mainStars(.tianfu(.jumen)): .lu,
+        .mainStars(.ziwei(.taiyang)): .quan,
+        .minorStars(.good(.wenqu)): .ke,
+        .minorStars(.good(.wenchang)): .ji
     ],
     .ren: [
-        .tianliang: .lu,
-        .ziwei: .quan,
-        .zuofu: .ke,
-        .wuqu: .ji
+        .mainStars(.tianfu(.tianliang)): .lu,
+        .mainStars(.ziwei(.ziwei)): .quan,
+        .minorStars(.good(.zuofu)): .ke,
+        .mainStars(.ziwei(.wuqu)): .ji
     ],
     .gui: [
-        .pojun: .lu,
-        .jumen: .quan,
-        .taiyin: .ke,
-        .tanlang: .ji
+        .mainStars(.tianfu(.pojun)): .lu,
+        .mainStars(.tianfu(.jumen)): .quan,
+        .mainStars(.tianfu(.taiyin)): .ke,
+        .mainStars(.tianfu(.tanlang)): .ji
     ]
 ]
 

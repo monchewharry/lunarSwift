@@ -49,14 +49,20 @@ open class People: Lunar{
                 return calculated
             }
         }
-    /// 对宫四合位
+    /// 对宫 四合位
     public var duiPalacePairs:  [the12BranchEnum : the12BranchEnum] {
         PalaceCalculator.duiPalaceDict
     }
-    /// 三合位
+    /// 三合宫 三方位
     public var sanhePalacePairs:  [the12BranchEnum : (forward4: the12BranchEnum, backward4: the12BranchEnum)] {
         PalaceCalculator.SanHePosition
     }
+    /// 暗合宫
+    public var anhePalacePairs:[the12BranchEnum:the12BranchEnum]{
+        PalaceCalculator.anhePalacePosition
+    }
+    /// 来因宫
+    
     /// setup calculator for ziweistar to avoid duplicate calls
     private var cachedZiweiStarCalculator:ZiweiStarCalculator?
     private var ziweistarCalculator: ZiweiStarCalculator {
@@ -146,6 +152,7 @@ public extension People{
                                                           shichen: twohour8Char.branch, lunarMonth: lunarMonth)!
         return (result.subStarsArray,result.smallStarsArray)
     }
+    /// a list of 12 palace cube information: palace name stembranch starsarray...
     var twelvePalaceCubes:[ZiweiPalaceCube]{
         get12ZiweiPalaceCube(
             twelvePalaces,
