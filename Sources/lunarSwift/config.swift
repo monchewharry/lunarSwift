@@ -527,13 +527,32 @@ let yearStemToSequence: [the10StemEnum : [the10StemEnum]] = [
 
 //MARK: 星耀安放
 // https://www.ziweishe.com/?sex=1&date_type=1&year=1993&month=11&day=22&hour=4
+//public struct Star: Hashable {
+//    public let pinyin: StarEnum
+//    public var name:String {
+//        pinyin.rawValue
+//    }
+//    public var sihua: sihuaEnum? = nil
+//    public var palaceBranch: the12BranchEnum? = nil
+//}
 public struct Star: Hashable {
     public let pinyin: StarEnum
-    public var name:String {
+    public var name: String {
         pinyin.rawValue
     }
     public var sihua: sihuaEnum? = nil
     public var palaceBranch: the12BranchEnum? = nil
+
+    // Public initializer
+    public init(
+        pinyin: StarEnum,
+        sihua: sihuaEnum? = nil,
+        palaceBranch: the12BranchEnum? = nil
+    ) {
+        self.pinyin = pinyin
+        self.sihua = sihua
+        self.palaceBranch = palaceBranch
+    }
 }
 
 public enum StarEnum: Hashable {
