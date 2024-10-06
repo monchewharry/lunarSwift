@@ -489,6 +489,7 @@ public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case tianzhai   = "田宅宫"
   case fude    = "福德宫"
   case fumu   = "父母宫"
+  case unknown = "unknown"
 }
 
 /**
@@ -875,7 +876,17 @@ public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you
 /**
  紫薇命盘lazygrid中的一个cube
  */
-public struct ZiweiPalaceCube: Identifiable,Equatable {
+//public struct ZiweiPalaceCube: Identifiable,Equatable {
+//    public let id = UUID()
+//    public let palaceBranchEnum: the12BranchEnum
+//    public let palaceBranch: String
+//    public let palaceStem: String
+//    public let palaceName: String
+//    public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
+//    public var subStarsArray: [lunarSwift.Star?] = [nil]
+//    public var smallStarsArray: [lunarSwift.Star?] = [nil]
+//}
+public struct ZiweiPalaceCube: Identifiable, Equatable {
     public let id = UUID()
     public let palaceBranchEnum: the12BranchEnum
     public let palaceBranch: String
@@ -884,6 +895,25 @@ public struct ZiweiPalaceCube: Identifiable,Equatable {
     public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
     public var subStarsArray: [lunarSwift.Star?] = [nil]
     public var smallStarsArray: [lunarSwift.Star?] = [nil]
+
+    // Public initializer
+    public init(
+        palaceBranchEnum: the12BranchEnum,
+        palaceBranch: String,
+        palaceStem: String,
+        palaceName: String,
+        mainStarsArray: [lunarSwift.Star?] = [],
+        subStarsArray: [lunarSwift.Star?] = [nil],
+        smallStarsArray: [lunarSwift.Star?] = [nil]
+    ) {
+        self.palaceBranchEnum = palaceBranchEnum
+        self.palaceBranch = palaceBranch
+        self.palaceStem = palaceStem
+        self.palaceName = palaceName
+        self.mainStarsArray = mainStarsArray
+        self.subStarsArray = subStarsArray
+        self.smallStarsArray = smallStarsArray
+    }
 }
 
 /**
