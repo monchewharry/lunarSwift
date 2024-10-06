@@ -555,6 +555,11 @@ public struct Star: Hashable {
     }
 }
 
+/**  
+ * case mainStars(mainStarsEnum)
+ * case minorStars(minorStarsEnum)
+ * case adjStars(adjStarsEnum)
+ */
 public enum StarEnum: Hashable {
     case mainStars(mainStarsEnum) // 14
     case minorStars(minorStarsEnum) // 14
@@ -908,7 +913,9 @@ public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you
 public struct ZiweiPalaceCube: Identifiable, Equatable {
     public let id = UUID()
     public let palaceBranchEnum: the12BranchEnum
-    public let palaceBranch: String
+    public var palaceBranch: String {
+        palaceBranchEnum.rawValue
+    }
     public let palaceStem: String
     public let palaceNameEnum: palacesEnum
     public var palaceName: String {
@@ -921,7 +928,6 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     // Public initializer
     public init(
         palaceBranchEnum: the12BranchEnum,
-        palaceBranch: String,
         palaceStem: String,
         palaceNameEnum: palacesEnum,
         mainStarsArray: [lunarSwift.Star?] = [],
@@ -929,7 +935,6 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         smallStarsArray: [lunarSwift.Star?] = [nil]
     ) {
         self.palaceBranchEnum = palaceBranchEnum
-        self.palaceBranch = palaceBranch
         self.palaceStem = palaceStem
         self.palaceNameEnum = palaceNameEnum
         self.mainStarsArray = mainStarsArray
@@ -949,7 +954,7 @@ func get12ZiweiPalaceCube(_ twelvePalace:[palacesEnum: StemBranch],
     
     for branch in palaceBranchArray1 {
         if let (palaceNameEnum, value) = twelvePalace.first(where: { $0.value.branch == branch }) {
-            let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceBranch: branch.rawValue, palaceStem: value.stem.rawValue, palaceNameEnum: palaceNameEnum,
+            let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceStem: value.stem.rawValue, palaceNameEnum: palaceNameEnum,
                                              mainStarsArray: mainStarsArray.filter { star in star?.palaceBranch == branch},
                                              subStarsArray:subStarsArray.filter { star in star?.palaceBranch == branch},
                                              smallStarsArray: smallStarsArray.filter { star in star?.palaceBranch == branch})
