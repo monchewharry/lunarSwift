@@ -223,9 +223,9 @@ public struct twelvePalaceCalculator {
      十二宫天干从命宫推出
      返回 dict 宫名: (天干，地支)
      */
-    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [String: StemBranch] {
+    func calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: StemBranch, yearStem: the10StemEnum) -> [palacesEnum: StemBranch] {
         let stemsOrder:[the10StemEnum] = yearStemToSequence[yearStem]!
-        var palaces12:[String:StemBranch] = [:]
+        var palaces12:[palacesEnum:StemBranch] = [:]
 
         // Find the index of the life palace branch in the order
         if let lifeBranchIndex = palaceFillorder.firstIndex(of: lifePalaceStemBranch.branch) {
@@ -234,7 +234,10 @@ public struct twelvePalaceCalculator {
             for key in palacesArray {
                 let branch:the12BranchEnum = palaceFillorder[currentBranchIndex]
                 let stem:the10StemEnum = stemsOrder[currentBranchIndex]
-                palaces12[key] = StemBranch(stem: stem, branch: branch)
+                palaces12[palacesEnum(rawValue: key)!] = StemBranch(
+                    stem: stem,
+                    branch: branch
+                )
                 // (anticlockwise)
                 currentBranchIndex = (currentBranchIndex + 11) % 12
             }

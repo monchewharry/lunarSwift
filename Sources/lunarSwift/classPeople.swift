@@ -114,7 +114,7 @@ public extension People{
     /**
      全部十二宫字典
      */
-    var twelvePalaces: [String: StemBranch]{
+    var twelvePalaces: [palacesEnum: StemBranch]{
         let calculator = PalaceCalculator
         return calculator.calculateAllPalacesStemsAndBranches(lifePalaceStemBranch: lifePalace,
                                                               yearStem: year8Char.stem)

@@ -99,7 +99,14 @@ final class lunarSwiftTests: XCTestCase {
         let person = try createValidPerson()
         var person12palaces: [String] = []
         for key in palacesArray{
-            person12palaces.append( String(person.twelvePalaces[key]!.stem.rawValue + person.twelvePalaces[key]!.branch.rawValue) )
+            person12palaces
+                .append(
+                    String(
+                        person
+                            .twelvePalaces[palacesEnum(rawValue: key)!]!.stem.rawValue + person
+                            .twelvePalaces[palacesEnum(rawValue: key)!]!.branch.rawValue
+                    )
+                )
         }
         XCTAssertEqual(person12palaces, p1bench.twelvePalaces, "Ten Gods should be correctly calculated based on the lunarbirthdate.")
         XCTAssertEqual(person.bodyPalace.stem.rawValue+person.bodyPalace.branch.rawValue, p1bench.bodyPalace, "body palace should be correctly calculated based on the lunarbirthdate.")

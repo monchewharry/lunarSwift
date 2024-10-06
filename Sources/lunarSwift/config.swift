@@ -910,7 +910,10 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public let palaceBranchEnum: the12BranchEnum
     public let palaceBranch: String
     public let palaceStem: String
-    public let palaceName: String
+    public let palaceNameEnum: palacesEnum
+    public var palaceName: String {
+        palaceNameEnum.rawValue
+    }
     public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
     public var subStarsArray: [lunarSwift.Star?] = [nil]
     public var smallStarsArray: [lunarSwift.Star?] = [nil]
@@ -920,7 +923,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         palaceBranchEnum: the12BranchEnum,
         palaceBranch: String,
         palaceStem: String,
-        palaceName: String,
+        palaceNameEnum: palacesEnum,
         mainStarsArray: [lunarSwift.Star?] = [],
         subStarsArray: [lunarSwift.Star?] = [nil],
         smallStarsArray: [lunarSwift.Star?] = [nil]
@@ -928,7 +931,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         self.palaceBranchEnum = palaceBranchEnum
         self.palaceBranch = palaceBranch
         self.palaceStem = palaceStem
-        self.palaceName = palaceName
+        self.palaceNameEnum = palaceNameEnum
         self.mainStarsArray = mainStarsArray
         self.subStarsArray = subStarsArray
         self.smallStarsArray = smallStarsArray
@@ -939,14 +942,14 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
  画图信息
  生成一个12命宫的信息列表[ZiweiPalaceCube] ordered by 命盘排序
  */
-func get12ZiweiPalaceCube(_ twelvePalace:[String: StemBranch],
+func get12ZiweiPalaceCube(_ twelvePalace:[palacesEnum: StemBranch],
                           mainStarsArray:[lunarSwift.Star?], subStarsArray:[lunarSwift.Star?],smallStarsArray:[lunarSwift.Star?]) -> [ZiweiPalaceCube] {
     
     var result:[ZiweiPalaceCube] = []
     
     for branch in palaceBranchArray1 {
-        if let (palaceName, value) = twelvePalace.first(where: { $0.value.branch == branch }) {
-            let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceBranch: branch.rawValue, palaceStem: value.stem.rawValue, palaceName: palaceName,
+        if let (palaceNameEnum, value) = twelvePalace.first(where: { $0.value.branch == branch }) {
+            let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceBranch: branch.rawValue, palaceStem: value.stem.rawValue, palaceNameEnum: palaceNameEnum,
                                              mainStarsArray: mainStarsArray.filter { star in star?.palaceBranch == branch},
                                              subStarsArray:subStarsArray.filter { star in star?.palaceBranch == branch},
                                              smallStarsArray: smallStarsArray.filter { star in star?.palaceBranch == branch})
