@@ -501,6 +501,10 @@ public let palaceWeiPalace: [PalacePair: String] = {
 public struct PalacePair: Hashable {
     let palaceA: String
     let palaceBwei: String
+    public init(palaceA: String, palaceBwei: String) {
+            self.palaceA = palaceA
+            self.palaceBwei = palaceBwei
+        }
 }
 
 // Helper function to get the displaced index with wrap-around
