@@ -491,49 +491,32 @@ public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case fumu   = "父母宫"
   case unknown = "unknown"
 }
-///宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
-public let palaceWeiPalace: [PalacePair: String] = {
-    var result = [PalacePair: String]()
-    result = createPalaceWeiPalace()
-    return result
-}()
-// Define a struct for the palace pair to use as a dictionary key
-public struct PalacePair: Hashable {
-    let palaceA: String
-    let palaceBwei: String
-    public init(palaceA: String, palaceBwei: String) {
-            self.palaceA = palaceA
-            self.palaceBwei = palaceBwei
-        }
-}
-
+// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
 // Helper function to get the displaced index with wrap-around
-func displacedIndex(originalIndex: Int, displacement: Int, count: Int=12) -> Int {
-    return (originalIndex + displacement + count) % count
+
+public func givenPalaceWei(_ palace:palacesEnum,_ wei: palacesEnum) -> palacesEnum {
+    let palacesOrder: [String] = [
+        "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
+        "仕途宫", "田宅宫", "福德宫", "父母宫"
+    ]
+    let palaceIndex = palacesOrder.firstIndex(of: palace.rawValue)!
+    let weiIndex = palacesOrder.firstIndex(of: wei.rawValue)!
+    let displacedIndex = pythonModulo(weiIndex+palaceIndex, 12)
+    let output = palacesOrder[displacedIndex]
+    print("\(palace.rawValue)的\(wei.rawValue)位是\(output)")
+    return palacesEnum(rawValue: output)!
 }
-/// palace A的palace B位是palaceC，父母宫的夫妻位是兄弟宫
-func createPalaceWeiPalace(palacesArray:[String]=palacesArray) -> [PalacePair: String]{
-    // Dictionary to store the mappings
-    var palaceMapping: [PalacePair: String] = [:]
-    for (indexA, palaceA) in palacesArray.enumerated() {
-        // Calculate displacement for moving "命宫" to palace A's position
-        let displacement = indexA
-        
-        for (indexB, palaceB) in palacesArray.enumerated() {
-            // Only map distinct palace pairs
-            guard palaceA != palaceB else { continue }
-            
-            // Calculate index for the new position of palace B after displacement
-            let indexC = displacedIndex(originalIndex: indexB, displacement: displacement)
-            let palaceC = palacesArray[indexC]
-            
-            // Create a PalacePair key
-            let palacePair = PalacePair(palaceA: palaceA, palaceBwei: palaceB+"位")
-            
-            palaceMapping[palacePair] = palaceC
-        }
-    }
-    return palaceMapping
+public func givenPalace2(_ palace1:palacesEnum, _ palace2:palacesEnum) -> palacesEnum {
+    let palacesOrder: [String] = [
+        "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
+        "仕途宫", "田宅宫", "福德宫", "父母宫"
+    ]
+    let palace1Index = palacesOrder.firstIndex(of: palace1.rawValue)!
+    let palace2Index = palacesOrder.firstIndex(of: palace2.rawValue)!
+    let weiIndex = pythonModulo(palace2Index - palace1Index, 12)
+    let wei = palacesOrder[weiIndex]
+    print("\(palace2.rawValue)是\(palace1.rawValue)的\(wei)位")
+    return palacesEnum(rawValue: wei)!
 }
 
 // Print the resulting dictionary to check
