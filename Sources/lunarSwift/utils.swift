@@ -244,7 +244,6 @@ public struct twelvePalaceCalculator {
         }
         return palaces12
     }
-    // TODO: 对宫, 三合位,暗合宫(https://www.iztro.com/learn/basis.html#宫位)
     
     /// from current palace branch to its duiPalace's branch
     func findDuiPalace(currentPalceBranch:the12BranchEnum) -> the12BranchEnum {
@@ -647,7 +646,7 @@ public extension ZiweiStarCalculator {
                 palaceBranchPinyin = nil
             }
             // place the star at palaceBranchPinyin
-            if config.isSub {
+            if config.isSub { // 辅星
                 subStarsArray.append(Star(pinyin: config.star.pinyin,
                                           palaceBranch: palaceBranchPinyin
                                           )
@@ -658,7 +657,7 @@ public extension ZiweiStarCalculator {
                     let next_palace = pythonModulo(fillOrder.firstIndex(of: palaceBranchPinyin)! + 1, 12)
                     smallStarsArray.append(Star(pinyin: .minorStars(.bad(.qingyang)), palaceBranch: fillOrder[next_palace]))
                 }
-            } else {
+            } else { //杂星
                 smallStarsArray.append(Star(pinyin: config.star.pinyin,
                                             palaceBranch: palaceBranchPinyin))
             }

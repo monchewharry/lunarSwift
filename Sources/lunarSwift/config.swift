@@ -491,6 +491,51 @@ public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case fumu   = "父母宫"
   case unknown = "unknown"
 }
+///宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
+public let palaceWeiPalace: [PalacePair: String] = {
+    var result = [PalacePair: String]()
+    result = createPalaceWeiPalace()
+    return result
+}()
+// Define a struct for the palace pair to use as a dictionary key
+public struct PalacePair: Hashable {
+    let palaceA: String
+    let palaceBwei: String
+}
+
+// Helper function to get the displaced index with wrap-around
+func displacedIndex(originalIndex: Int, displacement: Int, count: Int=12) -> Int {
+    return (originalIndex + displacement + count) % count
+}
+/// palace A的palace B位是palaceC，父母宫的夫妻位是兄弟宫
+func createPalaceWeiPalace(palacesArray:[String]=palacesArray) -> [PalacePair: String]{
+    // Dictionary to store the mappings
+    var palaceMapping: [PalacePair: String] = [:]
+    for (indexA, palaceA) in palacesArray.enumerated() {
+        // Calculate displacement for moving "命宫" to palace A's position
+        let displacement = indexA
+        
+        for (indexB, palaceB) in palacesArray.enumerated() {
+            // Only map distinct palace pairs
+            guard palaceA != palaceB else { continue }
+            
+            // Calculate index for the new position of palace B after displacement
+            let indexC = displacedIndex(originalIndex: indexB, displacement: displacement)
+            let palaceC = palacesArray[indexC]
+            
+            // Create a PalacePair key
+            let palacePair = PalacePair(palaceA: palaceA, palaceBwei: palaceB+"位")
+            
+            palaceMapping[palacePair] = palaceC
+        }
+    }
+    return palaceMapping
+}
+
+// Print the resulting dictionary to check
+//for (palacePair, palaceC) in palaceMapping {
+//    print("(\(palacePair.palaceA), \(palacePair.palaceB)) -> \(palaceC)")
+//}
 
 /**
  * 生成五虎遁月歌 年干与十二宫天干对应数据表:
@@ -922,8 +967,8 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         palaceNameEnum.rawValue
     }
     public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
-    public var subStarsArray: [lunarSwift.Star?] = [nil]
-    public var smallStarsArray: [lunarSwift.Star?] = [nil]
+    public var subStarsArray: [lunarSwift.Star?] = [nil] // 辅星
+    public var smallStarsArray: [lunarSwift.Star?] = [nil] // 杂星
 
     // Public initializer
     public init(

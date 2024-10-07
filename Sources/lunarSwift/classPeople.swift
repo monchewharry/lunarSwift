@@ -143,7 +143,7 @@ public extension People{
 
     }
     /**
-     所有sub star
+     所有辅星，杂星 sub star， smallstars
      */
     var allSubSmallStars: (Substar:[Star], Smallstar: [Star]) {
         let calculator = ziweistarCalculator
