@@ -129,6 +129,7 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
 
 //---------------------------------------------------十二宫计算器
 
+
 /**
  十二宫定位计算器
  */
@@ -136,6 +137,10 @@ public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
     /// palace order clockwise from .yin: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
+    let palacesOrder: [String] = [
+            "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
+            "仕途宫", "田宅宫", "福德宫", "父母宫"
+        ]
     // MARK:  三方四正是4个宫位的统称，其中包含 本宫，对宫（也叫 四正位），三合宫（也叫三方位）
     /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
     public let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
@@ -163,6 +168,27 @@ public struct twelvePalaceCalculator {
             backward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
         )
     }
+    /// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
+    /// ("\(palace.rawValue)的\(wei.rawValue)位是\(output)")
+    public func givenPalaceWei(_ palace:palacesEnum,_ wei: palacesEnum) -> palacesEnum {
+        let palaceIndex = palacesOrder.firstIndex(of: palace.rawValue)!
+        let weiIndex = palacesOrder.firstIndex(of: wei.rawValue)!
+        let displacedIndex = pythonModulo(weiIndex+palaceIndex, 12)
+        let output = palacesOrder[displacedIndex]
+        print("\(palace.rawValue)的\(wei.rawValue)位是\(output)")
+        return palacesEnum(rawValue: output)!
+    }
+    /// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
+    /// ("\(palace2.rawValue)是\(palace1.rawValue)的\(wei)位")
+    public func givenPalace2(_ palace1:palacesEnum, _ palace2:palacesEnum) -> palacesEnum {
+        let palace1Index = palacesOrder.firstIndex(of: palace1.rawValue)!
+        let palace2Index = palacesOrder.firstIndex(of: palace2.rawValue)!
+        let weiIndex = pythonModulo(palace2Index - palace1Index, 12)
+        let wei = palacesOrder[weiIndex]
+        print("\(palace2.rawValue)是\(palace1.rawValue)的\(wei)位")
+        return palacesEnum(rawValue: wei)!
+    }
+    
     private static func createCyclicDictionary(from fillorder: [the12BranchEnum], forwardBy:Int) -> [the12BranchEnum: the12BranchEnum] {
             var cyclicDict: [the12BranchEnum: the12BranchEnum] = [:]
             let count = fillorder.count

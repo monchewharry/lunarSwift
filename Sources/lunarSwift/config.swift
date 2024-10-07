@@ -491,33 +491,7 @@ public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case fumu   = "父母宫"
   case unknown = "unknown"
 }
-// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
-// Helper function to get the displaced index with wrap-around
 
-public func givenPalaceWei(_ palace:palacesEnum,_ wei: palacesEnum) -> palacesEnum {
-    let palacesOrder: [String] = [
-        "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
-        "仕途宫", "田宅宫", "福德宫", "父母宫"
-    ]
-    let palaceIndex = palacesOrder.firstIndex(of: palace.rawValue)!
-    let weiIndex = palacesOrder.firstIndex(of: wei.rawValue)!
-    let displacedIndex = pythonModulo(weiIndex+palaceIndex, 12)
-    let output = palacesOrder[displacedIndex]
-    print("\(palace.rawValue)的\(wei.rawValue)位是\(output)")
-    return palacesEnum(rawValue: output)!
-}
-public func givenPalace2(_ palace1:palacesEnum, _ palace2:palacesEnum) -> palacesEnum {
-    let palacesOrder: [String] = [
-        "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
-        "仕途宫", "田宅宫", "福德宫", "父母宫"
-    ]
-    let palace1Index = palacesOrder.firstIndex(of: palace1.rawValue)!
-    let palace2Index = palacesOrder.firstIndex(of: palace2.rawValue)!
-    let weiIndex = pythonModulo(palace2Index - palace1Index, 12)
-    let wei = palacesOrder[weiIndex]
-    print("\(palace2.rawValue)是\(palace1.rawValue)的\(wei)位")
-    return palacesEnum(rawValue: wei)!
-}
 
 // Print the resulting dictionary to check
 //for (palacePair, palaceC) in palaceMapping {
