@@ -13,7 +13,6 @@ let startYear = 1901
 let monthDayBit = 12
 let leapMonthNumBit = 13
 
-//MARK:  enums localization protocol
 ///protocol for enums that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableEnum: RawRepresentable where RawValue == String {}
 extension LocalizableEnum {
@@ -22,8 +21,6 @@ extension LocalizableEnum {
         return NSLocalizedString(self.rawValue, tableName: tableName, bundle: .main, value: "", comment: "")
     }
 }
-
-
 
 //MARK:  define errors for Lunar Class
 public enum LunarError: Error {
@@ -216,21 +213,21 @@ let sunNobleDirection:[Character] = Array("坤坤兑乾艮坎离艮震巽")
 let moonNobleDirection:[Character] = Array("艮坎乾兑坤坤艮离巽震")
 
 //MARK:  胎神
-let fetalGodList = [
-    "碓磨门外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床厕外正南", "占门床外正南",
-    "占碓磨外正南", "厨灶厕外西南", "仓库炉外西南", "房床门外西南", "门碓栖外西南", "碓磨床外西南",
-    "厨灶碓外西南", "仓库厕外西南", "房床厕外正南", "房床炉外正西", "碓磨栖外正西", "厨灶床外正西",
-    "仓库碓外西北", "房床厕外西北", "占门炉外西北", "碓磨门外西北", "厨灶栖外西北", "仓库床外西北",
-    "房床碓外正北", "占门厕外正北", "碓磨炉外正北", "厨灶门外正北", "仓库栖外正北", "占房床房内北",
-    "占门碓房内北", "碓磨门房内北", "厨灶炉房内北", "仓库门房内北", "房床栖房内中", "占门床房内中",
-    "占碓磨房内南", "厨灶厕房内南", "仓库炉房内南", "房床门房内南", "门鸡栖房内东", "碓磨床房内东",
-    "厨灶碓房内东", "仓库厕房内东", "房床炉房内东", "占大门外东北", "碓磨栖外东北", "厨灶床外东北",
-    "仓库碓外东北", "房床厕外东北", "占门炉外东北", "碓磨门外正东", "厨灶栖外正东", "仓库床外正东",
-    "房床碓外正东", "占门厕外正东", "碓磨炉外东南", "仓库栖外东南", "占房床外东南", "占门碓外东南"
-]
-//MARK:  时辰经络
-let meridiansName = ["胆", "肝", "肺", "大肠", "胃", "脾", "心", "小肠", "膀胱", "肾", "心包", "三焦"]
-
+//let fetalGodList = [
+//    "碓磨门外东南", "碓磨厕外东南", "厨灶炉外正南", "仓库门外正南", "房床厕外正南", "占门床外正南",
+//    "占碓磨外正南", "厨灶厕外西南", "仓库炉外西南", "房床门外西南", "门碓栖外西南", "碓磨床外西南",
+//    "厨灶碓外西南", "仓库厕外西南", "房床厕外正南", "房床炉外正西", "碓磨栖外正西", "厨灶床外正西",
+//    "仓库碓外西北", "房床厕外西北", "占门炉外西北", "碓磨门外西北", "厨灶栖外西北", "仓库床外西北",
+//    "房床碓外正北", "占门厕外正北", "碓磨炉外正北", "厨灶门外正北", "仓库栖外正北", "占房床房内北",
+//    "占门碓房内北", "碓磨门房内北", "厨灶炉房内北", "仓库门房内北", "房床栖房内中", "占门床房内中",
+//    "占碓磨房内南", "厨灶厕房内南", "仓库炉房内南", "房床门房内南", "门鸡栖房内东", "碓磨床房内东",
+//    "厨灶碓房内东", "仓库厕房内东", "房床炉房内东", "占大门外东北", "碓磨栖外东北", "厨灶床外东北",
+//    "仓库碓外东北", "房床厕外东北", "占门炉外东北", "碓磨门外正东", "厨灶栖外正东", "仓库床外正东",
+//    "房床碓外正东", "占门厕外正东", "碓磨炉外东南", "仓库栖外东南", "占房床外东南", "占门碓外东南"
+//]
+////MARK:  时辰经络
+//let meridiansName = ["胆", "肝", "肺", "大肠", "胃", "脾", "心", "小肠", "膀胱", "肾", "心包", "三焦"]
+//
 //MARK: lunar date chinese letters
 let lunarMonthNameList = ["正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "冬月", "腊月"]
 let lunarDayNameList = [
@@ -489,14 +486,9 @@ public enum palacesEnum: String, CaseIterable,Equatable,LocalizableEnum {
   case tianzhai   = "田宅宫"
   case fude    = "福德宫"
   case fumu   = "父母宫"
-  case unknown = "unknown"
+//  case unknown = "unknown"
 }
 
-
-// Print the resulting dictionary to check
-//for (palacePair, palaceC) in palaceMapping {
-//    print("(\(palacePair.palaceA), \(palacePair.palaceB)) -> \(palaceC)")
-//}
 
 /**
  * 生成五虎遁月歌 年干与十二宫天干对应数据表:
@@ -593,9 +585,6 @@ public enum StarEnum: Hashable {
     }
     /// Get all cases programmatically by combining cases from both enums
     public static var allCases: [StarEnum] {
-//        let mainstarsallcases = mainStarsEnum.allCases.map { StarEnum.mainStars($0) }
-//        let minorstarsallcases = minorStarsEnum.allCases.map { StarEnum.minorStars($0) }
-//        let adjstarsallcases = adjStarsEnum.allCases.map { StarEnum.adjStars($0) }
         return allMainStarsCases + allMinorStarsCases + allAdjStarsCases
     }
     
@@ -910,7 +899,8 @@ let xianchi: [the12BranchEnum: the12BranchEnum] = [
 - ["寅", "丑","子", "亥"],
 ]
  */
-public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you,.mao,.xu,.yin,.chou,.zi,.hai]
+//public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you,.mao,.xu,.yin,.chou,.zi,.hai]
+public let palace4x4BranchOrder:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you,.mao,.xu,.yin,.chou,.zi,.hai]
 
 /**
  紫薇命盘lazygrid中的一个cube
@@ -971,7 +961,7 @@ func get12ZiweiPalaceCube(_ twelvePalace:[palacesEnum: StemBranch],
     
     var result:[ZiweiPalaceCube] = []
     
-    for branch in palaceBranchArray1 {
+    for branch in palace4x4BranchOrder {
         if let (palaceNameEnum, value) = twelvePalace.first(where: { $0.value.branch == branch }) {
             let palaceCube = ZiweiPalaceCube(palaceBranchEnum: branch, palaceStem: value.stem.rawValue, palaceNameEnum: palaceNameEnum,
                                              mainStarsArray: mainStarsArray.filter { star in star?.palaceBranch == branch},
