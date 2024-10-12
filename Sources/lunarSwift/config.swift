@@ -582,14 +582,23 @@ public enum StarEnum: Hashable {
             return star.rawValue
         }
     }
-    
+    public static var allMainStarsCases: [StarEnum] {
+        mainStarsEnum.allCases.map { StarEnum.mainStars($0) }
+    }
+    public static var allMinorStarsCases: [StarEnum] {
+        minorStarsEnum.allCases.map { StarEnum.minorStars($0) }
+    }
+    public static var allAdjStarsCases: [StarEnum] {
+        adjStarsEnum.allCases.map { StarEnum.adjStars($0) }
+    }
     /// Get all cases programmatically by combining cases from both enums
     public static var allCases: [StarEnum] {
-        let goodCases = mainStarsEnum.allCases.map { StarEnum.mainStars($0) }
-        let badCases = minorStarsEnum.allCases.map { StarEnum.minorStars($0) }
-        let helpCases = adjStarsEnum.allCases.map { StarEnum.adjStars($0) }
-        return goodCases + badCases + helpCases
+//        let mainstarsallcases = mainStarsEnum.allCases.map { StarEnum.mainStars($0) }
+//        let minorstarsallcases = minorStarsEnum.allCases.map { StarEnum.minorStars($0) }
+//        let adjstarsallcases = adjStarsEnum.allCases.map { StarEnum.adjStars($0) }
+        return allMainStarsCases + allMinorStarsCases + allAdjStarsCases
     }
+    
 }
 /// 14主星
 public enum mainStarsEnum: Hashable {
@@ -906,16 +915,6 @@ public let palaceBranchArray1:[the12BranchEnum] = [.si,.wu,.wei,.shen,.chen,.you
 /**
  紫薇命盘lazygrid中的一个cube
  */
-//public struct ZiweiPalaceCube: Identifiable,Equatable {
-//    public let id = UUID()
-//    public let palaceBranchEnum: the12BranchEnum
-//    public let palaceBranch: String
-//    public let palaceStem: String
-//    public let palaceName: String
-//    public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
-//    public var subStarsArray: [lunarSwift.Star?] = [nil]
-//    public var smallStarsArray: [lunarSwift.Star?] = [nil]
-//}
 public struct ZiweiPalaceCube: Identifiable, Equatable {
     public let id = UUID()
     public let palaceBranchEnum: the12BranchEnum
@@ -927,9 +926,9 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public var palaceName: String {
         palaceNameEnum.rawValue
     }
-    public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
-    public var subStarsArray: [lunarSwift.Star?] = [nil] //
-    public var smallStarsArray: [lunarSwift.Star?] = [nil] //
+    public var mainStarsArray: [Star?] = [] // 保存安放在这个宫位的主星
+    public var subStarsArray: [Star?] = [nil]
+    public var smallStarsArray: [Star?] = [nil]
 
     // Public initializer
     public init(
@@ -957,6 +956,9 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     }
     public func allMinorAdjStars() -> [Star] {
         return (subStarsArray + smallStarsArray).compactMap { $0 }
+    }
+    public func allStars() -> [Star] {
+        allMainStars() + allMinorAdjStars()
     }
 }
 
