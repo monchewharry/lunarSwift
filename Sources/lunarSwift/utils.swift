@@ -131,16 +131,13 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
 
 
 /**
- 十二宫定位计算器
+ 十二宫定位计算器，宫位，三方四正，暗合，命盘12宫，身宫
  */
 public struct twelvePalaceCalculator {
     let monthBranch, hourBranch: the12BranchEnum
     /// palace order clockwise from .yin: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
-    let palacesOrder: [String] = [
-            "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
-            "仕途宫", "田宅宫", "福德宫", "父母宫"
-        ]
+    
     // MARK:  三方四正是4个宫位的统称，其中包含 本宫，对宫（也叫 四正位），三合宫（也叫三方位）
     /// 对宫(四正位)：是 本宫 序号 加6 所在的位置(四正位), 本宫位对角线上的宫位
     public let duiPalaceDict: [the12BranchEnum: the12BranchEnum]
@@ -168,9 +165,13 @@ public struct twelvePalaceCalculator {
             backward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
         )
     }
+    static let palacesOrder: [String] = [
+            "命宫", "兄弟宫", "夫妻宫", "子女宫", "财帛宫", "疾厄宫", "迁移宫", "交友宫",
+            "仕途宫", "田宅宫", "福德宫", "父母宫"
+        ]
     /// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
     /// ("\(palace.rawValue)的\(wei.rawValue)位是\(output)")
-    public func givenPalaceWei(_ palace:palacesEnum,_ wei: palacesEnum) -> palacesEnum {
+    public static func givenPalaceWei(_ palace:palacesEnum,_ wei: palacesEnum) -> palacesEnum {
         let palaceIndex = palacesOrder.firstIndex(of: palace.rawValue)!
         let weiIndex = palacesOrder.firstIndex(of: wei.rawValue)!
         let displacedIndex = pythonModulo(weiIndex+palaceIndex, 12)
@@ -180,7 +181,7 @@ public struct twelvePalaceCalculator {
     }
     /// 宫位关系https://www.iztro.com/learn/palace.html#兄弟宫
     /// ("\(palace2.rawValue)是\(palace1.rawValue)的\(wei)位")
-    public func givenPalace2(_ palace1:palacesEnum, _ palace2:palacesEnum) -> palacesEnum {
+    public static func givenPalace2(_ palace1:palacesEnum, _ palace2:palacesEnum) -> palacesEnum {
         let palace1Index = palacesOrder.firstIndex(of: palace1.rawValue)!
         let palace2Index = palacesOrder.firstIndex(of: palace2.rawValue)!
         let weiIndex = pythonModulo(palace2Index - palace1Index, 12)
@@ -256,7 +257,6 @@ public struct twelvePalaceCalculator {
         // Find the index of the life palace branch in the order
         if let lifeBranchIndex = palaceFillorder.firstIndex(of: lifePalaceStemBranch.branch) {
             var currentBranchIndex:Int = lifeBranchIndex
-            assert(palacesArray.count == 12, "palacesArray count not equal to 12")
             for key in palacesArray {
                 let branch:the12BranchEnum = palaceFillorder[currentBranchIndex]
                 let stem:the10StemEnum = stemsOrder[currentBranchIndex]
@@ -316,18 +316,16 @@ public struct ZiWeiWuxingGameCalculator {
 
 //---------------------------------------------------星耀安放
 
-
-
 /**
- Calculator includes every thing about star  in 紫微斗数命盘
+ * 紫微斗数命盘星曜
  */
 public struct ZiweiStarCalculator {
     var lunarDayNum: Int //农历日数
     var wuxingGameNum:Int //五行局数
-    private let fillOrder:[the12BranchEnum] = palaceFillorder //["寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑"]//虎口 for 整除
-    /**
-     * 紫薇星 的地支
-     */
+    ///  "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
+    private let fillOrder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu  , .wei , .shen, .you , .xu  , .hai , .zi  , .chou]
+    
+    /// 紫薇星 的地支
     func getZiweiIndex() -> (index: Int, dizhi: the12BranchEnum) {
         let num = wuxingGameNum //3
         var jumpNum = Double(lunarDayNum) / Double(num) // 22/3
@@ -360,10 +358,11 @@ public struct ZiweiStarCalculator {
         let dizhi = fillOrder[dizhiIndex] //亥
         return (index, dizhi)
     }
-    // MARK: 主星
-    /**
-     基于年干，确定紫薇主星的四化. 排星 -> 确定紫薇 ，逆时针依次，天机 ->空格 ->太阳 ->武曲 ->天同 -> 空两格 -> 廉贞
-     */
+    
+    // MARK: 紫微主星
+
+    /// 基于年干(十天干四化表)，确定紫薇主星的 四化 -> 确定紫薇 ，逆时针依次，天机 ->空格 ->太阳 ->武曲 ->天同 -> 空两格 -> 廉贞
+    /// https://www.iztro.com/learn/mutagen.html#十天干四化表
     func getMainStarsWithZiwei(for yearStem: the10StemEnum) -> [Star?] {
         return [
             Star(
@@ -396,9 +395,7 @@ public struct ZiweiStarCalculator {
         ]
     }
 
-    /**
-     给出主星紫薇主星的地支
-     */
+    /// 给出主星紫薇主星的地支
     func setZiweiStars(yearStem: the10StemEnum) -> [Star?] {
             let ziweiIndex = getZiweiIndex().index
             var stars = getMainStarsWithZiwei(for: yearStem)
@@ -412,17 +409,10 @@ public struct ZiweiStarCalculator {
             return stars
         }
     
-    /**
-     天府星地支
-     */
-    func getTianfuIndex() -> (index: Int, dizhi:the12BranchEnum){
-        let tianfuindex = pythonModulo((12 - getZiweiIndex().index), 12)
-        return (tianfuindex, fillOrder[tianfuindex])
-    }
     
-    /**
-     基于年干，确定天府主星的四化. 天府星 ：紫薇斜对角（右上到左下）顺时针： 天府星 ->太阴 -> 贪狼 -> 巨门 ->天相 ->天梁 -> 七杀 -> 空三格 -> 破军
-     */
+    // MARK: 天府主星
+
+    /// 天府主星的四化. 天府星 ：紫薇斜对角（右上到左下）顺时针： 天府星 ->太阴 -> 贪狼 -> 巨门 ->天相 ->天梁 -> 七杀 -> 空三格 -> 破军
     func getMainStarsWithTianfu(for yearStem: the10StemEnum) -> [Star?] {
         return [
             Star(
@@ -462,9 +452,13 @@ public struct ZiweiStarCalculator {
             )
         ]
     }
-    /**
-     给出主星天府主星的地支
-     */
+
+    /// 天府星地支
+    func getTianfuIndex() -> (index: Int, dizhi:the12BranchEnum){
+        let tianfuindex = pythonModulo((12 - getZiweiIndex().index), 12)
+        return (tianfuindex, fillOrder[tianfuindex])
+    }
+    /// 给出主星天府主星的地支
     func setTianfuStars(yearStem: the10StemEnum) -> [Star?] {
             let tianfuIndex = getTianfuIndex().index
             var stars = getMainStarsWithTianfu(for: yearStem)
@@ -477,12 +471,9 @@ public struct ZiweiStarCalculator {
             }
             return stars
         }
-}
-
-public extension ZiweiStarCalculator {
-    /**
-     次星规则属性
-     */
+    
+    // MARK: 辅星+杂曜
+    /// 次星规则属性
     struct minorStarConfig {
         let isSub: Bool
         let rule: (startPalaceCode:the12BranchEnum,startDizhi:the12BranchEnum?,clockwise:Bool?,endDizhi:the12BranchEnum?) // The rule for placing the star
@@ -494,7 +485,6 @@ public extension ZiweiStarCalculator {
      Function to determine 天魁 (Tiankui) and 天钺 (Tianyue)
      t == true ? 天魁 ： 天钺
      */
-
     func getTiankuiTianyue(t: Bool) -> [the10StemEnum: the12BranchEnum] {
         let r1 = t ? the12BranchEnum.chou : the12BranchEnum.wei
         let r2 = t ? the12BranchEnum.zi : the12BranchEnum.shen
@@ -672,7 +662,7 @@ public extension ZiweiStarCalculator {
                 palaceBranchPinyin = nil
             }
             // place the star at palaceBranchPinyin
-            if config.isSub { // 辅星
+            if config.isSub {
                 subStarsArray.append(Star(pinyin: config.star.pinyin,
                                           palaceBranch: palaceBranchPinyin
                                           )
@@ -683,7 +673,7 @@ public extension ZiweiStarCalculator {
                     let next_palace = pythonModulo(fillOrder.firstIndex(of: palaceBranchPinyin)! + 1, 12)
                     smallStarsArray.append(Star(pinyin: .minorStars(.bad(.qingyang)), palaceBranch: fillOrder[next_palace]))
                 }
-            } else { //杂星
+            } else {
                 smallStarsArray.append(Star(pinyin: config.star.pinyin,
                                             palaceBranch: palaceBranchPinyin))
             }

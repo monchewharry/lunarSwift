@@ -734,7 +734,7 @@ public enum adjStarsEnum: String, CaseIterable, LocalizableEnum{
 //    case qingyang    = "擎羊"
 //
 //}
-public enum sihuaEnum: String, CaseIterable,LocalizableEnum{
+public enum sihuaEnum: String, CaseIterable,LocalizableEnum,Hashable{
     case lu      = "禄"
     case quan    = "权"
     case ke      = "科"
@@ -928,8 +928,8 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         palaceNameEnum.rawValue
     }
     public var mainStarsArray: [lunarSwift.Star?] = [] // 保存安放在这个宫位的主星
-    public var subStarsArray: [lunarSwift.Star?] = [nil] // 辅星
-    public var smallStarsArray: [lunarSwift.Star?] = [nil] // 杂星
+    public var subStarsArray: [lunarSwift.Star?] = [nil] //
+    public var smallStarsArray: [lunarSwift.Star?] = [nil] //
 
     // Public initializer
     public init(
@@ -946,6 +946,17 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         self.mainStarsArray = mainStarsArray
         self.subStarsArray = subStarsArray
         self.smallStarsArray = smallStarsArray
+    }
+    /// Returns an array of `Star` objects that have a non-nil `sihua` value
+    public func starsWithSihua() -> [Star] {
+        let allStars = (mainStarsArray + subStarsArray + smallStarsArray).compactMap { $0 }
+        return allStars.filter { $0.sihua != nil }
+    }
+    public func allMainStars() -> [Star] {
+        return mainStarsArray.compactMap { $0 }
+    }
+    public func allMinorAdjStars() -> [Star] {
+        return (subStarsArray + smallStarsArray).compactMap { $0 }
     }
 }
 
