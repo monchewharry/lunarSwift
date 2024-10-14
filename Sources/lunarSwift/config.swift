@@ -936,20 +936,28 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         self.subStarsArray = subStarsArray
         self.smallStarsArray = smallStarsArray
     }
-    /// Returns an array of `Star` objects that have a non-nil `sihua` value
-    public func starsWithSihua() -> [Star] {
-        let allStars = (mainStarsArray + subStarsArray + smallStarsArray).compactMap { $0 }
-        return allStars.filter { $0.sihua != nil }
+    public var allMainStars: [Star] {
+        mainStarsArray.compactMap { $0 }
     }
-    public func allMainStars() -> [Star] {
-        return mainStarsArray.compactMap { $0 }
+    public var allMinorAdjStars:[Star] {
+        (subStarsArray + smallStarsArray).compactMap { $0 }
     }
-    public func allMinorAdjStars() -> [Star] {
-        return (subStarsArray + smallStarsArray).compactMap { $0 }
+    public var allStars: [Star] {
+        allMainStars + allMinorAdjStars
     }
-    public func allStars() -> [Star] {
-        allMainStars() + allMinorAdjStars()
+    
+    public var allMinorStars: [Star] {
+        allMinorAdjStars
+            .filter {star in StarEnum.allMinorStarsCases.contains(star.pinyin)}
     }
+    public var allAdjStars: [Star] {
+        allMinorAdjStars
+            .filter {star in StarEnum.allAdjStarsCases.contains(star.pinyin)}
+    }
+    public var starsWithSihua: [Star] {
+        allStars.filter { $0.sihua != nil }
+    }
+
 }
 
 /**
