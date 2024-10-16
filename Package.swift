@@ -3,45 +3,34 @@
 import PackageDescription
 
 let package = Package(
-    name: "lunarSwift",
-    platforms: [
-        .macOS(.v10_15),  // Set the minimum macOS version to 10.15
-        .iOS(.v13),      // Specify the minimum iOS version if needed
-    ],
+    name: "LunarSwift",
+    platforms: [.iOS(.v14), .macOS(.v13)],
     products: [
-        .library(name: "lunarSwift",targets: ["lunarSwift"]),
-        .library(name: "baguaSwift",targets: ["baguaSwift"]),
+        .library(name: "LunarSwift", targets: ["LunarCalendar", "LunarPeople", "LunarBagua"]),
     ],
-    dependencies:[],
+    dependencies: [],
     targets: [
+        // Configuration target
         .target(
-            name: "lunarSwift",
-            dependencies: [],
-            path: "Sources/lunarSwift",
-            sources: ["classLunar.swift","classPeople.swift", "config.swift", "utils.swift"]
-            ),
-        .testTarget(
-            name: "lunarSwiftTests",
-            dependencies: ["lunarSwift"],
-            path: "Tests/lunarSwiftTests"
-            ),
-
+            name: "GlobalConfigs",
+            dependencies: []
+        ),
+        // Subpackages
         .target(
-            name: "baguaSwift",
-            dependencies: [],
-            path: "Sources/baguaSwift",
-            sources: ["config.swift", "utils.swift"],
-            resources:[
-                .process("Resources")
-                ]
-            ),
+            name: "LunarCalendar",
+            dependencies: ["GlobalConfigs"]
+        ),
+        .target(
+            name: "LunarPeople",
+            dependencies: ["GlobalConfigs"]
+        ),
+        .target(
+            name: "LunarBagua",
+            dependencies: ["LunarConfigs", "LunarCalendar", "LunarPeople"]
+        ),
         .testTarget(
-            name: "baguaSwiftTests",
-            dependencies: ["baguaSwift"],
-            resources:[
-                .process("Resources")
-                ]
-
-            ),
+            name: "LunarSwiftTests",
+            dependencies: ["LunarCalendar", "LunarPeople", "LunarBagua"]
+        ),
     ]
 )
