@@ -21,10 +21,14 @@ open class Lunar:ObservableObject {
         self.yearPillarType = yearPillarType
     }
     
-    // Cached computed properties
+    // MARK: - Cached expensive computed properties
     private var cachedLunarYMD: (lunarYear: Int, lunarMonth: Int, lunarDay: Int, spanDays: Int)?
     private var cachedLunarYMDCn: (lunarYearCn: String, lunarMonthCn: String, lunarDayCn: String)?
     private var cachedSolarInfo: (solarTermsEnum, [(Int, Int)], Int, Int)?
+    private var cachedymd8char: (year:StemBranch,month:StemBranch,day:StemBranch)?
+    private var cachedymdEarthNum: (Int,Int,Int)?
+    private var cachedymdHeavenNum: (Int,Int,Int)?
+
     private var lunarYMD: (lunarYear: Int, lunarMonth: Int, lunarDay: Int, spanDays: Int) {
             if let cached = cachedLunarYMD {
                 return cached
@@ -38,7 +42,7 @@ open class Lunar:ObservableObject {
     public var lunarDay:Int {return lunarYMD.lunarDay}
     public var spanDays: Int {return lunarYMD.spanDays}
     
-    //MARK: find lunar YMD's chinese character
+    //MARK: - find lunar YMD's chinese character
     private var lunarYMDCn: (lunarYearCn: String, lunarMonthCn: String, lunarDayCn: String) {
             if let cached = cachedLunarYMDCn {
                 return cached
@@ -54,8 +58,8 @@ open class Lunar:ObservableObject {
         return lunarYearCn + "年 " + lunarMonthCn + " " + lunarDayCn + "日 " + twohour8Char.branch.rawValue + "时"
     }
     
-    //MARK: find jieqi
-    public var solarinfo: (solarTermsEnum, [(Int, Int)], Int, Int) {
+    //MARK: - find jieqi
+    private var solarinfo: (solarTermsEnum, [(Int, Int)], Int, Int) {
             if let cached = cachedSolarInfo {
                 return cached
             }
@@ -79,27 +83,42 @@ open class Lunar:ObservableObject {
     public var lunarMonthLong:Bool {setlunarMonthLong()}
     public var _x: Int {getBeginningOfSpringX()} //must before the update of year8Char
 
-    //MARK: calculate lunar YMD's BAZI
+    //MARK: - calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
-    public var ymd8Char: (year:StemBranch,
+    private var ymd8Char: (year:StemBranch,
                           month:StemBranch,
                           day:StemBranch) { // also update year8Char
-        getThe8Char()
+        if let cached = cachedymd8char {
+            return cached
+        }
+        let calculated = getThe8Char()
+        cachedymd8char = calculated
+        return calculated
     }
     public var year8Char:StemBranch {return ymd8Char.year}
     public var month8Char:StemBranch {return ymd8Char.month}
     public var day8Char:StemBranch {return ymd8Char.day}
     
-    // calculate lunr YMD's BAZI dizhi's index
-    private var ymdEarthNum: (Int,Int,Int) {//must after the update of year8Char
-        getEarthNum()
+    /// calculate lunr YMD's BAZI dizhi's index
+    private var ymdEarthNum: (Int,Int,Int) { //must after the update of year8Char
+        if let cached = cachedymdEarthNum {
+            return cached
+        }
+        let calculated = getEarthNum()
+        cachedymdEarthNum = calculated
+        return calculated
     }
     public var yearEarthNum:Int {return ymdEarthNum.0}
     public var monthEarthNum:Int {return ymdEarthNum.1}
     public var dayEarthNum:Int {return ymdEarthNum.2}
     // calculate lunr YMD's BAZI tiangan's index
     private var ymdHeavenNum: (Int,Int,Int) {
-        getHeavenNum()
+        if let cached = cachedymdHeavenNum {
+            return cached
+        }
+        let calculated = getHeavenNum()
+        cachedymdHeavenNum = calculated
+        return calculated
     }
     public var yearHeavenNum:Int {return ymdHeavenNum.0}
     public var monthHeavenNum:Int {return ymdHeavenNum.1}
