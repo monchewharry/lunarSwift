@@ -39,8 +39,8 @@ let p1bench = testpeople(date: DateComponents(calendar: .current, year: 1993, mo
 )
 
 /// Helper function to create a valid People instance
-func createValidPerson() throws -> People {
-    return try People(date: p1bench.date, gender: gendersEnum.male )
+func createValidPerson() -> People {
+    return People(date: p1bench.date, gender: gendersEnum.male )
 }
 
 final class lunarSwiftTests: XCTestCase {
@@ -48,12 +48,12 @@ final class lunarSwiftTests: XCTestCase {
         XCTAssertEqual(the10StemEnum.allCases.count, 10)
         XCTAssertEqual(the12BranchEnum.allCases.count, 12)
         }
-    func testValidDateInitialization() throws {
+    func testValidDateInitialization() {
             // Given: A valid date within the allowed range
             let validDate = Calendar.current.date(from: DateComponents(year: 2000, month: 1, day: 1))!
             
             // When: We create a People instance
-            let person = try People(date: validDate)
+            let person = People(date: validDate)
             
             // Then: The instance should be created successfully
         XCTAssertEqual(person.gender.rawValue , "男") // Default gender is "male"
@@ -61,42 +61,25 @@ final class lunarSwiftTests: XCTestCase {
             XCTAssertEqual(person.godType, "8char") // Default godType is "8char"
             XCTAssertEqual(person.yearPillarType, "beginningOfSpring") // Default yearPillarType is "beginningOfSpring"
         }
-    func testOutOfBoundsDateThrowsError() {
-           // Given: An invalid date before 1901
-           let invalidDate = Calendar.current.date(from: DateComponents(year: 1899, month: 12, day: 31))!
-           
-           // Then: The initializer should throw a LunarError.dateOutOfBounds error
-           XCTAssertThrowsError(try People(date: invalidDate)) { error in
-               XCTAssertEqual(error as? LunarError, LunarError.dateOutOfBounds)
-           }
-           
-           // Given: An invalid date after 2100
-           let futureDate = Calendar.current.date(from: DateComponents(year: 2115, month: 1, day: 1))!
-           
-           // Then: The initializer should throw a LunarError.dateOutOfBounds error
-           XCTAssertThrowsError(try People(date: futureDate)) { error in
-               XCTAssertEqual(error as? LunarError, LunarError.dateOutOfBounds)
-           }
-       }
     
     // 测试农历日期换算
-    func testLunarDateFormat()throws{
-        let person = try createValidPerson()
+    func testLunarDateFormat() {
+        let person = createValidPerson()
         XCTAssertEqual(person.lunarbirthday, p1bench.lunarbirthdate, "Lunar Birthdate should be following the specific format")
     }
     // 测试四柱换算
-    func testFourPillarsCalculation() throws{
-        let person = try createValidPerson()
+    func testFourPillarsCalculation() {
+        let person = createValidPerson()
         XCTAssertEqual(person.fourPillars.map {$0.name}, p1bench.fourPillars, "Four pillars should be correctly calculated based on the lunarbirthdate.")
         }
     // 测试十神计算
-    func testTenGodsCalculation()throws{
-        let person = try createValidPerson()
+    func testTenGodsCalculation() {
+        let person = createValidPerson()
         XCTAssertEqual(person.tenGods, p1bench.tenGods, "Ten Gods should be correctly calculated based on the lunarbirthdate.")
     }
     // 测试十二宫推演
-    func test12PalaceCalculation()throws{
-        let person = try createValidPerson()
+     func test12PalaceCalculation() {
+        let person = createValidPerson()
         var person12palaces: [String] = []
         for key in palacesArray{
             person12palaces
@@ -112,16 +95,16 @@ final class lunarSwiftTests: XCTestCase {
         XCTAssertEqual(person.bodyPalace.stem.rawValue+person.bodyPalace.branch.rawValue, p1bench.bodyPalace, "body palace should be correctly calculated based on the lunarbirthdate.")
     }
     // 测试五行局
-    func testWuXingGameCalculation()throws{
-        let person = try createValidPerson()
+    func testWuXingGameCalculation() {
+        let person = createValidPerson()
         XCTAssertEqual(person.wuxingGame?.name , p1bench.wuxinggame, "Wuxing Game should be correctly calculated based on the lunarbirthdate.")
     }
 
     /**
     测试紫薇,天府
     */
-    func testStarBranch()throws{
-        let person = try createValidPerson()
+    func testStarBranch() {
+        let person = createValidPerson()
         if let ziwei = person.ziweiAllStarArrays.first(
             where: {$0?.pinyin == StarEnum.mainStars(.ziwei(.ziwei))
             })??.palaceBranch,
