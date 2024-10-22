@@ -15,15 +15,8 @@ open class Lunar:ObservableObject {
     public var yearPillarType: String
     public var date: Date
 
-    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring" )throws {
-        //date range check
-        if date >= Date.minAllowedDate && date <= Date.maxAllowedDate {
-                    self.date = date
-        } else {
-            print("Date input: \(date) is out of the allowed range Year (1901-2100).")
-            throw LunarError.dateOutOfBounds
-        }
-        
+    public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring" ) {
+        self.date = date
         self.godType = godType
         self.yearPillarType = yearPillarType
     }
@@ -88,7 +81,7 @@ open class Lunar:ObservableObject {
 
     //MARK: calculate lunar YMD's BAZI
     //var dayHeavenlyEarthNum:Int {getdayheavenearthnum()} //日柱索引
-    private var ymd8Char: (year:StemBranch,
+    public var ymd8Char: (year:StemBranch,
                           month:StemBranch,
                           day:StemBranch) { // also update year8Char
         getThe8Char()
