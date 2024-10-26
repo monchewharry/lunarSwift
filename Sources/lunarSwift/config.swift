@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum,Codable{
+public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
     case male = "男"
     case female = "女"
     case unknowngender = "性别未知"
@@ -16,9 +16,21 @@ let leapMonthNumBit = 13
 ///protocol for enums that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableEnum: RawRepresentable where RawValue == String {}
 extension LocalizableEnum {
-    // Method to localize rawValue with tableName
+    /// Method to localize rawValue with tableName and with default .main bundle.
     public func localized(in tableName: String) -> String {
         return NSLocalizedString(self.rawValue, tableName: tableName, bundle: .main, value: "", comment: "")
+    }
+
+    /// Method to localize rawValue with tableName and with customized bundle resource of string catalog files.
+    public func localizedApp(in tableName: String = "EnumLocalizable",
+            forLanguage language: String) -> String {
+        // search for selected/current app language
+        guard let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+        let bundle = Bundle(path: path) else {
+            return self.rawValue // Fallback to raw value if translation fails
+        }
+        return NSLocalizedString(self.rawValue, tableName: tableName,
+                bundle: bundle, value: "", comment: "")
     }
 }
 
