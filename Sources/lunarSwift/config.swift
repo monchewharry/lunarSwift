@@ -92,15 +92,31 @@ public let palaceFillorder:[the12BranchEnum] = [ .yin , .mao , .chen, .si  , .wu
 public protocol LocalizableStemBranchName {
     var localizationStemKey: String { get }
     var localizationBranchKey: String { get }
-    func localName(tableName: String) -> String
+    func localName(tableName: String, forLanguage:String) -> String
 }
+
 extension LocalizableStemBranchName {
-    public func localName(tableName: String) -> String {
-        let stems = NSLocalizedString(localizationStemKey, tableName: tableName, bundle: .main, value: localizationStemKey, comment: "")
-        let branchs = NSLocalizedString(localizationBranchKey, tableName: tableName, bundle: .main, value: localizationBranchKey, comment: "")
+    public func localName(tableName: String = "EnumLocalizable",
+                          forLanguage language:String) -> String {
+        // search for selected/current app language
+        if let path = Bundle.main.path(forResource: language, ofType: "lproj"),
+              let bundle = Bundle(path: path) {
+
+            let stems = NSLocalizedString(localizationStemKey, tableName: tableName, 
+                                            bundle: bundle, value: localizationStemKey, comment: "")
+            let branchs = NSLocalizedString(localizationBranchKey, tableName: tableName, 
+                                            bundle: bundle, value: localizationBranchKey, comment: "")
+            return stems+branchs
+        }
+
+        let stems = NSLocalizedString(localizationStemKey, tableName: tableName, 
+                                            bundle: .main, value: localizationStemKey, comment: "")
+        let branchs = NSLocalizedString(localizationBranchKey, tableName: tableName, 
+                                            bundle: .main, value: localizationBranchKey, comment: "")
         return stems+branchs
     }
 }
+
 public struct StemBranch: Equatable, LocalizableStemBranchName { // tuple of (the10StemEnum, the12BranchEnum) is not equatable
     public let stem: the10StemEnum
     public let branch: the12BranchEnum
