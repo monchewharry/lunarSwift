@@ -13,7 +13,17 @@ open class Lunar:ObservableObject {
     public var isLunarLeapMonth: Bool=false
     public var godType: String
     public var yearPillarType: String
-    public var date: Date
+    public var date: Date{
+        didSet {
+            // Invalidate caches when date changes
+            cachedLunarYMD = nil
+            cachedLunarYMDCn = nil
+            cachedSolarInfo = nil
+            cachedymd8char = nil
+            cachedymdEarthNum = nil
+            cachedymdHeavenNum = nil
+        }
+    }
 
     public init(date: Date, godType: String = "8char", yearPillarType: String = "beginningOfSpring" ) {
         self.date = date
