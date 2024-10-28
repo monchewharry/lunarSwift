@@ -9,9 +9,13 @@ public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
     case female = "女"
     case unknowngender = "性别未知"
 }
-let startYear = 1901
-let monthDayBit = 12
-let leapMonthNumBit = 13
+
+public enum Constants {
+    static let startYear = 1901
+    static let monthDayBit = 12
+    static let leapMonthNumBit = 13
+}
+
 
 ///protocol for enums that have a rawValue of type String, same as adding the method localized to all enum instances.
 public protocol LocalizableEnum: RawRepresentable where RawValue == String {}

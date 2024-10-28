@@ -92,7 +92,7 @@ func zipSolarTermsList(inputList: [Int], charCountLen: Int = 2) -> (hex: String,
  获取某一年的所有节气列表
  */
 func getTheYearAllSolarTermsList(year: Int) -> [Int] {
-    return unZipSolarTermsList(data: solarTermsDataList[year - startYear]) // UInt64
+    return unZipSolarTermsList(data: solarTermsDataList[year - Constants.startYear]) // UInt64
 }
 //getTheYearAllSolarTermsList(1993) == [5, 20, 4, 18, 5, 20, 5, 20, 5, 21, 6, 21, 7, 23, 7, 23, 7, 23, 8, 23, 7, 22, 7, 22]
 

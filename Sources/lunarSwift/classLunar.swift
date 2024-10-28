@@ -275,7 +275,7 @@ open class Lunar:ObservableObject {
         precondition(lunarYear_ < 2100, "solar year number exceed 2100")
         var lunarMonth_:Int = 1
         var lunarDay_:Int = 1
-        let _codeYear = lunarNewYearList[lunarYear_ - startYear]
+        let _codeYear = lunarNewYearList[lunarYear_ - Constants.startYear]
         
         // 获取当前日期与当年春节的差日
         ///(二进制右移5位) 和 0x3 取bitwise and
@@ -336,7 +336,7 @@ open class Lunar:ObservableObject {
         var (leapMonth,leapDay,monthDay) = (0,0,0)
 
         // 获取16进制数据 12-1月份农历日数 0=29天 1=30天
-        let tmp = lunarMonthData[lunarYear_ - startYear]
+        let tmp = lunarMonthData[lunarYear_ - Constants.startYear]
 
         // 获取当前月份的布尔值
         if tmp & (1 << (lunarMonth_ - 1)) != 0 {
@@ -346,9 +346,9 @@ open class Lunar:ObservableObject {
         }
 
         // Determine the leap month and its number of days
-        leapMonth = Int((tmp >> leapMonthNumBit) & 0xf) //1 或 0
+        leapMonth = Int((tmp >> Constants.leapMonthNumBit) & 0xf) //1 或 0
         if leapMonth != 0 {
-            if tmp & (1 << monthDayBit) != 0 {
+            if tmp & (1 << Constants.monthDayBit) != 0 {
                 leapDay = 30
             } else {
                 leapDay = 29
