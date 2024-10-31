@@ -7,6 +7,8 @@ import Foundation
  * unicode
  * name
  */
+
+
 public struct Hexagram: Equatable {
     var binary:String = "000000"
     public init(binary: String) {
@@ -52,6 +54,14 @@ public struct Hexagram: Equatable {
             return nil
         }
     }
+    public enum GuaCiSelection: String, CaseIterable {
+        case orig = "白话文解释"
+        case duanyi = "《断易天机》解"
+        case song = "北宋易学家邵雍解"
+        case fupeirong = "台湾国学大儒傅佩荣解"
+        case chuantong = "传统解卦"
+        case zhang = "台湾张铭仁解卦"
+    }
 
     /**
      文档分段:
@@ -60,16 +70,10 @@ public struct Hexagram: Equatable {
      */
     func getHexagramInfoParts() -> (sectionLabels:[String],paragraphsDict:[String:String]){
         // 定义固定的标签
-        let fixedLabels = [
-            "白话文解释",
-            "《断易天机》解",
-            "北宋易学家邵雍解",
-            "台湾国学大儒傅佩荣解",
-            "传统解卦",
-            "台湾张铭仁解卦"
-        ]
+        let fixedLabels = GuaCiSelection.allCases.compactMap { $0.rawValue }
         var dynamicLabel: String?
         
+        // find the first dynamiclabel: x卦原文
         if let match = docString.range(of: ".*卦原文", options: .regularExpression) {
             dynamicLabel = String(docString[match])
         }
