@@ -13,7 +13,7 @@ open class Lunar:ObservableObject {
     public var isLunarLeapMonth: Bool=false
     public var godType: String
     public var yearPillarType: String
-    public var date: Date{
+    @Published public var date: Date{
         didSet {
             // Invalidate caches when date changes
             cachedLunarYMD = nil
