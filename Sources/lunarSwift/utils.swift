@@ -158,11 +158,12 @@ public struct twelvePalaceCalculator {
         self.monthBranch = monthBranch
         self.hourBranch = hourBranch
         
-        self.duiPalaceDict = twelvePalaceCalculator
+        self.duiPalaceDict = Self
             .createCyclicDictionary(from: fillorder, forwardBy: 6)
-        self.SanHePosition = twelvePalaceCalculator.combineDictionaries(
-            forward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: 4),
-            backward: twelvePalaceCalculator.createCyclicDictionary(from: fillorder, forwardBy: -4)
+        self.SanHePosition = Self
+            .combineDictionaries(
+                forward: Self.createCyclicDictionary(from: fillorder, forwardBy: 4),
+                backward: Self.createCyclicDictionary(from: fillorder, forwardBy: -4)
         )
     }
     static let palacesOrder: [String] = [
