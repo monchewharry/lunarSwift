@@ -47,7 +47,8 @@ open class People: Lunar{
             print("Using cached calculator")
             return cached
             } else {
-                 print("Creating new calculator")
+                print("Creating new calculator")
+                print("=====================================\n")
                 let calculated = twelvePalaceCalculator(monthBranch: month8Char.branch,
                                                         hourBranch: twohour8Char.branch)
                 cachedtwelvePalaceCalculator = calculated
