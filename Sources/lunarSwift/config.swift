@@ -963,6 +963,9 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public var starsWithSihua: [Star] {
         allStars.filter { $0.sihua != nil }
     }
+    public var allFlyStars: [FlyStar] {
+        flyStarsArray.compactMap { $0 }
+    }
 
 }
 
