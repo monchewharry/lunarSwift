@@ -41,8 +41,8 @@ open class People: Lunar{
     private var cachedtwelvePalaceCalculator:twelvePalaceCalculator?
     private var PalaceCalculator: twelvePalaceCalculator {
         print("\n=== PalaceCalculator Access ===")
-        print("Month Branch:", month8Char.branch)
-        print("Hour Branch:", twohour8Char.branch)
+        print("Month Branch:", month8Char.branch.rawValue)
+        print("Hour Branch:", twohour8Char.branch.rawValue)
         if let cached = cachedtwelvePalaceCalculator {
             return cached
             } else {
