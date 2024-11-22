@@ -585,6 +585,19 @@ public struct Star: Hashable {
     }
 }
 
+public struct FlyStar: Hashable {
+    public var name: String
+    public var palaceBranch: the12BranchEnum? = nil
+    // Public initializer
+    public init(
+        name: String,
+        palaceBranch: the12BranchEnum? = nil
+    ) {
+        self.name = name
+        self.palaceBranch = palaceBranch
+    }
+}
+
 /**  
  * case mainStars(mainStarsEnum)
  * case minorStars(minorStarsEnum)
@@ -723,47 +736,6 @@ public enum adjStarsEnum: String, CaseIterable, LocalizableEnum{
     case tianxing    = "天刑"
 }
 
-//public enum StarsEnum: String, CaseIterable, LocalizableEnum{
-//    //tianfu main stars
-//    case tianfu    = "天府"
-//    case taiyin    = "太阴"
-//    case tanlang   = "贪狼"
-//    case jumen     = "巨门"
-//    case tianxiang = "天相"
-//    case tianliang = "天梁"
-//    case qisha     = "七杀"
-//    case pojun     = "破军"
-//    //ziwei main stars
-//    case ziwei     = "紫微"
-//    case tianji    = "天机"
-//    case taiyang   = "太阳"
-//    case wuqu      = "武曲"
-//    case tiantong  = "天同"
-//    case lianzhen  = "廉贞"
-//    
-//    //other smallstars with sihua
-//    case wenchang  = "文昌"
-//    case youbi     = "右弼"
-//    case wenqu     = "文曲"
-//    case zuofu     = "左辅"
-//    // no sihua smallstars
-//    case lucun    = "禄存"
-//    case tianma    = "天马"
-//    case huoxing    = "火星"
-//    case dikong    = "地空"
-//    case dijie    = "地劫"
-//    case lingxing    = "铃星"
-//    case hongluan    = "红鸾"
-//    case tianxi    = "天喜"
-//    case tiantao    = "天姚"
-//    case xianchi    = "咸池"
-//    case tianxing    = "天刑"
-//    case tiankui     = "天魁"
-//    case tianyue     = "天钺"
-//    case tuoluo      = "陀罗"
-//    case qingyang    = "擎羊"
-//
-//}
 public enum sihuaEnum: String, CaseIterable,LocalizableEnum,Hashable{
     case lu      = "禄"
     case quan    = "权"
@@ -951,6 +923,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public var mainStarsArray: [Star?] = [] // 保存安放在这个宫位的主星
     public var subStarsArray: [Star?] = [nil]
     public var smallStarsArray: [Star?] = [nil]
+    public var flyStarsArray: [FlyStar?] = [nil]
 
     // Public initializer
     public init(
@@ -959,7 +932,8 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         palaceNameEnum: palacesEnum,
         mainStarsArray: [lunarSwift.Star?] = [],
         subStarsArray: [lunarSwift.Star?] = [nil],
-        smallStarsArray: [lunarSwift.Star?] = [nil]
+        smallStarsArray: [lunarSwift.Star?] = [nil],
+        flyStarsArray: [lunarSwift.FlyStar?] = [nil]
     ) {
         self.palaceBranchEnum = palaceBranchEnum
         self.palaceStem = palaceStem
@@ -967,6 +941,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         self.mainStarsArray = mainStarsArray
         self.subStarsArray = subStarsArray
         self.smallStarsArray = smallStarsArray
+        self.flyStarsArray = flyStarsArray
     }
     public var allMainStars: [Star] {
         mainStarsArray.compactMap { $0 }
@@ -977,7 +952,6 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public var allStars: [Star] {
         allMainStars + allMinorAdjStars
     }
-    
     public var allMinorStars: [Star] {
         allMinorAdjStars
             .filter {star in StarEnum.allMinorStarsCases.contains(star.pinyin)}
