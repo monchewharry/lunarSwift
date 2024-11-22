@@ -607,7 +607,26 @@ public enum StarEnum: Hashable {
     case mainStars(mainStarsEnum) // 14
     case minorStars(minorStarsEnum) // 14
     case adjStars(adjStarsEnum) // 5-37
-    
+
+    /// find enum case from rawValue
+    public static func fromName(_ name: String) -> StarEnum? {
+        // Check main stars
+        if let mainStar = mainStarsEnum.allCases.first(where: { $0.rawValue == name }) {
+            return .mainStars(mainStar)
+        }
+        
+        // Check minor stars
+        if let minorStar = minorStarsEnum.allCases.first(where: { $0.rawValue == name }) {
+            return .minorStars(minorStar)
+        }
+        
+        // Check adj stars
+        if let adjStar = adjStarsEnum.allCases.first(where: { $0.rawValue == name }) {
+            return .adjStars(adjStar)
+        }
+        
+        return nil
+    }
     /// Get the raw value for each enum case
     public var rawValue: String {
         switch self {
