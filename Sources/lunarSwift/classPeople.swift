@@ -40,8 +40,11 @@ open class People: Lunar{
     /// setup calculator for 12 palaces to avoid duplicate calls
     private var cachedtwelvePalaceCalculator:twelvePalaceCalculator?
     private var PalaceCalculator: twelvePalaceCalculator {
-            if let cached = cachedtwelvePalaceCalculator {
-                return cached
+        print("\n=== PalaceCalculator Access ===")
+        print("Month Branch:", month8Char.branch)
+        print("Hour Branch:", twohour8Char.branch)
+        if let cached = cachedtwelvePalaceCalculator {
+            return cached
             } else {
                 let calculated = twelvePalaceCalculator(monthBranch: month8Char.branch,
                                                         hourBranch: twohour8Char.branch)
