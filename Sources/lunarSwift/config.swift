@@ -943,7 +943,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
     public var subStarsArray: [Star?] = [nil]
     public var smallStarsArray: [Star?] = [nil]
     public var flyStarsArray: [FlyStar?] = [nil] // 保存安放在这个宫位的运限飞星
-    public var scopeMainMutagen: [StarEnum?] = [nil] // 保存安放在这个宫位的四化飞星所附主星  
+    public var scopeMainMutagen: [Star?] = [nil] // 保存安放在这个宫位的四化飞星所附主星  
 
     // Public initializer
     public init(
@@ -954,7 +954,7 @@ public struct ZiweiPalaceCube: Identifiable, Equatable {
         subStarsArray: [lunarSwift.Star?] = [nil],
         smallStarsArray: [lunarSwift.Star?] = [nil],
         flyStarsArray: [lunarSwift.FlyStar?] = [nil],
-        scopeMainMutagen: [StarEnum?] = [nil]
+        scopeMainMutagen: [lunarSwift.Star?] = [nil]
     ) {
         self.palaceBranchEnum = palaceBranchEnum
         self.palaceStem = palaceStem
