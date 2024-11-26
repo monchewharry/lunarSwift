@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum gendersEnum: String, CaseIterable, Equatable,LocalizableEnum{
+public enum gendersEnum: String,Codable, CaseIterable, Equatable,LocalizableEnum{
     case male = "男"
     case female = "女"
     case unknowngender = "性别未知"
