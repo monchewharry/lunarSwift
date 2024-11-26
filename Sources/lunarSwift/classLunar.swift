@@ -7,6 +7,7 @@ import Foundation
  The class Lunar initiated with a Date() object. It will store and calculate all relavant information of that specific date in the literature of Chinese Lunar Calendar.
  */
 open class Lunar:ObservableObject {
+    /// date's hour mapped into 0-12, if at integer time like 1:00, it will be 1 same as 1:01
     public var twohourNum: Int {
         (Calendar.current.component(.hour, from: date) + 1) / 2
     }
