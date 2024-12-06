@@ -180,14 +180,13 @@ open class Lunar:ObservableObject {
         return v
     }
     func getLunarMonthCN() -> String {
-        assert(lunarMonthNameList.count == 12, "lunarMonthNameList count not equal to 12")
-        var lunarMonth = lunarMonthNameList[(lunarMonth - 1) % 12]
+        var monthName = lunarMonthNameList[(lunarMonth - 1) % 12]
         if isLunarLeapMonth {
-            lunarMonth = "闰" + lunarMonth
+            monthName = "闰" + monthName
         }
 
         let size = lunarMonthLong ? "大" : "小"
-        return lunarMonth + size
+        return monthName + size
     }
 
     func getLunarCn() -> (String, String, String) {
@@ -275,7 +274,7 @@ open class Lunar:ObservableObject {
     
     /**
      * The funtction  calculate the number representation of lunar year,month,day
-     * 返回 (lunarYear_, lunarMonth_, lunarDay_,spanDays)，
+     * 返回 (lunarYear_, lunarMonth_: range 1-12, lunarDay_,spanDays)，
      * 返回的月份，高4bit为闰月月份，低4bit为其它正常月份
      *  注意这里的立春时间只精确到日，立春日全天都算立春
      * - Returns: <#description#>
@@ -283,7 +282,7 @@ open class Lunar:ObservableObject {
     func getLunarDateNum() -> (Int, Int, Int,Int) {
         // 给定公历日期，计算农历日期
         var lunarYear_:Int = Calendar.current.component(.year, from: date)
-        precondition(lunarYear_ < 2100, "solar year number exceed 2100")
+        precondition(lunarYear_ < 2100, "solar year cannot number exceed 2100")
         var lunarMonth_:Int = 1
         var lunarDay_:Int = 1
         let _codeYear = lunarNewYearList[lunarYear_ - Constants.startYear]

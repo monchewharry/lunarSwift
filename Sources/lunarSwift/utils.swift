@@ -134,7 +134,8 @@ func calculateTenGods(pillarStem: the10StemEnum, dayStem: the10StemEnum) -> Stri
  十二宫定位计算器，宫位，三方四正，暗合，命盘12宫，身宫
  */
 public struct twelvePalaceCalculator {
-    let monthBranch, hourBranch: the12BranchEnum
+    let lunarMonthInt: Int // 农历月份 1-12
+    let hourBranch: the12BranchEnum
     /// palace order clockwise from .yin: [ "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥","子", "丑"]
     let fillorder:[the12BranchEnum] = palaceFillorder
     
@@ -154,8 +155,8 @@ public struct twelvePalaceCalculator {
     ]
     
     /// Initializer
-    public init(monthBranch: the12BranchEnum, hourBranch: the12BranchEnum) {
-        self.monthBranch = monthBranch
+    public init(lunarMonthInt: Int, hourBranch: the12BranchEnum) {
+        self.lunarMonthInt = lunarMonthInt
         self.hourBranch = hourBranch
         
         self.duiPalaceDict = Self
@@ -213,11 +214,13 @@ public struct twelvePalaceCalculator {
     }
 
     /**
-     * 命宫地支：寅宫顺时针到生月，然后逆时针到生的时辰
-     *  refer: https://github.com/haibolian/natal-chart/blob/main/README.md
+     * 命宫地支：
+     * 寅宫顺时针到生月(by month name index not branch index)，
+     * 然后逆时针到生的时辰(by hour branch index)
+     *  refer: http://www.360doc.com/content/23/0922/21/80219483_1097517364.shtml
      */
     func findLifePalaceBranch()-> the12BranchEnum{
-        let a:Int = fillorder.firstIndex(of: monthBranch)!
+        let a:Int = lunarMonthInt - 1 //fillorder.firstIndex(of: monthBranch)!
         let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
         let lifePalaceBranch2:the12BranchEnum = fillorder[pythonModulo((a - b),12)]
@@ -225,11 +228,13 @@ public struct twelvePalaceCalculator {
     }
     
     /**
-     * 身宫地支：寅宫顺时针到生月，然后顺时针到生的时辰
-     *  refer: https://github.com/haibolian/natal-chart
+     * 身宫地支：
+     * 寅宫顺时针到生月(by month name index not branch index)，
+     * 然后顺时针到生的时辰(by hour branch index)
+     *  refer: http://www.360doc.com/content/23/0922/21/80219483_1097517364.shtml
      */
     func findBodyPalaceBranch()->the12BranchEnum{
-        let a:Int = fillorder.firstIndex(of: monthBranch)!
+        let a:Int = lunarMonthInt - 1 //fillorder.firstIndex(of: monthBranch)!
         let b:Int = the12BranchEnum.allCases.firstIndex(of: hourBranch)!
         
         let bodyPalaceBranch2 = fillorder[pythonModulo((a + b),12)]

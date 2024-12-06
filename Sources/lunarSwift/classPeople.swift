@@ -43,7 +43,7 @@ open class People: Lunar{
         if let cached = cachedtwelvePalaceCalculator {
             return cached
             } else {
-                let calculated = twelvePalaceCalculator(monthBranch: month8Char.branch,
+                let calculated = twelvePalaceCalculator(lunarMonthInt: lunarMonth,
                                                         hourBranch: twohour8Char.branch)
                 cachedtwelvePalaceCalculator = calculated
                 return calculated
